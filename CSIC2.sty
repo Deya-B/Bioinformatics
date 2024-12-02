@@ -1,0 +1,12 @@
+
+% Foot
+\usefoottemplate{%
+  \vbox{%
+    \setbox\beamer@tempbox=\hbox to\textwidth{%
+      \tiny \hspace{22em}(\insertframenumber~:~\inserttotalframenumber )\hfill}%
+    \ht\beamer@tempbox=-3pt%
+    \box\beamer@tempbox%
+    \vskip1.5pt
+    }%
+}
+
