@@ -1,0 +1,131 @@
+\synctex=1
+% Created 2014-12-01 Mon 10:14
+\documentclass[bigger]{beamer}
+%% \usepackage[utf8]{inputenc}
+\usepackage[latin1]{inputenc}
+\usepackage{times} %% o.w. fonts look like shit
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage{fixltx2e}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+%% \usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{url}
+
+
+\usepackage[begintext=\textquotedblleft,endtext=\textquotedblright]{quoting}
+
+\tolerance=1000
+\usepackage{CSIC2}
+\setbeamertemplate{navigation symbols}{}
+\usetheme{default}
+
+\newcommand{\blu}[1]{{\textcolor {blue} {#1}}}
+\newcommand{\green}[1]{{\textcolor {green} {#1}}}
+
+
+\newcommand{\Burl}[1]{\blu{\url{#1}}}
+
+
+\author{Ramon Diaz-Uriarte}
+\date{2024-09-03}
+%% \date{2021-09-24}
+\title{Anova theory even simpler}
+\subtitle{The 2 and a half pages from Peter Dalgaard's ``Introductory Statistics with R'' even more simplified.}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
+\begin{document}
+
+ \maketitle
+
+% \begin{frame}
+%   \frametitle{Anova theory even simpler}
+
+%   The 2 and a half pages from Peter Dalgaard, even more simplified.
+
+% \end{frame}
+
+ % \begin{frame}{Outline}
+% \tableofcontents
+% \end{frame}
+
+
+
+\begin{frame}
+  \frametitle{What the $MS$ estimate}
+  \begin{itemize}
+  \item $MS_W$: an estimate of the variance, $\sigma^2$.
+    \begin{itemize}
+    \item {\tiny (The variance of what? Of the error term. Recall the
+        first page, that says the error terms are assumed to come from a normal  distribution of mean 0 and variance $\sigma^2$). This is the residual variance left after we fit the model.}
+    \end{itemize}
+
+    \vspace*{20pt}
+  \item $MS_B$:
+    \begin{itemize}
+    \item If the null hypothesis is true (i.e., all group means are equal, i.e.,
+      $\mu_1 = \mu_2 = \mu_3 = \ldots$): $MS_B$ is also an estimate of the variance,
+      $\sigma^2$.
+          \vspace*{10pt}
+    \item If not all means are the same (i.e., at least one true mean is
+      different from the rest):  $MS_B$ is ``an estimate of the
+      variance, $\sigma^2$, plus something else''
+      \begin{itemize}
+      \item That ``something else'' is the contribution that the differences
+        between means make to the $SSD_B$.
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{What we expect the $MS$ ratio to be}
+  Thus:
+    \begin{itemize}
+    \item If the null hypothesis is true, both $MS_B$ and $MS_W$ are estimating
+      the same thing. Therefore, the ratio $\frac{MS_B}{MS_W}$ should be about 1.
+    \item If the null hypothesis is not true (i.e., not all means are equal),
+      $MS_B$ should be larger than $MS_W$. So the ratio $\frac{MS_B}{MS_W}$
+      should be larger than 1.
+    \end{itemize}
+
+    The F-statistic is that ratio  $\frac{MS_B}{MS_W}$. We will compare it
+    against the F distribution (the distribution of that ratio under the null).
+
+
+    \vspace*{10pt}
+
+    {\scriptsize The F distribution
+    has, as parameters, the degrees of freedom of the MS in the numerator and the
+    degrees of freedom of the MS in the denominator.}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{What do SSD and MS stand for}
+  \begin{itemize}
+  \item The ``SSD'' stands for ``sum of squared deviations''. It is often written
+    (as in much computer output) as ``Sum Sq'' or ``sums of squares'' or ``SS''.
+  \item ``MS'': mean squares.
+  \end{itemize}
+\end{frame}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
