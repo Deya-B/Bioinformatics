@@ -48,9 +48,9 @@ The formula depends on the context and the type of statistical test or analysis 
 
 $$df = Number of observations or parameters − Number of constraints or estimated parameters$$
 
-#### Examples in Common Statistical Tests
+#### Extracting the degrees of freedom:
 ---
-**1. One-Sample t-Test** 
+**1. One-Sample t-Test**
 
 Goal: Compare the mean of one sample to a known value. <br/>
 
@@ -58,16 +58,25 @@ $$df = n − 1$$
 
 **Why?:** You lose 1 degree of freedom because you estimate the sample mean.
 
-**2. Two-Sample t-Test (Independent Samples)**
+**2.1 Two-Sample t-Test (Independent Samples)**
 
 Goal: Compare means of two independent groups. <br/>
 Formula (Equal Variances Assumed): 
 
-$$df = n_1 + n_2 − 2$$
+$$df = n_1 + n_2 − 2 = 𝑁-2$$
 
 **Why?:** You lose 1 df for each group's mean estimation (2 total).
 
 Formula (Unequal Variances, Welch's t-test): (its a complex formula approximating df when variances differ.)
+
+**2.2 Two-Sample t-Test (Paired Samples)**
+
+Goal: Compare means of paired groups. <br/>
+Formula (Equal Variances Assumed): 
+
+$$df = \frac{𝑁-2}{2}$$ 
+
+Where 𝑁 = Total number of observations
 
 **3. ANOVA**
 
