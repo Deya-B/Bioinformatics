@@ -34,11 +34,10 @@ Make sure you do the following plots:
 
 
 ### Degrees of Freedom (df):
-Degrees of freedom are the number of pieces of information we have to estimate a population's values.
-
-Degrees of freedom tell us how many parameters we've estimated, via the spent degrees of freedom.
-
-Degrees of freedom also tell us how many of our data points are allowed to vary, we call these free. And when they are free to vary, we can test how impressive our model is. If there are no degrees of freedom left in a model, we can't possibly test how well that model works. With many degrees of freedom left we have ample opportunity to test how good our model is.
+---
+- Degrees of freedom are the number of pieces of information we have to estimate a population's values.
+- Degrees of freedom tell us how many parameters we've estimated, via the spent degrees of freedom.
+- Degrees of freedom also tell us how many of our data points are allowed to vary, we call these free. And when they are free to vary, we can test how impressive our model is. If there are no degrees of freedom left in a model, we can't possibly test how well that model works. With many degrees of freedom left we have ample opportunity to test how good our model is.
 
 **Why Are Degrees of Freedom Important?**
 1. Statistical Inference: Degrees of freedom are used to calculate critical values from statistical distributions (e.g., t-distribution, chi-square distribution).
@@ -50,76 +49,56 @@ The formula depends on the context and the type of statistical test or analysis 
 $$df = Number of observations or parameters − Number of constraints or estimated parameters$$
 
 #### Examples in Common Statistical Tests
-**1. One-Sample t-Test**
+---
+**1. One-Sample t-Test** 
 
->Goal: Compare the mean of one sample to a known value.
->
->Formula:
->
->$$df = n − 1$$
->
->**Why?:** You lose 1 degree of freedom because you estimate the sample mean.
+Goal: Compare the mean of one sample to a known value. <br/>
+
+$$df = n − 1$$
+
+**Why?:** You lose 1 degree of freedom because you estimate the sample mean.
 
 **2. Two-Sample t-Test (Independent Samples)**
 
->Goal: Compare means of two independent groups.
->
->Formula (Equal Variances Assumed):
->
->$$df = n_1 + n_2 − 2$$
->
->**Why?:** You lose 1 df for each group's mean estimation (2 total).
+Goal: Compare means of two independent groups. <br/>
+Formula (Equal Variances Assumed): 
 
->Formula (Unequal Variances, Welch's t-test): (its a complex formula approximating df when variances differ.)
+$$df = n_1 + n_2 − 2$$
+
+**Why?:** You lose 1 df for each group's mean estimation (2 total).
+
+Formula (Unequal Variances, Welch's t-test): (its a complex formula approximating df when variances differ.)
 
 **3. ANOVA**
 
 Goal: Compare means across multiple groups.
 
-**Between-Group Degrees of Freedom:**
+- **Between-Group Degrees of Freedom:** $$df between = 𝑘 − 1$$ <br/>
+Where 𝑘 = number of groups
 
-> $$df between = 𝑘 − 1$$
-> 
-> Where 𝑘 = number of groups
-
-**Within-Group Degrees of Freedom:**
-
-> $$df within = 𝑁 − 𝑘$$
->
-> Where 𝑁 = Total number of observations, 𝑘 = Number of groups.
+- **Within-Group Degrees of Freedom:** $$df within = 𝑁 − 𝑘$$ <br/>
+Where 𝑁 = Total number of observations, 𝑘 = Number of groups.
 
 **4. Chi-Square Test**
 
 Goal: Test the independence or goodness-of-fit of categorical data.
 
-**Formula (Goodness-of-Fit):**
+- **Formula (Goodness-of-Fit):** $$df = 𝑘 − 1$$ <br/>
+Where 𝑘 = Number of categories.
 
->$$df = 𝑘 − 1$$
->
->Where 𝑘 = Number of categories.
+- **Formula (Test of Independence):** $$df=(r−1)(c−1)$$ <br/>
+Where 𝑟 = Rows, 𝑐 = Columns.
 
-**Formula (Test of Independence):**
-
-> $$df=(r−1)(c−1)$$
->
-> Where 𝑟 = Rows, 𝑐 = Columns.
-
-**5. Regression Analysis**
+**5. Regression Analysis** 
 
 Goal: Analyze relationships between variables.
 
-**Model Degrees of Freedom:**
+- **Model Degrees of Freedom:** $$df model = 𝑘 $$ <br/>
+Where 𝑘 = Number of predictors.
 
->$$df model = 𝑘
->
->Where 𝑘 = Number of predictors.
-
-**Residual Degrees of Freedom:**
-
->$$df residual =𝑛−𝑘−1
->
->Where 𝑛 = Total number of observations.
-
+- **Residual Degrees of Freedom:** $$df residual =𝑛−𝑘−1$$ <br/>
+Where 𝑛 = Total number of observations.
+---
 \***Key Points to Remember**
 
 1. Degrees of freedom decrease with the number of parameters estimated: Each parameter estimation reduces flexibility.
