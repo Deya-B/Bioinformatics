@@ -30,3 +30,103 @@ Make sure you do the following plots:
 * Plot of means (and make sure you get nicer axes labels).
 * Stripchart, and make sure you use “jitter”, not “stack”: can you tell for which one of the variables this matters a lot?
 * Density plots (“Density estimates”)
+
+
+
+### Degrees of Freedom (df):
+Degrees of freedom represent the number of values in a calculation that are free to vary while still satisfying a given constraint. It is a fundamental concept in statistics and determines the distribution shape for many statistical tests.
+
+
+**Why Are Degrees of Freedom Important?**
+1. Statistical Inference: Degrees of freedom are used to calculate critical values from statistical distributions (e.g., t-distribution, chi-square distribution).
+2. Model Complexity: Higher degrees of freedom often indicate more flexibility in the model, while lower degrees of freedom imply stricter constraints.
+
+**General Formula for Degrees of Freedom**
+The formula depends on the context and the type of statistical test or analysis being performed. A general idea is:
+
+$$df = Number of observations or parameters − Number of constraints or estimated parameters$$
+
+#### Examples in Common Statistical Tests
+**1. One-Sample t-Test**
+
+>Goal: Compare the mean of one sample to a known value.
+>
+>Formula:
+>
+>$$df = n − 1$$
+>
+>**Why?:** You lose 1 degree of freedom because you estimate the sample mean.
+
+**2. Two-Sample t-Test (Independent Samples)**
+
+>Goal: Compare means of two independent groups.
+>
+>Formula (Equal Variances Assumed):
+>
+>$$df = n_1 + n_2 − 2$$
+>
+>**Why?:** You lose 1 df for each group's mean estimation (2 total).
+
+>Formula (Unequal Variances, Welch's t-test): (its a complex formula approximating df when variances differ.)
+
+**3. ANOVA**
+
+Goal: Compare means across multiple groups.
+
+**Between-Group Degrees of Freedom:**
+
+> $$df between = 𝑘 − 1$$
+> 
+> Where 𝑘 = number of groups
+
+**Within-Group Degrees of Freedom:**
+
+> $$df within = 𝑁 − 𝑘$$
+>
+> Where 𝑁 = Total number of observations, 𝑘 = Number of groups.
+
+**4. Chi-Square Test**
+
+Goal: Test the independence or goodness-of-fit of categorical data.
+
+**Formula (Goodness-of-Fit):**
+
+>$$df = 𝑘 − 1$$
+>
+>Where 𝑘 = Number of categories.
+
+**Formula (Test of Independence):**
+
+> $$df=(r−1)(c−1)$$
+>
+> Where 𝑟 = Rows, 𝑐 = Columns.
+
+**5. Regression Analysis**
+
+Goal: Analyze relationships between variables.
+
+**Model Degrees of Freedom:**
+
+>$$df model = 𝑘
+>
+>Where 𝑘 = Number of predictors.
+
+**Residual Degrees of Freedom:**
+
+>$$df residual =𝑛−𝑘−1
+>
+>Where 𝑛 = Total number of observations.
+
+\***Key Points to Remember**
+
+1. Degrees of freedom decrease with the number of parameters estimated: Each parameter estimation reduces flexibility.
+2. df affects critical values: The shape of the t-, F-, and chi-square distributions depends on df.
+3. Interpretation: Higher df often lead to narrower confidence intervals and more precise estimates.
+
+By understanding how to calculate and interpret degrees of freedom, you can better design experiments, analyze data, and understand the robustness of your conclusions.
+
+
+
+
+
+
