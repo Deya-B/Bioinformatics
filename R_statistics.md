@@ -34,8 +34,11 @@ Make sure you do the following plots:
 
 
 ### Degrees of Freedom (df):
-Degrees of freedom represent the number of values in a calculation that are free to vary while still satisfying a given constraint. It is a fundamental concept in statistics and determines the distribution shape for many statistical tests.
+Degrees of freedom are the number of pieces of information we have to estimate a population's values.
 
+Degrees of freedom tell us how many parameters we've estimated, via the spent degrees of freedom.
+
+Degrees of freedom also tell us how many of our data points are allowed to vary, we call these free. And when they are free to vary, we can test how impressive our model is. If there are no degrees of freedom left in a model, we can't possibly test how well that model works. With many degrees of freedom left we have ample opportunity to test how good our model is.
 
 **Why Are Degrees of Freedom Important?**
 1. Statistical Inference: Degrees of freedom are used to calculate critical values from statistical distributions (e.g., t-distribution, chi-square distribution).
