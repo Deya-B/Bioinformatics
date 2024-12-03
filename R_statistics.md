@@ -32,7 +32,6 @@ Make sure you do the following plots:
 * Density plots (“Density estimates”)
 
 
-
 ### Degrees of Freedom (df):
 ---
 - Degrees of freedom are the number of pieces of information we have to estimate a population's values.
@@ -46,11 +45,11 @@ Make sure you do the following plots:
 **General Formula for Degrees of Freedom**
 The formula depends on the context and the type of statistical test or analysis being performed. A general idea is:
 
-$$df = Number of observations or parameters − Number of constraints or estimated parameters$$
+> df = Number of observations or parameters − Number of constraints or estimated parameters
 
-#### Extracting the degrees of freedom:
+### Extracting the degrees of freedom:
 ---
-**1. One-Sample t-Test**
+#### 1. One-Sample t-Test
 
 Goal: Compare the mean of one sample to a known value. <br/>
 
@@ -58,7 +57,7 @@ $$df = n − 1$$
 
 **Why?:** You lose 1 degree of freedom because you estimate the sample mean.
 
-**2.1 Two-Sample t-Test (Independent Samples)**
+#### 2.1 Two-Sample t-Test (Independent Samples)
 
 Goal: Compare means of two independent groups. <br/>
 Formula (Equal Variances Assumed): 
@@ -69,7 +68,7 @@ $$df = n_1 + n_2 − 2 = 𝑁-2$$
 
 Formula (Unequal Variances, Welch's t-test): (its a complex formula approximating df when variances differ.)
 
-**2.2 Two-Sample t-Test (Paired Samples)**
+#### 2.2 Two-Sample t-Test (Paired Samples)
 
 Goal: Compare means of paired groups. <br/>
 Formula (Equal Variances Assumed): 
@@ -78,7 +77,7 @@ $$df = \frac{𝑁-2}{2}$$
 
 Where 𝑁 = Total number of observations
 
-**3. ANOVA**
+#### 3. ANOVA
 
 Goal: Compare means across multiple groups.
 
@@ -88,7 +87,7 @@ Where 𝑘 = number of groups
 - **Within-Group Degrees of Freedom:** $$df within = 𝑁 − 𝑘$$ <br/>
 Where 𝑁 = Total number of observations, 𝑘 = Number of groups.
 
-**4. Chi-Square Test**
+#### 4. Chi-Square Test
 
 Goal: Test the independence or goodness-of-fit of categorical data.
 
@@ -98,7 +97,7 @@ Where 𝑘 = Number of categories.
 - **Formula (Test of Independence):** $$df=(r−1)(c−1)$$ <br/>
 Where 𝑟 = Rows, 𝑐 = Columns.
 
-**5. Regression Analysis** 
+#### 5. Regression Analysis
 
 Goal: Analyze relationships between variables.
 
