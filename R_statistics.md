@@ -116,7 +116,89 @@ Where 𝑛 = Total number of observations.
 By understanding how to calculate and interpret degrees of freedom, you can better design experiments, analyze data, and understand the robustness of your conclusions.
 
 
+## What Does It Mean for Data to Be Highly Skewed?
+When data is highly skewed, it means the distribution is not symmetrical and leans (or "skews") heavily toward one side. This asymmetry can significantly affect statistical analysis and interpretation.
+
+### Types of Skewness
+**1. Positive Skew (Right-Skewed):**
+ - The tail extends to the right (toward larger values).
+ - Most of the data are concentrated at lower values, but a few high values create a long right tail.
+ - Example: Income distributions, where most people earn low-to-moderate incomes, but a few earn very high incomes.
+
+**2. Negative Skew (Left-Skewed):**
+ - The tail extends to the left (toward smaller values).
+ - Most of the data are concentrated at higher values, but a few low values create a long left tail.
+ - Example: Retirement age, where most people retire later, but a few retire very early.
+
+### How to Identify Skewness
+**1. Visually:**
+ - Histogram: Skewed distributions will show longer tails on one side.
+ - Density Plot: Asymmetry in the curve indicates skewness.
+ - Boxplot: Skewness can be observed if the median line is not centered or the "whiskers" are of unequal lengths.
+
+**2. Numerically:**
+ - Mean vs. Median:
+ - Mean > Median → Positive skew.
+ - Mean < Median → Negative skew.
+
+### Impact of Skewness on Analysis
+**1. Descriptive Statistics:**
+- The mean is sensitive to extreme values and may not reflect the center of the data accurately.
+- The median is more robust and provides a better measure of central tendency for skewed data.
+
+**2.Impact on Parametric Tests:**
+- Many statistical tests (e.g., t-tests, ANOVA) assume that data follows a normal distribution.
+- Skewness violates this assumption and can lead to misleading results.
+
+**3.Challenges in Interpretation:**
+- Extreme values ("outliers") can dominate analysis. 
+- Comparing groups with skewed data becomes less reliable.
+
+### How to Handle Highly Skewed Data
+**1. Data Transformation:**
+- Apply transformations like:
+    - Logarithmic (log)
+    - Square root (\sqrt{𝑥}) <br/>
+These methods can make the distribution more symmetrical.
+
+**2. Use Robust Statistics:**
+- Use the median instead of the mean.
+- Employ non-parametric tests (e.g., Mann-Whitney U, Kruskal-Wallis) that don't assume normality.
+
+**3. Segment the Data:**
+- Analyze data in subsets or percentiles instead of the entire distribution.
+
+**4. Alternative Models:**
+- Fit models that account for skewness, such as gamma or log-normal distributions.
 
 
+## Inherent noise in data 
+Refers to variability or randomness that naturally occurs within the data due to factors that cannot be fully controlled, predicted, or measured. It represents the part of the data that does not follow any clear pattern or trend and arises from the underlying processes generating the data.
 
+### Sources of Inherent Noise
+1. Biological or Natural Variability<br/>
+Example: Differences in height among individuals, even within the same family or population.
 
+2. Measurement Errors<br/>
+Small inaccuracies in instruments, sensors, or human error during data collection.
+
+3. External Influences<br/>
+Unaccounted-for variables that affect the data but were not measured or controlled (e.g., weather, random mutations).
+
+4. Random Fluctuations<br/>
+Stochastic processes or events that are fundamentally unpredictable, like radioactive decay.
+
+### Characteristics
+- Unpredictable: Noise cannot be modeled or predicted accurately.
+- Non-informative: It doesn't carry useful information for analysis.
+- Universal: All datasets have some level of inherent noise.
+
+>Example
+>If you're measuring the weight of apples in a batch:
+>The signal is the average weight (trend or pattern you want to find).
+>The noise includes small variations due to differences in individual apple size or inaccuracies in the scale.
+
+### Why It Matters
+- Data Analysis: Noise can obscure true patterns or trends, leading to incorrect conclusions.
+- Modeling: Overfitting occurs when models try to "learn" the noise instead of the underlying trend.
+- Decision-Making: Understanding the noise-to-signal ratio helps in making informed decisions based on data.
