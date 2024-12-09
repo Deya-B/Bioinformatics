@@ -1,0 +1,87 @@
+## Basics of OncoSimulR
+OncoSimulR is an R package designed to simulate cancer evolution under different mutation and selection dynamics. It is particularly useful for studying processes such as tumor heterogeneity, clonal dynamics, and fitness landscapes. Here's a breakdown of the key components:
+
+### 1. Fitness Landscapes
+Definition:
+- In cancer biology, fitness represents the ability of a cell (or genotype) to survive, proliferate, and pass on its genetic material.
+- Higher fitness means a genotype is more likely to dominate the population.
+
+Fitness in OncoSimulR:
+- You define fitness values based on genotypes or specific mutations.
+- Fitness landscapes can be additive (fitness is summed across mutations) or epistatic (interactions between mutations influence fitness).
+
+Example:
+```R
+fitness_table <- data.frame(
+  Genotype = c("WT", "A", "B", "A, B"),
+  Fitness = c(1, 1.2, 0.8, 1.5)
+)
+```
+Here, mutation A increases fitness to 1.2, while B alone decreases it to 0.8. The combination of A and B has a synergistic effect (fitness = 1.5).
+
+### 2. Mutations
+Mutations are the driver of genetic diversity in tumor populations.
+
+OncoSimulR allows:
+- Specifying mutation rates for individual genes.
+- Simulating the impact of mutations on fitness.
+```R
+mutator <- allFitnessEffects(
+  genotFitness = fitness_table,
+  mutationRates = c(A = 1e-6, B = 2e-6)
+)
+```
+### 3. Simulation Dynamics
+OncoSimulR simulates tumor growth over time by tracking:
+- Clones: Subpopulations of cells with distinct genotypes.
+- Fitness dynamics: How fitness landscapes affect clonal expansion.
+- Mutation acquisition: The accumulation of mutations over generations.
+
+Types of Simulations:
+- McFarland model: Simulates the effect of deleterious mutations in cancer progression.
+- Continuous models: Simulates clonal dynamics under fitness constraints.
+
+### Example Workflow in OncoSimulR
+Define the Fitness Landscape:
+```R
+fitness_table <- data.frame(
+  Genotype = c("WT", "A", "B", "A, B"),
+  Fitness = c(1, 1.1, 0.9, 1.3)
+)
+```
+Use the `allFitnessEffects()` function to build the model.
+
+Simulate Tumor Evolution:
+```R
+mutator <- allFitnessEffects(
+  genotFitness = fitness_table,
+  mutationRates = c(A = 1e-6, B = 2e-6)
+)
+
+sim <- oncoSimulIndiv(mutator, model = "McFL", finalTime = 1000)
+```
+
+Visualize Results:
+```R
+plotClones(sim)
+plotDrivers(sim)
+```
+
+### Understanding Fitness
+Fitness in the context of cancer evolution refers to the capacity of a genotype to outcompete others in the tumor microenvironment. It encapsulates:
+- Proliferation rate: Faster-dividing cells have a higher fitness.
+- Survival: Cells that resist apoptosis or evade immune detection are fitter.
+- Adaptation: Cells that adapt to hypoxia or therapy have selective advantages.
+
+#### Why Fitness Matters in Cancer Simulations
+Tumor Heterogeneity:
+- Tumors comprise multiple clones with varying fitness levels.
+- Understanding fitness differences explains why some clones dominate.
+
+Treatment Resistance:
+- High-fitness clones may evolve resistance to therapies.
+- Predicting these clones can guide combination therapies.
+
+Epistasis:
+- Interactions between mutations can alter fitness.
+- Modeling these interactions helps in understanding synergistic or antagonistic effects.
