@@ -1,6 +1,18 @@
 # Table of Contents
 [Programa teórico](#teoria)
-1. [Introducción a la filogenética](#)
+1. [Introducción a la filogenética](#intro)
+    1. [Estudios filogenéticos](#estudios)
+    2. [Arboles filogenéticos](#arboles)
+        1. [Partes de un árbol filogenético](#partes)
+        2. [Representación de los arboles](#rep)
+        3. [Tipos de arboles](#tipo)
+        4. [Agrupamientos](#anatomia)
+        5. [Politomías](#politomia)
+    3. Conceptos básicos
+        1. [Homología](#homol)
+        2. [Homoplasia](#homoplasia)
+        3. [Fenotipo vs moléculas](#fenotipo-molec)
+2. [What do we need to build a phylogenetic tree](#summary)
 2. [Alineamiento de secuencias](#alineamiento)
 3. [Modelos de evolución molecular](#modelos)
 4. [Métodos filogenéticos de inferencia](#metodos)
@@ -13,7 +25,7 @@
 # Programa teórico <a name="teoria"></a>
 ## Introducción a la filogenética <a name="intro"></a>
 
-### Estudios filogenéticos:
+### Estudios filogenéticos: <a name="estudios"></a>
 La filogenética puede ser estudiada de diversas maneras.
 
 - Registros fósiles: 
@@ -28,11 +40,11 @@ La filogenética puede ser estudiada de diversas maneras.
     + *PROS*: son más numerosos que los registros fósiles y más fáciles de obtener. Además, no hay ningún sesgo de muestreo, como el que hay en los registros fósiles reales. Por tanto, es posible construir árboles filogenéticos más precisos y robustos utilizando datos moleculares.
 
 
-### Arboles filogenéticos: 
+### Arboles filogenéticos: <a name="arboles"></a>
 Representaciones gráficas (patrones) de las relaciones ancestro-descendientes (relaciones históricas de parentescos) entre elementos, que pueden ser especies, secuencias de genes, etc. Entender este patrón es esencial para realizar estudios comparativos de cualquier tipo, porque existen dependencias  estadísticas entre los elementos que comparten ancestros comunes.
 
 
-#### Los árboles filogenéticos estan compuestos por:
+#### Partes de un árbol filogenético: <a name="partes"></a>
 ![treeparts](images/treeparts.png)
 
 - **Nodos externos** o **terminales**. 
@@ -51,14 +63,14 @@ son hipótesis evolutivas de posibles ancestros comunes de los cuales normalemen
     ![root](images/root.png)
 
 
-#### Representación de los arboles:
+#### Representación de los arboles: <a name="rep"></a>
 Hay varias formas de representar los árboles filogenéticos.
 Los distintos elementos no tienen un orden concreto; da igual si en un árbol los nodos terminales están en distinto orden mientras que las ramas sigan el mismo camino.
 ![treerep1](images/treerep1.png)
 ![treerep2](images/treerep.png)
 
 
-#### Tipos de arboles:
+#### Tipos de arboles: <a name="tipo"></a>
 
 1. **Cladogramas (CLADOGRAM)** used in cladistics BUT a cladogram is not an evolutionary hypothesis since it does not contain information about how ancestors and descendants are related or how much descendants have changed through time. They are a SIMPLISTIC REPRESENTATION (OK for morphological matrices).
 
@@ -86,7 +98,7 @@ El inicio de lo de abajo es para que no haya header :) -->
 >| [klad(o) gr. 'rama']            | + | [-gram-ma gr.  'representación gráfica'] |
 >| [khron(o) gr. 'tiempo']         |   |                                          |
 
-#### Anatomy of the phylogenetic tree / Agrupamientos:
+#### Anatomy of the phylogenetic tree / Agrupamientos: <a name="anatomia"></a>
 
 - **Monophyly / grupo monofilético**: un clado que contiene un ancestro y todos sus descendientes, formando así un solo grupo evolutivo.
 ![monophyly](images/monophyly.png)
@@ -98,13 +110,51 @@ El inicio de lo de abajo es para que no haya header :) -->
 ![polyphyly](images/polyphyly.png)
 
 
-#### Politomías:
+#### Politomías: <a name="politomia"></a>
+ - **Dicotomía**: Cuando todas las ramas en un árbol filogenético se bifurcan. Los árboles filogenéticos se consideran resueltos cuando sus ramas se distribuyen dicotómicamente.
+- **Politomía**: si de un nodo surgen más de dos ramas (descendientes). Los árboles no resueltos presentan politomías.
+![politomias](images/politomia.png)
+
+### Conceptos básicos 
+---
+### Homología <a name="homol"></a>
+La homología es la relación que existe entre dos partes orgánicas diferentes de dos organismos distintos cuando sus determinantes genéticos tienen el mismo origen evolutivo, es decir, cuando un mismo órgano tiene diversas formas y funciones.
+
+
+*El mismo organo diversas formas y funciones. Semejanza en la estructura debido a la herencia común.*
+
+---
+_Note:_
+Los caracteres que se estudian en filogenia deben ser **homólogos**. Se compara la semejanza de una estructura debido a la herencia común.
+
+---
+
+> La **analogía**, por el contrario, es una estructura semejante a otra o que tiene la misma función, pero cuyo desarrollo embrionario y origen son diferentes. No se presentan en un antepasado común (como en el caso de los caracteres homólogos), sino que son fruto de **convergencia evolutiva**.
+
+En genética y biología molecular, también existe **homología en las secuencias**. Se distinguen dos tipos: la ortología y la paralogía.
+
+#### Genes Ortólogos
+Son semejantes por pertenecer a dos especies que tienen un antepasado común. Requiere que se haya producido especiación.
+
+#### Genes Parálogos
+Son aquellos que se encuentran en el mismo organismo y cuya semejanza revela que uno procede de la duplicación del otro (y puede adquirir funciones diferentes del gen original). La especiación no es necesaria, la paralogía puede producirse solo en los individuos de una misma especie.
+
+---
+_Note:_
+Idealmente se deben comparar caracteres **ortólogos** para hacer las reconstrucciones filogenéticas.
+
+---
+
+### Homoplasia <a name="homoplasia"></a>
+
+
+### Fenotipo vs moléculas <a name="fenotipo-molec"></a>
 
 
 
 
 
-## What do we need to build a phylogenetic tree
+## What do we need to build a phylogenetic tree <a name="summary"></a>
 1. What **taxa**? - Your decision, but don’t be biased!
 - Impact of the **outgroup** taxa selection:
 
