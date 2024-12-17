@@ -84,6 +84,14 @@ El inicio de lo de abajo es para que no haya header :) -->
 >| [klad(o) gr. 'rama']            | + | [-gram-ma gr.  'representación gráfica'] |
 >| [khron(o) gr. 'tiempo']         |   |                                          |
 
+#### Anatomy of the phylogenetic tree / Agrupamientos:
+
+- **Monophyly / grupo monofilético**: un clado que contiene un ancestro y todos sus descendientes, formando así un solo grupo evolutivo.
+
+- **Paraphyly / grupo parafilético**: es similar,pero excluye a algunos de los descendientes que han sufrido cambios significativos.
+
+- **Polyphyly / grupo polifilético**: grupo con miembros de líneas evolutivas separadas, conteniendo así grupos de especies con distintos ancestros comunes.
+
 
 #### Politomías:
 
