@@ -76,8 +76,10 @@ td, th {
    border: none!important;
 }
 </style>
+
 <!-- lo de arriba es para quitar las lineas de la tabla
 El inicio de lo de abajo es para que no haya header :) -->
+
 >|   |   |   |
 >|---|---|---|
 >| [phyl(o) gr. 'raza', 'estirpe'] |   |                                          |
@@ -87,14 +89,88 @@ El inicio de lo de abajo es para que no haya header :) -->
 #### Anatomy of the phylogenetic tree / Agrupamientos:
 
 - **Monophyly / grupo monofilético**: un clado que contiene un ancestro y todos sus descendientes, formando así un solo grupo evolutivo.
+![monophyly](images/monophyly.png)
 
 - **Paraphyly / grupo parafilético**: es similar,pero excluye a algunos de los descendientes que han sufrido cambios significativos.
+![paraphyly](images/paraphyly.png)
 
 - **Polyphyly / grupo polifilético**: grupo con miembros de líneas evolutivas separadas, conteniendo así grupos de especies con distintos ancestros comunes.
+![polyphyly](images/polyphyly.png)
 
 
 #### Politomías:
 
+
+
+### What do we need to build a phylogenetic tree
+1. What **taxa**? - Your decision, but don’t be biased!
+- Impact of the **outgroup** taxa selection:
+
+![outgrouptaxa](images/taxa.png)
+
+- Impact of the **ingroup** taxa selection:
+![ingrouptaxa](images/ingrouptaxa.png)
+
+2. Data / Markers:
+
+- What type of **data**? - Your decision, but based on what is available!
+- How many **markers**? - Budget! …also, PCR success…as many as possible
+
+    Variability vs. Conservation: Depending on your question, but most (small scale) phylogenetic studies now in *metazoans* use:
+    - Ribosomal genes (18S, 28S, 16S, ITS1&2) which are more conserved
+    - Protein coding genes (COI, COB, ALG11, etc) which are more variable
+
+    **Do your research… and check ncbi first to see what is available already**
+
+4. What [**alignment program**](#alineamiento)? - Muscle? MAFFT?
+
+![alignmentcomp](images/alignmentcomp.png)
+
+5. What [**model of evolution**](#modelos)? - jModelTest
+Not all genes evolve (mutate) at the same pace and in the same manner.
+Their mutation rates depend on many parameters:
+    - GC genome content
+    - Genome size
+    - Generation time
+    - Expression levels (usage of the gene)
+    - Protein coding genes
+    - Position in the genome
+    - Linkage disequilibrium
+    - etc
+
+    Each gene will have its own substitution model. These substitution models differ in terms of the parameters used to describe the rates at which one nucleotide replaces another during evolution.
+    ![nucleotidesevo](images/nucleotides.png)
+    ![nuclevo2](images/nuclevo2.png)
+
+![models](images/models.png)
+
+[jModelTest](https://github.com/ddarriba/jmodeltest2) 
+    is a tool to carry out statistical selection of best-fit models of nucleotide substitution. It implements five different model selection strategies: hierarchical and dynamical likelihood ratio tests (hLRT and dLRT), Akaike and Bayesian information criteria (AIC and BIC), and a decision theory method (DT).
+
+6. What [**phylogenetic method**](#metodos)? - Your decision…mine is always ML + BI
+
+- Statistical phylogenetics
+- Probabilistic methods
+- Society for Systematic
+
+    Biology
+
+- Cladistics-
+- Parsimony
+- Willi Hennig Society
+
+    Distance vs discrete data <br>
+    (distance vs MP, ML, Bayesian)
+
+    Or
+
+    MP vs model-based methods <br>
+    (MP vs distance, ML, Bayesian)
+
+
+7. How to **assess confidence**? - Bootstrapping, post. prob., convergence, etc
+
+WE NEED TO READ A LOT!
 
 
 ## Alineamiento de secuencias <a name="alineamiento"></a>
@@ -106,3 +182,6 @@ El inicio de lo de abajo es para que no haya header :) -->
 ## Inferencia Bayesiana <a name="bayesian"></a>
 ## Reloj molecular relajado <a name="reloj"></a>
 
+
+
+[def]: images/treeparts.png
