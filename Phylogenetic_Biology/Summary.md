@@ -199,38 +199,52 @@ La homoplasia es el cambio evolutivo paralelo que hace que dos organismos presen
 Tradicionalmente se han empleado para establecer las relaciones filogenéticas.
 
 > Pros: 
-- suelen ser carácteres evolutivamente relevantes y complejos menos proclives a la homoplasia
-- son los únicos carácteres disponibles en algunos casos como en fósiles o especímenes raros
+- suelen ser carácteres **evolutivamente relevantes**
+- caracteres complejos, **menos proclives a la homoplasia**
+- son los únicos **carácteres disponibles** en algunos casos como en fósiles o especímenes raros
 
 > Contras:
-- puede haber problemas de codificación de taxones supraespecíficos como terminales (quimera) 
-- se pueden dar casos de subjetividad en la codificación de carácteres
-- hay un número limitado de carácteres fenotípicos y podemos
-encontrar taxones altamente autapomórficos (exclusivo)
+- puede haber problemas de codificación de taxones supraespecíficos como terminales (**"quimeras"**) 
+- se pueden dar casos de **subjetividad** en la codificación de carácteres
+- hay un número **limitado** de carácteres fenotípicos 
+- podemos encontrar taxones altamente **autapomórficos** (exclusivos)
 
 #### Carácteres moleculares:
 
 > Pros: 
-- son estrictamente heredables y no hay ambigüedades en la codificación
-- Hay ciertas regularidades en la evolución de los carácteres moleculares
-- son robustos frente a la distancia evolutiva
-- son muy abundantes y ofrecen información temporal
+- son **estrictamente heredables**
+- **no hay ambigüedades** en la codificación (determinar el estado de los caracteres es trivial)
+- hay ciertas **regularidades en la evolución** de los carácteres moleculares
+- son **robustos** frente a la distancia evolutiva
+- son muy **abundantes** 
+- ofrecen información temporal: **reloj molecular**
 
 > Contras:
-- son más proclives a la homoplasia al tener solo 4 nucleótidos y 20 aminoácidos
-- la evolución de estos carácteres es compleja 
-- los árboles de genes no siempre coinciden con los árboles de especies
-- la determinación de la homología puede ser difícil por duplicación o pérdida de genes y alineamientos
+- son más proclives a la **homoplasia** al tener solo 4 nucleótidos y 20 aminoácidos
+- la **evolución** de estos carácteres es **compleja**
+- los **árboles de genes** no siempre coinciden con los **árboles de especies**
+- la determinación de la **homología** puede ser difícil por duplicación o pérdida de genes y alineamientos
 
+*Anásisis separados*
 
-Se suelen utilizar multitud de **genes separados** y analizarlos de forma separada. El consenso de análisis separados es una estimación conservadora de la filogenia.
+Se suelen utilizar multitud de **genes separados** y analizarlos aparte. El consenso de análisis separados es una estimación conservadora de la filogenia.
 
-**Conflicto entre caractres**: Algunos métodos filogenéticos sólo se pueden aplicar a ciertos tipos de datos. A nivel de especies, la concatenación de genes diferentes puede ser inapropiada si se da transferencia horizontal de genes, hibridación, duplicación de genes o coalescencia más profunda que el tiempo de divergencia.
+> *Conflicto entre caractres*: 
+> - Algunos métodos filogenéticos sólo se pueden aplicar a ciertos tipos de datos. 
+> - A nivel de especies, la concatenación de genes diferentes puede ser inapropiada si se da: 
+>   - Transferencia horizontal de genes, hibridación
+>   - Duplicación de genes 
+>   - o Coalescencia más profunda que el tiempo de divergencia.
 
-El conflicto entre caracteres se resuelve teniendo en cuenta toda la evidencia disponible y realizando análisis combinados. Diferentes tipos de datos proporcionan información a diferentes niveles filogenéticos. La señal filogenética aumenta debido a la congruencia entre caracteres de diferentes conjuntos de datos.
+> El conflicto entre caracteres se *resuelve* teniendo en cuenta:
+> - toda la **evidencia** disponible 
+> - realizando análisis combinados: diferentes tipos de datos proporcionan información a diferentes **niveles** filogenéticos. 
+> - La **señal** filogenética aumenta debido a la congruencia entre caracteres de diferentes conjuntos de datos.
 
+---
 Es importante que el conjunto de datos sea lo más completo posible. Es necesario hacer un muestreo de taxones (incluyendo los grupos externos) y genes razonable y justificado.
 
+---
 
 ## What do we need to build a phylogenetic tree <a name="summary"></a>
 1. What **taxa**? - Your decision, but don’t be biased!
@@ -372,6 +386,8 @@ WE NEED TO READ A LOT!
 
 
 ## Alineamiento de secuencias <a name="alineamiento"></a>
+Decidir qué caracteres investigar, y cómo codificarlos, es un primer paso crucial en cualquier análisis filogenético.
+
 
 ## Modelos de evolución molecular <a name="modelos"></a>
 ## Métodos filogenéticos  de inferencia <a name="metodos"></a>
