@@ -1,0 +1,46 @@
+ENST00000288602 - "species": "homo_sapiens", "display_name": "BRAF-201", "biotype": "protein_coding", "object_type": "Transcript", "Parent": "ENSG00000157764", seq CCGCTCGGGCCCCGGCTCTCGGTTATAAGAT...
+
+ENSG00000157764 - "species": "homo_sapiens", "display_name": "BRAF", "biotype": "protein_coding", "object_type": "Gene", CTTCCCCCAATCCCCTCAGGCTCGGCTGCGCC...
+
+ENSG00000248380 - Not found
+
+ENSG00000167664 - "species": "homo_sapiens", "display_name": "TMIGD2", "biotype": "protein_coding", "object_type": "Gene", GGAAGTCTGTCAACTGGGAGGGGGAGAGGGGG...
+
+ENSG00000157765 - "species": "homo_sapiens", "display_name": "SLC34A2", "biotype": "protein_coding", "object_type": "Gene", CCGGTCTCAGACTAGTGGCTTCCAGTTCTGACTGAA ...
+
+ENSG00000157766 - "species": "homo_sapiens", "display_name": "ACAN", "biotype": "protein_coding", "object_type": "Gene", GCCCGCCCACCTACCTCCCCGCCGCTCCAGAGGGG ...
+
+CAXIWY010000000 -  "species": Not found
+
+ENSMUSG00000041147 - "mus_musculus" NOT human.
+
+something - Not found 
+
+ENSDARG00000099221 - "species": "danio_rerio", NOT human.
+
+ENSSSCP00040060637.1 - Not found 
+
+ENSSSCG00040086261 - "species": "sus_scrofa_gca017957985v1", NOT human.
+
+ENSG00000248378 - "species": "homo_sapiens", "biotype": "lncRNA", "object_type": "Gene", TTGGAAGTGAATTAAGACCCTCTCTTGGATAC...
+{
+  "desc": "chromosome:GRCh38:5:31743988:31744451:-1",
+  "seq": "TTGGAAGTGAATTAAGACCCTCTCTTGGATACCAGCTGTGAAAGAACGGACTTTTTTTACCTAGTAAGGATGTGACAGACCTGCTCCTGACCCTTCTTTGTTAGTGGCCAGTAAATATACGCAAGGCAAAGTCCCACCCTAGTTTTGAAAAAAGCCAAACTAACAACTCTGCCCAATTTCAAGGAACCGATATAATTTTCAGTACATGAGTGTGATTTAGAAATGGAAACAACATCAGAGCAGGGTTAAATCAACAACCAAGCCATAGACCTTAAAAGGACCAGACTTCATGGTTCAATGATGCCAAGAAAAAGATTCCACCTATAAACTCTTTAGAAAGTAACCACCTCAGAAAGTTCCAGACAAACCAGTTCTGCTTTGCAGATCAGCCCTGTATAAAGCTCTTACCACATTAGTAAGAAGTTACTTGTGCTTTGGTTACAAACAGGCACAATTAAAGGGAA",
+  "version": 1,
+  "query": "ENSG00000248378",
+  "molecule": "dna",
+  "id": "ENSG00000248378"
+}
+
+ENSCLAG00000005830 - "species": "chinchilla_lanigera", NOT human.
+
+AACCGGCGCCAGCCATGGCCTCTGGGGCGGGCGGAA...
+
+
+ENST00000412177 >> "canonical_transcript": "ENST00000412177.6", "id": "ENSG00000224383"
+"species": "homo_sapiens", "display_name": "PRR29", "biotype": "protein_coding", "object_type": "Gene" ...
+Crea             ENST00000412177 AACCGGCGCCAGCCATGGCCTCTGGGGCGGG...
+pero tmb se crea ENSG00000224383 AACCGGCGCCAGCCATGGCCTCTGGGGCGGG...
+
+
+ENSP00000400986 - "species": "homo_sapiens", "object_type": "Translation", MASGAGGSWGRSPPQSAVPTPWVTFLQPLSWAVPPAP ...
