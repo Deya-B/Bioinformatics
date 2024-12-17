@@ -102,7 +102,9 @@ El inicio de lo de abajo es para que no haya header :) -->
 
 
 
-### What do we need to build a phylogenetic tree
+
+
+## What do we need to build a phylogenetic tree
 1. What **taxa**? - Your decision, but don’t be biased!
 - Impact of the **outgroup** taxa selection:
 
@@ -167,13 +169,82 @@ Their mutation rates depend on many parameters:
     MP vs model-based methods <br>
     (MP vs distance, ML, Bayesian)
 
+- DISTANCE METHODS
+![distancemethods](images/distancemethods.png)
 
-7. How to **assess confidence**? - Bootstrapping, post. prob., convergence, etc
+
+- **MAXIMUM PARSIMONY**
+
+    The assumption is that the ‘true’ tree will contain the least number of mutations possible i.e., the most parsimonious solution.
+
+    Given a set of sequences (partial evidence) we need to find ancestral sequences, build a rooted tree, and estimate the smallest number of changes contained in the branches
+
+    It poses an impossible computational problem (no algorithm known) and therefore all models use simplified versions
+
+    **Weighted parsimony**: different scoring for each change (transition/transversion) and different scoring for each position
+    ![MP](images/MP.png)
+    ![MPtree](images/mptree.png)
+    ![MPexpl](images/MPexplained.png)
+
+- **MAXIMUM LIKELIHOOD**
+
+    Likelihood: the probability of producing the observed data by a model given the model parameters, LD=Pr(X|Θ)
+    - X: data already aligned, each site mutates independently
+    - Θ: parameters of the model (topology, model of substitution)
+
+    In big datasets the computation is extremely difficult and long, BUT it is one of the most powerful methods because:
+    - it uses models of substitution (evolutionary models)
+    - it corrects multiple substitutions
+    - it allows estimation of branch length (=amount of change from ancestor)
+    - fixing all but one parameter it allows finding the max. likelihood for that parameter
+
+    ![ML](images/ML.png)
+
+- **Problems with maximum likelihood (and parsimony)**
+    1. _**Long branch attraction**_: is a phenomenon when **rapidly evolving lineages** are inferred to be closely related,regardless of their true evolutionary relationships
+    ![longbranchatt](images/longbranchattr.png)
+
+
+- **BAYESIAN INFERENCE**
+
+    Reverend Thomas Bayes 1763: inverse probability 
+    > Based on Bayes' theorem, the bayesian approach combines the prior probability of a tree P(A) with the likelihood of the data (B) to produce a posterior probability distribution on trees P(A|B).
+
+    Likelihood gives you the probability of the data given the hypothesis and Bayesian gives you the probability of the hypothesis given the data 
+    
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⇩
+    
+    **Posterior probabilities** 
+    
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⇩ 
+    
+    **It uses MCMC (Markov chain-Montecarlo) algorithms**
+
+- **How does it work?**
+    - Start somewhere, that somewhere will have a likelihood and a prior
+    - Randomly propose a new state (maybe adjust one branch length), if the change has a better likelihood x prior, the chain goes there
+    - Calculate the posterior probability ratio between the current and previous state. It should be between 0 and 1
+    - Choose a random number between 0 and 1 and if that number has a better likelihood than the ratio of states, the change is accepted (sometimes if slightly worse as well)
+    - That is how the chain crosses likelihood valleys
+    ![Valleys](images/MLvalley.png)
+    ![bayesian](images/bayesian.png)
+    ![bayesian2](images/bayesian2.png)
+
+7. How to **assess confidence**? Evaluating support.
+- Bremer support: difference in the branch lengths when clades are removed (only in parsimony) ~ over 70%
+- Jacknife: probability of a clade observed in all the trees (parsimony) ~ over 70%
+- Bootstrap: probability of a clade observed in all the trees (ML) ~ over 70%
+- Posterior probability: probability of a clade being assigned under the conditions sampled (BI) ~ over 0.95
+- Convergence: assessing whether all chains (MCMC) converged in the same solution (BI)
+![support](images/support.png)
+![support2](images/support2.png)
+![support3](images/supp3.png)
 
 WE NEED TO READ A LOT!
 
 
 ## Alineamiento de secuencias <a name="alineamiento"></a>
+
 ## Modelos de evolución molecular <a name="modelos"></a>
 ## Métodos filogenéticos  de inferencia <a name="metodos"></a>
 ## Máxima parsimonia (MP) <a name="mp"></a>
