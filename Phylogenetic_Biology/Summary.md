@@ -109,6 +109,7 @@ El inicio de lo de abajo es para que no haya header :) -->
 - **Polyphyly / grupo polifilético**: grupo con miembros de líneas evolutivas separadas, conteniendo así grupos de especies con distintos ancestros comunes.
 ![polyphyly](images/polyphyly.png)
 
+> [**Grupos y caracteres que se apoyan**](#homol)
 
 #### Politomías: <a name="politomia"></a>
  - **Dicotomía**: Cuando todas las ramas en un árbol filogenético se bifurcan. Los árboles filogenéticos se consideran resueltos cuando sus ramas se distribuyen dicotómicamente.
@@ -132,7 +133,7 @@ En genética y biología molecular, también existe **homología en las secuenci
 ![para-orthologs](images/paraorto.png)
 *A gene that has diverged as a result of a speciation event is called an ortholog. Orthologs will generally retain the same function after the speciation event—this is how ‘transfer of annotation’ is possible.  But they may not have the same name. If two genes diverge as a result of a gene duplication event, they are called paralogs. Generally, paralogs will take on a different-but-related gene function, while their cousins—the orthologs—will retain the same function through the course of evolution.*
 
-#### Genes Ortólogos
+#### Genes Ortólogos 
 Son semejantes por pertenecer a dos especies que tienen un antepasado común. Requiere que se haya producido especiación.
 
 #### Genes Parálogos
@@ -176,6 +177,10 @@ El inicio de lo de abajo es para que no haya header :) -->
 >| [*aut(o)*- gr. 'que actúa por sí mismo'] | | [*-ía* gr. 'cualidad'] |
 >|[*apó-* gr. 'a partir de' (derivado, novedoso)] |  |  |
 
+> **Grupos y caracteres que se apoyan**: los grupos monofiléticos presentan sinapomorfía, los grupos parafiléticos presentan simplesiomorfía, y los grupos polifiléticos homoplasia.
+![gruposychar](images/grupos.png)
+
+
 ### Homoplasia <a name="homoplasia"></a>
 La homoplasia es el cambio evolutivo paralelo que hace que dos organismos presenten un mismo carácter adquirido independientemente.
 
@@ -190,9 +195,41 @@ La homoplasia es el cambio evolutivo paralelo que hace que dos organismos presen
 
 
 ### Fenotipo vs moléculas <a name="fenotipo-molec"></a>
+#### Carácteres fenotípicos:
+Tradicionalmente se han empleado para establecer las relaciones filogenéticas.
+
+> Pros: 
+- suelen ser carácteres evolutivamente relevantes y complejos menos proclives a la homoplasia
+- son los únicos carácteres disponibles en algunos casos como en fósiles o especímenes raros
+
+> Contras:
+- puede haber problemas de codificación de taxones supraespecíficos como terminales (quimera) 
+- se pueden dar casos de subjetividad en la codificación de carácteres
+- hay un número limitado de carácteres fenotípicos y podemos
+encontrar taxones altamente autapomórficos (exclusivo)
+
+#### Carácteres moleculares:
+
+> Pros: 
+- son estrictamente heredables y no hay ambigüedades en la codificación
+- Hay ciertas regularidades en la evolución de los carácteres moleculares
+- son robustos frente a la distancia evolutiva
+- son muy abundantes y ofrecen información temporal
+
+> Contras:
+- son más proclives a la homoplasia al tener solo 4 nucleótidos y 20 aminoácidos
+- la evolución de estos carácteres es compleja 
+- los árboles de genes no siempre coinciden con los árboles de especies
+- la determinación de la homología puede ser difícil por duplicación o pérdida de genes y alineamientos
 
 
+Se suelen utilizar multitud de **genes separados** y analizarlos de forma separada. El consenso de análisis separados es una estimación conservadora de la filogenia.
 
+**Conflicto entre caractres**: Algunos métodos filogenéticos sólo se pueden aplicar a ciertos tipos de datos. A nivel de especies, la concatenación de genes diferentes puede ser inapropiada si se da transferencia horizontal de genes, hibridación, duplicación de genes o coalescencia más profunda que el tiempo de divergencia.
+
+El conflicto entre caracteres se resuelve teniendo en cuenta toda la evidencia disponible y realizando análisis combinados. Diferentes tipos de datos proporcionan información a diferentes niveles filogenéticos. La señal filogenética aumenta debido a la congruencia entre caracteres de diferentes conjuntos de datos.
+
+Es importante que el conjunto de datos sea lo más completo posible. Es necesario hacer un muestreo de taxones (incluyendo los grupos externos) y genes razonable y justificado.
 
 
 ## What do we need to build a phylogenetic tree <a name="summary"></a>
