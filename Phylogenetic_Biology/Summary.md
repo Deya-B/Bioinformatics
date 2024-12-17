@@ -120,18 +120,17 @@ El inicio de lo de abajo es para que no haya header :) -->
 ### Homología <a name="homol"></a>
 La homología es la relación que existe entre dos partes orgánicas diferentes de dos organismos distintos cuando sus determinantes genéticos tienen el mismo origen evolutivo, es decir, cuando un mismo órgano tiene diversas formas y funciones.
 
-
+![homologia](images/homologia.png)
 *El mismo organo diversas formas y funciones. Semejanza en la estructura debido a la herencia común.*
 
----
-_Note:_
 Los caracteres que se estudian en filogenia deben ser **homólogos**. Se compara la semejanza de una estructura debido a la herencia común.
-
----
 
 > La **analogía**, por el contrario, es una estructura semejante a otra o que tiene la misma función, pero cuyo desarrollo embrionario y origen son diferentes. No se presentan en un antepasado común (como en el caso de los caracteres homólogos), sino que son fruto de **convergencia evolutiva**.
 
 En genética y biología molecular, también existe **homología en las secuencias**. Se distinguen dos tipos: la ortología y la paralogía.
+
+![para-orthologs](images/paraorto.png)
+*A gene that has diverged as a result of a speciation event is called an ortholog. Orthologs will generally retain the same function after the speciation event—this is how ‘transfer of annotation’ is possible.  But they may not have the same name. If two genes diverge as a result of a gene duplication event, they are called paralogs. Generally, paralogs will take on a different-but-related gene function, while their cousins—the orthologs—will retain the same function through the course of evolution.*
 
 #### Genes Ortólogos
 Son semejantes por pertenecer a dos especies que tienen un antepasado común. Requiere que se haya producido especiación.
@@ -145,7 +144,49 @@ Idealmente se deben comparar caracteres **ortólogos** para hacer las reconstruc
 
 ---
 
+#### Tipos de homología: 
+Clasificaciones de las propiedades de organismos basándose en similitudes derivadas.
+
+![homologTipos](images/homoltipos.png)
+*Tipos de homología en el árbol filogenético. El carácter A es plesiomórfico al estar en el ancestro. El carácter C es apomórfico al ser una novedad evolutiva. En los nodos terminales, el carácter A se considera simplesiomórfico al estar compartido por los descendientes y ser un carácter ancestral. Por el contrario, el carácter C en los nodos terminales es sinapomórfico por ser un carácter novedoso y estar compartido en el ancestro en el que surgió y sus descendientes. Los caracteres B, D y E son autopomorfos por estar presentes en un único nodo terminal.*
+
+**Plesiomorfía** se refiere al estado ancestral (o primitivo) de un carácter que comparten distintas especies por heredarlo del antepasado común; en el ejemplo se presenta en los ancestros y los grupos externos.
+
+**Apomorfía** es un carácter novedoso evolutivamente y se dice que es derivado, ya que deriva de otro rasgo perteneciente a un taxón ancestral filogenéticamente próximo.
+
+- **Simplesiomorfía** [Homología ancestral compartida - e.g. cuatro patas (tetrápodos)] se refiere a una plesiomorfía (carácter ancestral) compartida por dos o más taxa.
+
+- **Sinapomorfía** [Homología derivada compartida - e.g. vision binocular (humano y mono)] una apomorfía (carácter exclusivo) compartida por un ancestro común y todos sus descendientes.
+
+- **Autapomorfía** [Homología derivada exclusiva - e.g. bipedismo (humano)] es un carácter novedoso y único de un taxón que no aparece en el antepasado, por lo que no lo comparte con ningún otro.
+
+<style>
+td, th {
+   border: none!important;
+}
+</style>
+
+<!-- lo de arriba es para quitar las lineas de la tabla
+El inicio de lo de abajo es para que no haya header :) -->
+
+>|   |   |   |
+>|---|---|---|
+>| [*sýn-* gr. 'con', 'unión'] |   | [*morph* gr. 'forma'] |
+>| [*plesio-* gr. 'cercano'] | + |  |
+>| [*aut(o)*- gr. 'que actúa por sí mismo'] | | [*-ía* gr. 'cualidad'] |
+>|[*apó-* gr. 'a partir de' (derivado, novedoso)] |  |  |
+
 ### Homoplasia <a name="homoplasia"></a>
+La homoplasia es el cambio evolutivo paralelo que hace que dos organismos presenten un mismo carácter adquirido independientemente.
+
+- La **convergencia** se da cuando dos estructuras similares han evolucionado independientemente a partir de estructuras ancestrales distintas y por procesos de desarrollo diferentes.
+
+- Se considera que el **paralelismo** involucra patrones de desarrollo similares en líneas evolutivas diferentes, pero próximas. La diferencia con la convergencia es que en el paralelismo, hay un ancestro que no presenta un carácter y dos descendientes directos sí presentan esa novedad evolutiva, mientras que en la convergencia los descendientes con carácter no tienen el mismo ancestro común directo.
+
+    > No obstante, en la práctica, la distinción entre convergencia y paralelismo es un tanto arbitraria porque no existe una regla exacta para limitar la antigüedad del antepasado común.
+
+- **Reversión** un organismo adquiere un carácter de sus antepasados más lejanos. Esto implica que uno o más caracteres adquiridos previamente se han eliminado y se han vuelto a los más anteriores.
+![homoplasia](images/homoplasia.png)
 
 
 ### Fenotipo vs moléculas <a name="fenotipo-molec"></a>
