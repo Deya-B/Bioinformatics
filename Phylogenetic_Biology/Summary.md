@@ -1,5 +1,4 @@
 # Table of Contents
-[Programa teórico](#teoria)
 1. [Introducción a la filogenética](#intro)
     1. [Estudios filogenéticos](#estudios)
     2. [Arboles filogenéticos](#arboles)
@@ -22,10 +21,9 @@
 8. [Inferencia Bayesiana](#bayesian)
 9. [Reloj molecular relajado](#reloj)
 
-# Programa teórico <a name="teoria"></a>
-## Introducción a la filogenética <a name="intro"></a>
+# Introducción a la filogenética <a name="intro"></a>
 
-### Estudios filogenéticos: <a name="estudios"></a>
+## Estudios filogenéticos: <a name="estudios"></a>
 La filogenética puede ser estudiada de diversas maneras.
 
 - Registros fósiles: 
@@ -40,37 +38,39 @@ La filogenética puede ser estudiada de diversas maneras.
     + *PROS*: son más numerosos que los registros fósiles y más fáciles de obtener. Además, no hay ningún sesgo de muestreo, como el que hay en los registros fósiles reales. Por tanto, es posible construir árboles filogenéticos más precisos y robustos utilizando datos moleculares.
 
 
-### Arboles filogenéticos: <a name="arboles"></a>
+## Arboles filogenéticos: <a name="arboles"></a>
 Representaciones gráficas (patrones) de las relaciones ancestro-descendientes (relaciones históricas de parentescos) entre elementos, que pueden ser especies, secuencias de genes, etc. Entender este patrón es esencial para realizar estudios comparativos de cualquier tipo, porque existen dependencias  estadísticas entre los elementos que comparten ancestros comunes.
 
 
-#### Partes de un árbol filogenético: <a name="partes"></a>
+### Partes de un árbol filogenético: <a name="partes"></a>
 ![treeparts](images/treeparts.png)
 
-- **Nodos externos** o **terminales**. 
-    - Se denominan **grupos hermanos** a los nodos terminales que parten de un mismo nodo interno, es decir, dos taxones que compartan un ancestro común no compartido por ningún otro taxón.
-    - El **grupo externo (outgroup)** es aquel que se encuentra más alejado y parte de una rama distinta desde la raíz. Normalmente, este outgroup se elige arbitrariamente para poder colocar la raíz donde se estima correcto.
-    - Todas las especies que se desarrollan desde una rama de la raíz se denomina **grupo interno** o **ingroup**.
+#### **Nodos externos** o **terminales**. 
+- Se denominan **grupos hermanos** a los nodos terminales que parten de un mismo nodo interno, es decir, dos taxones que compartan un ancestro común no compartido por ningún otro taxón.
+- El **grupo externo (outgroup)** es aquel que se encuentra más alejado y parte de una rama distinta desde la raíz. Normalmente, este outgroup se elige arbitrariamente para poder colocar la raíz donde se estima correcto.
+- Todas las especies que se desarrollan desde una rama de la raíz se denomina **grupo interno** o **ingroup**.
 
-- **Nodos internos**: 
-son hipótesis evolutivas de posibles ancestros comunes de los cuales normalemente faltan datos para confirmar o descartar la teoría.
+#### **Nodos internos**: 
+Son hipótesis evolutivas de posibles ancestros comunes de los cuales normalemente faltan datos para confirmar o descartar la teoría.
 
-- **Ramas** (branches) que unen los nodos. En las distintas ramas se pueden representar la transformación de caracteres que aparecen a nivel genético y que se transmiten por herencia.
+#### **Ramas** (branches) que unen los nodos. 
+En las distintas ramas se pueden representar la transformación de caracteres que aparecen a nivel genético y que se transmiten por herencia.
 
-- **Raiz**. Los árboles filogenéticos se pueden representar sin enraizar o enraizado. 
-    - **Sin raíz**: Un árbol filogenético que no asume conocimiento de un ancestro común, solo posiciones de los taxones para mostrar sus relaciones relativas (no hay dirección de un camino evolutivo).
-    - **Con raíz**: Para describir la dirección de la evolución se necesita un árbol filogenético donde todas las secuencias bajo estudio tienen un ancestro o nodo raíz común *(más informativo)*.
-    ![root](images/root.png)
+#### **Raiz**. 
+Los árboles filogenéticos se pueden representar sin enraizar o enraizado. 
+- **Sin raíz**: Un árbol filogenético que no asume conocimiento de un ancestro común, solo posiciones de los taxones para mostrar sus relaciones relativas (no hay dirección de un camino evolutivo).
+- **Con raíz**: Para describir la dirección de la evolución se necesita un árbol filogenético donde todas las secuencias bajo estudio tienen un ancestro o nodo raíz común *(más informativo)*.
+![root](images/root.png)
 
 
-#### Representación de los arboles: <a name="rep"></a>
+### Representación de los arboles: <a name="rep"></a>
 Hay varias formas de representar los árboles filogenéticos.
 Los distintos elementos no tienen un orden concreto; da igual si en un árbol los nodos terminales están en distinto orden mientras que las ramas sigan el mismo camino.
 ![treerep1](images/treerep1.png)
 ![treerep2](images/treerep.png)
 
 
-#### Tipos de arboles: <a name="tipo"></a>
+### Tipos de arboles: <a name="tipo"></a>
 
 1. **Cladogramas (CLADOGRAM)** used in cladistics BUT a cladogram is not an evolutionary hypothesis since it does not contain information about how ancestors and descendants are related or how much descendants have changed through time. They are a SIMPLISTIC REPRESENTATION (OK for morphological matrices).
 
@@ -98,7 +98,7 @@ El inicio de lo de abajo es para que no haya header :) -->
 >| [klad(o) gr. 'rama']            | + | [-gram-ma gr.  'representación gráfica'] |
 >| [khron(o) gr. 'tiempo']         |   |                                          |
 
-#### Anatomy of the phylogenetic tree / Agrupamientos: <a name="anatomia"></a>
+### Anatomy of the phylogenetic tree / Agrupamientos: <a name="anatomia"></a>
 
 - **Monophyly / grupo monofilético**: un clado que contiene un ancestro y todos sus descendientes, formando así un solo grupo evolutivo.
 ![monophyly](images/monophyly.png)
@@ -111,14 +111,17 @@ El inicio de lo de abajo es para que no haya header :) -->
 
 > [**Grupos y caracteres que se apoyan**](#homol)
 
-#### Politomías: <a name="politomia"></a>
+### Politomías: <a name="politomia"></a>
  - **Dicotomía**: Cuando todas las ramas en un árbol filogenético se bifurcan. Los árboles filogenéticos se consideran resueltos cuando sus ramas se distribuyen dicotómicamente.
 - **Politomía**: si de un nodo surgen más de dos ramas (descendientes). Los árboles no resueltos presentan politomías.
 ![politomias](images/politomia.png)
 
-### Conceptos básicos 
+
 ---
-### Homología <a name="homol"></a>
+_Conceptos básicos:_ 
+---
+
+## Homología <a name="homol"></a>
 La homología es la relación que existe entre dos partes orgánicas diferentes de dos organismos distintos cuando sus determinantes genéticos tienen el mismo origen evolutivo, es decir, cuando un mismo órgano tiene diversas formas y funciones.
 
 ![homologia](images/homologia.png)
@@ -133,10 +136,10 @@ En genética y biología molecular, también existe **homología en las secuenci
 ![para-orthologs](images/paraorto.png)
 *A gene that has diverged as a result of a speciation event is called an ortholog. Orthologs will generally retain the same function after the speciation event—this is how ‘transfer of annotation’ is possible.  But they may not have the same name. If two genes diverge as a result of a gene duplication event, they are called paralogs. Generally, paralogs will take on a different-but-related gene function, while their cousins—the orthologs—will retain the same function through the course of evolution.*
 
-#### Genes Ortólogos 
+### Genes Ortólogos 
 Son semejantes por pertenecer a dos especies que tienen un antepasado común. Requiere que se haya producido especiación.
 
-#### Genes Parálogos
+### Genes Parálogos
 Son aquellos que se encuentran en el mismo organismo y cuya semejanza revela que uno procede de la duplicación del otro (y puede adquirir funciones diferentes del gen original). La especiación no es necesaria, la paralogía puede producirse solo en los individuos de una misma especie.
 
 ---
@@ -145,7 +148,7 @@ Idealmente se deben comparar caracteres **ortólogos** para hacer las reconstruc
 
 ---
 
-#### Tipos de homología: 
+### Tipos de homología: 
 Clasificaciones de las propiedades de organismos basándose en similitudes derivadas.
 
 ![homologTipos](images/homoltipos.png)
@@ -181,7 +184,7 @@ El inicio de lo de abajo es para que no haya header :) -->
 ![gruposychar](images/grupos.png)
 
 
-### Homoplasia <a name="homoplasia"></a>
+## Homoplasia <a name="homoplasia"></a>
 La homoplasia es el cambio evolutivo paralelo que hace que dos organismos presenten un mismo carácter adquirido independientemente.
 
 - La **convergencia** se da cuando dos estructuras similares han evolucionado independientemente a partir de estructuras ancestrales distintas y por procesos de desarrollo diferentes.
@@ -194,8 +197,8 @@ La homoplasia es el cambio evolutivo paralelo que hace que dos organismos presen
 ![homoplasia](images/homoplasia.png)
 
 
-### Fenotipo vs moléculas <a name="fenotipo-molec"></a>
-#### Carácteres fenotípicos:
+## Fenotipo vs moléculas <a name="fenotipo-molec"></a>
+### Carácteres fenotípicos:
 Tradicionalmente se han empleado para establecer las relaciones filogenéticas.
 
 > Pros: 
@@ -209,7 +212,7 @@ Tradicionalmente se han empleado para establecer las relaciones filogenéticas.
 - hay un número **limitado** de carácteres fenotípicos 
 - podemos encontrar taxones altamente **autapomórficos** (exclusivos)
 
-#### Carácteres moleculares:
+### Carácteres moleculares:
 
 > Pros: 
 - son **estrictamente heredables**
@@ -246,7 +249,8 @@ Es importante que el conjunto de datos sea lo más completo posible. Es necesari
 
 ---
 
-## What do we need to build a phylogenetic tree <a name="summary"></a>
+
+# What do we need to build a phylogenetic tree <a name="summary"></a>
 1. What **taxa**? - Your decision, but don’t be biased!
 - Impact of the **outgroup** taxa selection:
 
@@ -385,17 +389,39 @@ Their mutation rates depend on many parameters:
 WE NEED TO READ A LOT!
 
 
-## Alineamiento de secuencias <a name="alineamiento"></a>
+# Alineamiento de secuencias <a name="alineamiento"></a>
 Decidir qué caracteres investigar, y cómo codificarlos, es un primer paso crucial en cualquier análisis filogenético.
 
 
-## Modelos de evolución molecular <a name="modelos"></a>
-## Métodos filogenéticos  de inferencia <a name="metodos"></a>
-## Máxima parsimonia (MP) <a name="mp"></a>
-## Métodos de distancias <a name="distancias"></a>
-## Máxima verosimilitud (ML) <a name="ml"></a>
-## Inferencia Bayesiana <a name="bayesian"></a>
-## Reloj molecular relajado <a name="reloj"></a>
+## Caracteres
+### Tipos de caracteres
+- Sitios **invariables**: que no cambian en los distintos taxones. 
+- Sitios **filogenéticamente neutrales**: que son autapomorfías (solo cambia en un taxón). 
+- Sitios **filogenéticamente informativos**: son comunes por pares (permiten dicotomía), son sinapomorfías.
+![tipos](images/tiposChar.png)
+
+### Estados de un caracter
+- **Binarios 0/1** (presentes o ausentes)
+- **Multiestado** o **binarios V/S** (transversiones o transiciones)
+- **Discretos** o **continuos**: La codificación de caracteres continuos no se pueden incluir fácilmente en las matrices de caracteres, por lo que se debe realizar una categorización arbitraria. Idealmente, se deben buscar divisiones naturales, es decir, estados discretos de un carácter de variación continua.
+
+### Ponderación de los caracteres
+
+#### Poderación *a priori*
+
+
+
+
+# Modelos de evolución molecular <a name="modelos"></a>
+
+# Métodos filogenéticos  de inferencia <a name="metodos"></a>
+
+# Máxima parsimonia (MP) <a name="mp"></a>
+
+# Métodos de distancias <a name="distancias"></a>
+# Máxima verosimilitud (ML) <a name="ml"></a>
+# Inferencia Bayesiana <a name="bayesian"></a>
+# Reloj molecular relajado <a name="reloj"></a>
 
 
 
