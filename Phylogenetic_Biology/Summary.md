@@ -329,11 +329,28 @@ Aunque originalmente se propuso con una ponderación severa de k=3, Goloboff pre
 
 $F =Σfi, fi = k/k+(s-m)$
 
-m = minimum number of steps
-s = number of steps observed
+m = minimum number of steps<br>
+s = number of steps observed<br>
 k = concavity constant, 1-100
 
+(s-m) mide el número extra de cambios (homoplasia)
 
+Un valor de k próximo a 0 prácticamente elimina del análisis los caracteres más homoplásicos. Por contra, valores elevados ponderan negativamente de forma muy suave los caracteres homoplásicos.
+
+morfología: k=5-16 <br>
+secuencias nucleotídicas: k>15
+
+#### Secuencias de ADN
+Generalmente, se toma la tasa de sustitución como medida de la fiabilidad de la información filogenética del marcador. Se entiende entonces homoplasia como saturación 
+
+$Homoplasia = Saturación$
+
+![VS](images/VS.png) *Las **transversiones** evolucionan lentamente y aumentan su frecuencia a medida que pasa el tiempo. Las **transiciones** se saturan a partir de cierta distancia filogenética, perdiéndose su señal.*
+
+Hacer una transición es más difícil que una transversion, por ello si una transición ocurre es más importante, i.e. las transiciones (S) son más costosas 
+que las transversiones (V)
+
+- *Peso de los caracteres*: Debido a cómo se forman los aminoácidos, los cambios en la tercera posición son menos importantes (tienen menos peso) que los de la primera.
 
 # Modelos de evolución molecular <a name="modelos"></a>
 
