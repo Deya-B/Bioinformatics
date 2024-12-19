@@ -373,7 +373,34 @@ Cada secuencia está formada por muchos caracteres (cada posición en la secuenc
 - El alineamiento tiene como objetivo identificar **qué posiciones son homólogas** en diferentes secuencias.
 - Cada posición de la secuencia (**residuo** = nucleótido o aminoácido) se interpreta como un **carácter** que puede tomar diferentes **valores** (estados de carácter: una de 4 bases, o uno de 20 aminoácidos).
 - El alineamiento asume **parsimonia**: el cambio evolutivo es improbable, de modo que los segmentos de secuencia coincidentes sirven de guía para identificar posiciones homólogas.
+- Eventualmente se identifican cambios, que cuando son compartidos por varias especies son informativos para la reconstrucción de filogenias.
+![alignm3](images/alignm3.png)
 
+- **Gaps** son marcadores
+de posición que introducimos en los alineamientos para mantener la homología posicional (para secuencias de distinta longitud). Representan eventos de inserción o pérdida denominados *indels* (del inglés insertion/deletion). 
+    - Pros: son, en principio, menos propensos a la homoplasia que las sustituciones de bases, muy utilizadas en análisis de parsimonia. 
+    - Contras: son difícilmente gestionables por la mayoría de los modelos de evolución molecular.
+
+> **Note**: Es importante elegir un buen alineamiento, ya que la calidad del alineamiento influye en la **calidad de la inferencia filogenética**.
+
+#### Decidir el mejor alineamiento
+- No existe ningún procedimiento automático para elegir objetivamente el mejor alineamiento: hay que valorar la calidad de los diferentes alineamientos posibles y elegir el que nos parezca mejor. 
+- Es siempre importante examinar el resultado críticamente para valorar si tiene sentido desde un punto de vista biológico.
+
+No todos los alineamientos son igualmente parsimoniosos. Para valorar la calidad de los alineamientos, se han propuesto diferentes mecanismos de puntuación. <br> 
+Se puede realizar una **puntuación por identidad**:
+
+- Un alineamiento de dos secuencias puede interpretarse como una matriz con dos filas y n columnas (n = longitud del alineamiento)
+- Las posiciones (columnas) con idéntico residuo (base o aminoácido)
+tienen una puntuación = 1
+- La puntuación del alineamiento es la suma de las puntuaciones de todas sus posiciones
+- El alineamiento óptimo es el que maximiza la identidad de las columnas. 
+
+Pero como los gaps no penalizan pueden darse alineamientos con misma puntuación, pero más posiciones de diferencia. <br>
+Para solucionar esto se pueden aplicar **penalizaciones para los GAPS**:
+- penalizaciones por la apertura de los huecos 
+- penalizaciones por la extensión de los huecos abiertos (típicamente menores que las impuestas por apertura). 
+![alignm4](images/alignm4.png)
 
 
 # Modelos de evolución molecular <a name="modelos"></a>
