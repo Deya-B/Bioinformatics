@@ -335,7 +335,7 @@ Un valor de k próximo a 0 prácticamente elimina del análisis los caracteres m
 morfología: k=5-16 <br>
 secuencias nucleotídicas: k>15
 
-#### Secuencias de ADN
+## Secuencias de ADN
 Generalmente, se toma la tasa de sustitución como medida de la fiabilidad de la información filogenética del marcador. Se entiende entonces homoplasia como saturación 
 
 $Homoplasia = Saturación$
@@ -356,7 +356,7 @@ Utilizando un **criterio ontogenético**, se ve cómo se forma el carácter dura
 En caso de que no quede claro tras ese criterio, se **compara con el outgroup** para establecer el estado primitivo del carácter.<br>
 De todos los caracteres presentes en un grupo monofilético, aquel que se encuentre en su grupo hermano, corresponderá al carácter plesiomórfico, mientras que el que se encuentre exclusivamente en el grupo interno será el apomórfico.
 
-### Homología de los caracteres moleculares 
+## Homología de los caracteres moleculares 
 Cuando analizamos secuencias, asumimos que son de moléculas heredadas de ancestros a descendientes (**ortólogos**).
 
 Cada secuencia está formada por muchos caracteres (cada posición en la secuencia). Por ello, **un primer paso es determinar el estado** de cada uno de esos caracteres en cada taxón de la matriz.
@@ -367,7 +367,7 @@ Cada secuencia está formada por muchos caracteres (cada posición en la secuenc
 > Podrán tener diferente porcentaje de similitud (p. ej., % de bases o aminoácidos idénticos en posiciones homólogas), pero o son homólogas o no lo son.
 
 
-#### El concepto de Homología aplicada a los genes: alineamiento de secuencias
+### El concepto de Homología aplicada a los genes: alineamiento de secuencias
 - Un alineamiento es una **hipótesis acerca de la homología posicional** de diferentes secuencias de bases o aminoácidos.
 ![alineamiento](images/alineamiento.png)
 - El alineamiento tiene como objetivo identificar **qué posiciones son homólogas** en diferentes secuencias.
@@ -383,7 +383,7 @@ de posición que introducimos en los alineamientos para mantener la homología p
 
 > **Note**: Es importante elegir un buen alineamiento, ya que la calidad del alineamiento influye en la **calidad de la inferencia filogenética**.
 
-#### Decidir el mejor alineamiento
+### Decidir el mejor alineamiento
 - No existe ningún procedimiento automático para elegir objetivamente el mejor alineamiento: hay que valorar la calidad de los diferentes alineamientos posibles y elegir el que nos parezca mejor. 
 - Es siempre importante examinar el resultado críticamente para valorar si tiene sentido desde un punto de vista biológico.
 
@@ -401,6 +401,27 @@ Para solucionar esto se pueden aplicar **penalizaciones para los GAPS**:
 - penalizaciones por la apertura de los huecos 
 - penalizaciones por la extensión de los huecos abiertos (típicamente menores que las impuestas por apertura). 
 ![alignm4](images/alignm4.png)
+
+No tiene mucho sentido alinear las secuencias de ADN de los genes codificantes de proteínas. Es mejor traducir las secuencias de ADN a secuencias de aminoácidos y alinear éstas últimas. Existen varios programas para alineamiento múltiple: clustal W/X/Omega, MAFFT, Muscle, T-Coffee, Dialign 2, etc.
+
+### Una vez alineadas las secuencias…
+Tratamiento de gaps:
+- Como datos perdidos (missing data). Es la opción más usada por la mayoría de programas de filogenia.
+    - Inconveniente: Descarta información utilizada para definir la homología de las demás posiciones.
+    - Los gaps pueden proporcionar importante información filogenética.
+
+- Gaps como quinto estado (A, T, G, C, Gap). Inapropiado, porque:
+    - Los gaps son el resultado de una forma diferente de cambio (problemas con los modelos).
+    - Los gaps de más de una posición incluyen caracteres tratados como independientes unos de otros, aunque puedan resultar todos de un único evento de indel (se puede ponderar).
+
+- Codificación de gaps como presencia/ausencia. 
+    - No aumenta la ponderación de los varios gaps no homólogos que se solapan.
+    - Los indels son utilizables en parsimonia, pero también en métodos de inferencia Bayesiana.
+
+Existen reglas para recodificar los gaps, basadas en su solapamiento y la compartición de sus extremos 5'y/o 3'
+- Simple: 2xread, GAPCODER, GAPRECODER, FASTGAP
+- Complejo: SEQSTATE
+
 
 
 # Modelos de evolución molecular <a name="modelos"></a>
