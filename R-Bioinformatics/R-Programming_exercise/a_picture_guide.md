@@ -1,2 +1,0 @@
-- **Linear accumulation model:**
-A simple model where mutation A comes first, which leads to an initial growth of the tumour, then B is mutated, which depends on A being already present, then a third mutation is acquired, which depends on the previous one, and so on. Under this linear accumulation model, there is a single possible trajectory of mutation accumulation (Figure 1). A linear accumulation model tries to find the linear sequence of events that best explains the observed data.
