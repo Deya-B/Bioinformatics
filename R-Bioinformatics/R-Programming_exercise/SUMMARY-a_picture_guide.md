@@ -46,3 +46,45 @@ of cancer progression models:
 ![methods](images/metodos.png)
 *Table 1: Cancer progression and monotonic accumulation models: main features. Methods ordered approximately by increasing complexity of dependencies that can be reflected.*
 
+### Purpose, data, assumptions
+#### Objective
+Examine the existence of dependencies (deterministic or stochastic) between the occurrence of different irreversible events. Events which can include mutations, disease symptoms, tool use, student progress, etc. 
+> If we are dealing with cancer genomic data, we are typically interested in understanding the dependencies between the different genetic alterations (e.g., mutations1 in different genes) that are accumulated, non-reversibly, during tumour progression.
+
+#### Data
+**Binary data** (or data that have been binarised): this is, therefore, a cross-sectional data set, where:
+- each row of this matrix describes the state of a subject (or sample) with respect to the events, 
+- each subject (or sample) is represented only once in the data, and 
+- different subjects (or samples) are regarded as independent
+
+From the data, each method will try to infer the best fitting model. By best fitting, we mean that the predicted distribution of mutational profiles is as close as possible to the observed distribution of mutational profiles in the data.
+
+Thus, each method will find the parameters that allow that model to provide the closest match between predicted and observed frequencies of mutational profiles:
+- trees/graphs, type of dependencies, and rates/conditional probabilities for models with deterministic dependencies; 
+- interaction and spontaneous rates or transition probabilities for models with stochastic dependencies
+
+#### Assumptions
+These models have some common assumptions.
+
+1. The events are gained one by one and irreversibly (thus the “monotonic accumulation”, above)
+
+2. All the methods (exept those regarding phylogenetic information) consider each of the different subjects or samples as replicate evolutionary experiments, or independent realizations of an evolutionary process. Here, all the subjects are under the same constraints or dependencies with respect to the accumulation of the events —and the purpose of the analysis is, precisely, to understand these constraints
+    > For example, for *cancer data*, we would regard all the subjects in a cross-sectional data set, corresponding to a homogeneous cancer type, as `replicate evolutionary runs` where all subjects share the same genetic constraints and dependencies
+
+
+**Software**
+
+Details for software use should be sought in **EvAM-Tools** (Diaz-Uriarte and Herrera-Nieto, 2022): is a web-based tool and R package that tries to provide a single, unified interface for analysing data with most of these methods, as well as for simulating random dependency structures and data under these models.
+
+
+### Deterministic dependencies
+The models in this section use directed acyclic graphs (DAGs) and trees to represent deterministic dependencies, or restrictions, in the accumulation of events.
+
+> DAGs interpretation: an edge from event 𝑖 (e.g., a mutation in gene 𝑖) to event 𝑗 (e.g., a mutation in gene 𝑗 ) means that > event 𝑖 must occur before event 𝑗 can occur; 
+in other words, an edge (or arrow) from 𝑖 to 𝑗 indicates a direct and necessary dependency of event 𝑗 on event 𝑖.
+ 
+#### Oncogenetic trees (OT)
+OTs are among the earliest formal models of accumulation of mutations in cancer. OTs represent restrictions in the accumulation of events as a tree.
+Since OTs use trees, an event can only directly depend on one other event (its parent), but multiple events can directly depend on a previous event.
+![OT](images/OT.png)
+
