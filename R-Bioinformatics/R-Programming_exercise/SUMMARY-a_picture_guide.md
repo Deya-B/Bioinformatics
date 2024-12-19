@@ -83,8 +83,26 @@ The models in this section use directed acyclic graphs (DAGs) and trees to repre
 > DAGs interpretation: an edge from event 𝑖 (e.g., a mutation in gene 𝑖) to event 𝑗 (e.g., a mutation in gene 𝑗 ) means that > event 𝑖 must occur before event 𝑗 can occur; 
 in other words, an edge (or arrow) from 𝑖 to 𝑗 indicates a direct and necessary dependency of event 𝑗 on event 𝑖.
  
-#### Oncogenetic trees (OT)
-OTs are among the earliest formal models of accumulation of mutations in cancer. OTs represent restrictions in the accumulation of events as a tree.
-Since OTs use trees, an event can only directly depend on one other event (its parent), but multiple events can directly depend on a previous event.
-![OT](images/OT.png)
+- Oncogenetic trees (OT)
+- Disjunctive Bayesian Networks (DBN: OncoBN)
+- Conjunctive Bayesian Networks (CBN)
+- Hidden Extended Suppes-Bayes Causal Networks (H-ESBCN, PMCE)
 
+### Stochastic dependencies
+In models with stochastic dependencies, events can alter, increasing or decreasing, the probability of acquiring other events. These methods model the transitions in a hypercubic transition graph linking the genotypes; two of the models, MHN and HyperTraPS, model those transitions as a function of a (potentially) reduced number of parameters, whereas HyperHMM directly models the transitions between genotypes without expressing them as a function of a smaller number of parameters.
+
+- Mutual Hazard Networks (MHN)
+- HyperTraPS
+- HyperHMM
+- Other methods: TreeMHN, Hintra or REVOLVER
+
+## Uses and entities
+Uses 
+- Inference
+- Intervention(medical treatment)/stratification
+
+Entities under study
+- 
+- 
+- 
+- 
