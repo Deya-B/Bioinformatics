@@ -1,4 +1,4 @@
-### Cancer progression models or monotonic accumulation models
+# Cancer progression models or monotonic accumulation models
 Monotonic accumulation models try to infer the dependencies that give rise to the patterns we observe in the data. 
 
 The key idea is that many phenomena involve the irreversible accumulation (or loss) of certain features or events, and that different events are not independent but can affect the acquisition (or loss) of other events.
@@ -13,10 +13,11 @@ Types:
 We are interested in how some features or events that characterise a process accumulate (or are lost) irreversibly. Examples: 
 - how mutations in driver genes accumulate during cancer progression 
 - or how symptoms (fever, vomiting, anemia, . . . ) accumulate during severe malaria
+- these models can be used to help identify therapeutic targets and improve evolutionary-based adaptive treatment approaches
 
 ![CMPsteps](images/CPMsteps.png)
 
-Steps: 
+### Steps: 
 
 1. (a) Features of relevance are measured on some subjects, i.e.**presence or absence** of the events of interest (e.g., mutations in genes or presence of malaria symptoms) 
 
@@ -40,4 +41,8 @@ of cancer progression models:
     - Right: patients are stratified based on evolutionary trajectory, and the survival of the different groups is compared.
 
 
+## Methods overview
+
+![methods](images/metodos.png)
+*Table 1: Cancer progression and monotonic accumulation models: main features. Methods ordered approximately by increasing complexity of dependencies that can be reflected.*
 
