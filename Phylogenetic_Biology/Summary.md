@@ -194,11 +194,6 @@ El inicio de lo de abajo es para que no haya header :) -->
 > **Grupos y caracteres que se apoyan**: los grupos monofiléticos presentan sinapomorfía, los grupos parafiléticos presentan simplesiomorfía, y los grupos polifiléticos homoplasia.
 ![gruposychar](images/grupos.png)
 
-Para determinar qué estados son plesiomórficos y cuales apomórficos (es decir, polarizar los estados), es necesario orientar un árbol en el tiempo o enraizarlo.<br>
-Para ello, se asigna una posición en el árbol donde se sitúa el hipotético antecesor común del grupo de organismos a estudiar (**grupo interno** o *ingroup*).<br>
-Se pueden utilizar varios criterios, entre ellos la **comparación con el grupo externo** o outgroup es el más utilizado.<br>
-De todos los caracteres presentes en un grupo monofilético, aquel que se encuentre en su grupo hermano, corresponderá al carácter plesiomórfico, mientras que el que se encuentre exclusivamente en el grupo interno será el apomórfico.
-
 
 ## Homoplasia <a name="homoplasia"></a>
 La homoplasia es una falsa homología, descubierta como tal a posteriori. <br>
@@ -352,11 +347,46 @@ que las transversiones (V)
 
 - *Peso de los caracteres*: Debido a cómo se forman los aminoácidos, los cambios en la tercera posición son menos importantes (tienen menos peso) que los de la primera.
 
+
+### Polaridad de los caracteres
+Para orientar un árbol en el tiempo o enraizarlo es necesario determinar qué estados son plesiomórficos y cuales apomórficos (es decir, polarizar los estados).
+
+Utilizando un **criterio ontogenético**, se ve cómo se forma el carácter durante el desarrollo (desarrollo del individuo, referido en especial al período embrionario) para poder establecer la polaridad. 
+
+En caso de que no quede claro tras ese criterio, se **compara con el outgroup** para establecer el estado primitivo del carácter.<br>
+De todos los caracteres presentes en un grupo monofilético, aquel que se encuentre en su grupo hermano, corresponderá al carácter plesiomórfico, mientras que el que se encuentre exclusivamente en el grupo interno será el apomórfico.
+
+### Homología de los caracteres moleculares 
+Cuando analizamos secuencias, asumimos que son de moléculas heredadas de ancestros a descendientes (**ortólogos**).
+
+Cada secuencia está formada por muchos caracteres (cada posición en la secuencia). Por ello, **un primer paso es determinar el estado** de cada uno de esos caracteres en cada taxón de la matriz.
+
+> Importante: La homología de los caracteres moleculares, como la de cualquier otro tipo de carácter, es un **concepto cualitativo**. 
+>
+> Las secuencias del gen A de dos taxones **son homólogas, o bien no lo son**. Igualmente, la posición X en la secuencia de un taxón es homóloga de la posición Y en la secuencia de otro taxón, o bien no lo es. Pero **NO** puede decirse que las secuencias de dos taxones muestren mayor o menor homología (por ejemplo, en %). 
+> Podrán tener diferente porcentaje de similitud (p. ej., % de bases o aminoácidos idénticos en posiciones homólogas), pero o son homólogas o no lo son.
+
+
+#### El concepto de Homología aplicada a los genes: alineamiento de secuencias
+- Un alineamiento es una **hipótesis acerca de la homología posicional** de diferentes secuencias de bases o aminoácidos.
+![alineamiento](images/alineamiento.png)
+- El alineamiento tiene como objetivo identificar **qué posiciones son homólogas** en diferentes secuencias.
+- Cada posición de la secuencia (**residuo** = nucleótido o aminoácido) se interpreta como un **carácter** que puede tomar diferentes **valores** (estados de carácter: una de 4 bases, o uno de 20 aminoácidos).
+- El alineamiento asume **parsimonia**: el cambio evolutivo es improbable, de modo que los segmentos de secuencia coincidentes sirven de guía para identificar posiciones homólogas.
+
+
+
 # Modelos de evolución molecular <a name="modelos"></a>
+
+
 
 # Métodos filogenéticos  de inferencia <a name="metodos"></a>
 
+
+
 # Máxima parsimonia (MP) <a name="mp"></a>
+
+
 
 # Métodos de distancias <a name="distancias"></a>
 # Máxima verosimilitud (ML) <a name="ml"></a>
