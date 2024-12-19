@@ -99,10 +99,7 @@ In models with stochastic dependencies, events can alter, increasing or decreasi
 ## Uses and entities
 Uses 
 - Inference
-- Intervention(medical treatment)/stratification
+- Intervention(medical treatment)/patient stratification
 
-Entities under study
-- 
-- 
-- 
-- 
+Entities under study: A careful consideration of the empirical entities and the possible evolutionary assumptions will not only prevent us from endowing inferences with unsubstantiated implications, but also represents an opportunity for applying these models in novel scenarios.
+
