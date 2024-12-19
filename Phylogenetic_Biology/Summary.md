@@ -315,7 +315,23 @@ Existen dos tipos de caracteres en función de su *origen*: los *homólogos* y l
 Se puede emplear un valor relativo de los diferentes caracteres y transformaciones como indicadores de las relaciones filogenéticas entre taxones. Se puede realizar una ponderación uniforme, que minimiza los supuestos del análisis, o una ponderación diferencial, en la que no todas las características de un organismo tienen el mismo valor como evidencias filogenéticas.
 
 #### Poderación *a priori*
+En la ponderación a priori de caracteres morfológicos, los taxónomos pueden tener muchas razones para asumir que diferentes caracteres tienen diferente importancia filogenética. Pero eso tiene dos problemas: 
+- diferentes opiniones expertas y, en caso de acuerdo, 
+- el peso proporcional que se le da a cada carácter. 
+Se introduce precisamente el tipo de subjetividad que el análisis cladístico pretende evitar.
 
+#### Ponderación *a posteriori*
+El método más utilizado y aplicado, también llamado **ponderación implícita** la primera vez que un carácter cambia de estado en un árbol, este cambio de estado recibe el peso «1»; los cambios posteriores son menos «costosos» y reciben pesos menores a medida que la tendencia de los caracteres a la homoplasia se hace más evidente. Los árboles que maximizan la función cóncava de homoplasia resuelven el conflicto de caracteres a favor de los caracteres que tienen más homología (menos homoplasia) e implican que el peso medio de los caracteres sea lo más alto posible.
+
+Goloboff reconoce que los árboles con los pesos medios más elevados son los que más «respetan» los datos: un peso medio bajo implica que la mayoría de los caracteres están siendo «ignorados» por los algoritmos de construcción de árboles.
+
+Aunque originalmente se propuso con una ponderación severa de k=3, Goloboff prefiere ahora concavidades más «suaves» (por ejemplo, k = 12), que han demostrado ser más eficaces en casos simulados y del mundo real.
+
+$F =Σfi, fi = k/k+(s-m)$
+
+m = minimum number of steps
+s = number of steps observed
+k = concavity constant, 1-100
 
 
 
