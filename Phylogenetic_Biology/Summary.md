@@ -11,7 +11,6 @@
         1. [Homología](#homol)
         2. [Homoplasia](#homoplasia)
         3. [Fenotipo vs moléculas](#fenotipo-molec)
-2. [What do we need to build a phylogenetic tree](#summary)
 2. [Alineamiento de secuencias](#alineamiento)
 3. [Modelos de evolución molecular](#modelos)
 4. [Métodos filogenéticos de inferencia](#metodos)
@@ -20,6 +19,7 @@
 7. [Máxima verosimilitud](#mv)
 8. [Inferencia Bayesiana](#bayesian)
 9. [Reloj molecular relajado](#reloj)
+10. [What do we need to build a phylogenetic tree](#summary)
 
 # Introducción a la filogenética <a name="intro"></a>
 
@@ -100,13 +100,15 @@ El inicio de lo de abajo es para que no haya header :) -->
 
 ### Anatomy of the phylogenetic tree / Agrupamientos: <a name="anatomia"></a>
 
-- **Monophyly / grupo monofilético**: un clado que contiene un ancestro y todos sus descendientes, formando así un solo grupo evolutivo.
+- **Monophyly / grupo monofilético**: 
+(los que nos interesan en filogenia)
+Un conjunto de taxones que comparten una sinapomorfía, es decir, que contiene un ancestro y todos sus descendientes, formando así un solo grupo evolutivo = un clado.
 ![monophyly](images/monophyly.png)
 
-- **Paraphyly / grupo parafilético**: es similar,pero excluye a algunos de los descendientes que han sufrido cambios significativos.
+- **Paraphyly / grupo parafilético**: Un conjunto de taxones con una simplesiomorfía en común, incluye el antecesor común más reciente y algunos de sus descendientes, pero no a todos.
 ![paraphyly](images/paraphyly.png)
 
-- **Polyphyly / grupo polifilético**: grupo con miembros de líneas evolutivas separadas, conteniendo así grupos de especies con distintos ancestros comunes.
+- **Polyphyly / grupo polifilético**: Un grupo de taxones agrupados por la presencia de un carácter homoplásico. Es un grupo en el que el antecesor común más reciente, y quizá también algunos de sus descendientes, no son miembros de este grupo, es decir, un grupo con miembros de líneas evolutivas separadas.
 ![polyphyly](images/polyphyly.png)
 
 > [**Grupos y caracteres que se apoyan**](#homol)
@@ -158,15 +160,20 @@ Clasificaciones de las propiedades de organismos basándose en similitudes deriv
 ![homologTipos](images/homoltipos.png)
 *Tipos de homología en el árbol filogenético. El carácter A es plesiomórfico al estar en el ancestro. El carácter C es apomórfico al ser una novedad evolutiva. En los nodos terminales, el carácter A se considera simplesiomórfico al estar compartido por los descendientes y ser un carácter ancestral. Por el contrario, el carácter C en los nodos terminales es sinapomórfico por ser un carácter novedoso y estar compartido en el ancestro en el que surgió y sus descendientes. Los caracteres B, D y E son autopomorfos por estar presentes en un único nodo terminal.*
 
-**Plesiomorfía** (ancestral character state) se refiere al estado ancestral (o primitivo) de un carácter que comparten distintas especies por heredarlo del antepasado común; en el ejemplo se presenta en los ancestros y los grupos externos.
+Se distinguen dos tipos de estados en los caracteres homólogos:
 
-**Apomorfía** (derived character state) es un carácter novedoso evolutivamente y se dice que es derivado, ya que deriva de otro rasgo perteneciente a un taxón ancestral filogenéticamente próximo.
+**_Plesiomorfía_** (ancestral character state) se refiere al estado ancestral (o primitivo) de un carácter que comparten distintas especies por heredarlo del antepasado común; en el ejemplo se presenta en los ancestros y los grupos externos.
 
 - **Simplesiomorfía** [Homología ancestral compartida - e.g. cuatro patas (tetrápodos)] se refiere a una plesiomorfía (carácter ancestral) compartida por dos o más taxa. They do not need to be associated with monophyletic groups, could be paraphyletic or polyphyletic groups.
+![simplesio](images/simplesio.png)
+
+**_Apomorfía_** (derived character state) es un carácter novedoso evolutivamente y se dice que es derivado, ya que deriva de otro rasgo perteneciente a un taxón ancestral filogenéticamente próximo.
 
 - **Sinapomorfía** [Homología derivada compartida - e.g. vision binocular (humano y mono)] una apomorfía (carácter exclusivo) compartida por un ancestro común y todos sus descendientes. Only synapomorphic character states are expected to be associated with *monophyletic groups* = clades.
+![sinapo](images/sinapo.png)
 
 - **Autapomorfía** [Homología derivada exclusiva - e.g. bipedismo (humano)] es un carácter novedoso y único de un taxón que no aparece en el antepasado, por lo que no lo comparte con ningún otro.
+![autapo](images/autapomorfia.png)
 
 <style>
 td, th {
@@ -186,6 +193,11 @@ El inicio de lo de abajo es para que no haya header :) -->
 
 > **Grupos y caracteres que se apoyan**: los grupos monofiléticos presentan sinapomorfía, los grupos parafiléticos presentan simplesiomorfía, y los grupos polifiléticos homoplasia.
 ![gruposychar](images/grupos.png)
+
+Para determinar qué estados son plesiomórficos y cuales apomórficos (es decir, polarizar los estados), es necesario orientar un árbol en el tiempo o enraizarlo.<br>
+Para ello, se asigna una posición en el árbol donde se sitúa el hipotético antecesor común del grupo de organismos a estudiar (**grupo interno** o *ingroup*).<br>
+Se pueden utilizar varios criterios, entre ellos la **comparación con el grupo externo** o outgroup es el más utilizado.<br>
+De todos los caracteres presentes en un grupo monofilético, aquel que se encuentre en su grupo hermano, corresponderá al carácter plesiomórfico, mientras que el que se encuentre exclusivamente en el grupo interno será el apomórfico.
 
 
 ## Homoplasia <a name="homoplasia"></a>
@@ -227,7 +239,7 @@ Tradicionalmente se han empleado para establecer las relaciones filogenéticas.
 - puede haber problemas de codificación de taxones supraespecíficos como terminales (**"quimeras"**) 
 - se pueden dar casos de **subjetividad** en la codificación de carácteres
 - hay un número **limitado** de carácteres fenotípicos 
-- podemos encontrar taxones altamente **autapomórficos** (exclusivos)
+- podemos encontrar taxones altamente **autapomórficos** (exclusivos, debido a las  muchas posibilidades evolutivas)
 
 ### Carácteres moleculares:
 
@@ -253,13 +265,15 @@ Se suelen utilizar multitud de **genes separados** y analizarlos aparte. El cons
 > - Algunos métodos filogenéticos sólo se pueden aplicar a ciertos tipos de datos. 
 > - A nivel de especies, la concatenación de genes diferentes puede ser inapropiada si se da: 
 >   - Transferencia horizontal de genes, hibridación
->   - Duplicación de genes 
->   - o Coalescencia más profunda que el tiempo de divergencia.
+>   - Duplicación de genes, o 
+>   - Coalescencia más profunda que el tiempo de divergencia.
 
-> El conflicto entre caracteres se *resuelve* teniendo en cuenta:
-> - toda la **evidencia** disponible 
-> - realizando análisis combinados: diferentes tipos de datos proporcionan información a diferentes **niveles** filogenéticos. 
-> - La **señal** filogenética aumenta debido a la congruencia entre caracteres de diferentes conjuntos de datos.
+
+*Análisis combinados* <br>
+El conflicto entre caracteres se *resuelve* teniendo en cuenta:
+- toda la **evidencia** disponible 
+- realizando análisis combinados: diferentes tipos de datos proporcionan información a diferentes **niveles** filogenéticos. 
+- La **señal** filogenética aumenta debido a la congruencia entre caracteres de diferentes conjuntos de datos.
 
 ---
 Es importante que el conjunto de datos sea lo más completo posible. Es necesario hacer un muestreo de taxones (incluyendo los grupos externos) y genes razonable y justificado.
@@ -267,7 +281,58 @@ Es importante que el conjunto de datos sea lo más completo posible. Es necesari
 ---
 
 
+# Alineamiento de secuencias <a name="alineamiento"></a>
+Decidir qué caracteres investigar, y cómo codificarlos, es un primer paso crucial en cualquier análisis filogenético.
+
+
+## Caracteres y estado del caracter
+**Caracteres** son características del individuo que creemos que van a ser heredadas. Cuantos más caracteres estudiemos de cada individuo mejor.<br>
+Ej. un carácter que hayas adquirido a lo largo de tu vida no es heredable, en principio, por ej. el tamaño del cuádriceps no sería una buena referencia.<br>
+
+**Estado de carácter** es el valor específico que toma ese carácter en determinado taxón o especie.<br>
+Ej. carácter: ojo; estado: (numero de ojos) tener 8 ojos.
+
+Un árbol filogenético se construye partiendo de la comparación de atributos (caracteres) que presentan variación entre los organismos objeto de estudio.<br>
+Un árbol se puede inferir a partir de diversos tipos de caracteres (morfológicos, moleculares, etológicos, ecológicos, biogeográficos, etc.), cuyas diferentes manifestaciones se denominan estados de carácter.<br>
+Existen dos tipos de caracteres en función de su *origen*: los *homólogos* y los *homoplásicos*.
+
+### Tipos de caracteres
+- Sitios **invariables**: que no cambian en los distintos taxones. 
+- Sitios **filogenéticamente neutrales**: que son autapomorfías (solo cambia en un taxón). 
+- Sitios **filogenéticamente informativos**: son comunes por pares (permiten dicotomía), son sinapomorfías.
+![tipos](images/tiposChar.png)
+
+### Estados de un caracter
+- **Binarios 0/1** (presentes o ausentes) [0 , 1]
+- **Multiestado** o **binarios V/S** (transversiones o transiciones)
+- **Discretos** o **continuos**: 
+    - Discretos: Ej. Número de dedos
+    - Continuos: Ej. Diferencia de longitud (%) entre el dedo medio y los otros; diferencia entre la longitud del pico. La codificación de caracteres continuos no se pueden incluir fácilmente en las matrices de caracteres, por lo que se debe realizar una categorización arbitraria. Idealmente, se deben buscar divisiones naturales, es decir, estados discretos de un carácter de variación continua.
+    ![continuos](images/caracterescontinuos.png)
+    
+
+### Ponderación de los caracteres
+Se puede emplear un valor relativo de los diferentes caracteres y transformaciones como indicadores de las relaciones filogenéticas entre taxones. Se puede realizar una ponderación uniforme, que minimiza los supuestos del análisis, o una ponderación diferencial, en la que no todas las características de un organismo tienen el mismo valor como evidencias filogenéticas.
+
+#### Poderación *a priori*
+
+
+
+
+# Modelos de evolución molecular <a name="modelos"></a>
+
+# Métodos filogenéticos  de inferencia <a name="metodos"></a>
+
+# Máxima parsimonia (MP) <a name="mp"></a>
+
+# Métodos de distancias <a name="distancias"></a>
+# Máxima verosimilitud (ML) <a name="ml"></a>
+# Inferencia Bayesiana <a name="bayesian"></a>
+# Reloj molecular relajado <a name="reloj"></a>
+
+
 # What do we need to build a phylogenetic tree <a name="summary"></a>
+
 1. What **taxa**? - Your decision, but don’t be biased!
 - Impact of the **outgroup** taxa selection:
 
@@ -404,57 +469,3 @@ Their mutation rates depend on many parameters:
 ![support3](images/supp3.png)
 
 WE NEED TO READ A LOT!
-
-
-# Alineamiento de secuencias <a name="alineamiento"></a>
-Decidir qué caracteres investigar, y cómo codificarlos, es un primer paso crucial en cualquier análisis filogenético.
-
-
-## Caracteres y estado del caracter
-**Caracteres** son características del individuo que creemos que van a ser heredadas. Cuantos más caracteres estudiemos de cada individuo mejor.<br>
-Ej. un carácter que hayas adquirido a lo largo de tu vida no es heredable, en principio, por ej. el tamaño del cuádriceps no sería una buena referencia.<br>
-
-**Estado de carácter** es el valor específico que toma ese carácter en determinado taxón o especie.<br>
-Ej. carácter: ojo; estado: (numero de ojos) tener 8 ojos.
-
-Un árbol filogenético se construye partiendo de la comparación de atributos (caracteres) que presentan variación entre los organismos objeto de estudio.<br>
-Un árbol se puede inferir a partir de diversos tipos de caracteres (morfológicos, moleculares, etológicos, ecológicos, biogeográficos, etc.), cuyas diferentes manifestaciones se denominan estados de carácter.<br>
-Existen dos tipos de caracteres en función de su *origen*: los *homólogos* y los *homoplásicos*.
-
-### Tipos de caracteres
-- Sitios **invariables**: que no cambian en los distintos taxones. 
-- Sitios **filogenéticamente neutrales**: que son autapomorfías (solo cambia en un taxón). 
-- Sitios **filogenéticamente informativos**: son comunes por pares (permiten dicotomía), son sinapomorfías.
-![tipos](images/tiposChar.png)
-
-### Estados de un caracter
-- **Binarios 0/1** (presentes o ausentes) [0 , 1]
-- **Multiestado** o **binarios V/S** (transversiones o transiciones)
-- **Discretos** o **continuos**: 
-    - Discretos: Ej. Número de dedos
-    - Continuos: Ej. Diferencia de longitud (%) entre el dedo medio y los otros; diferencia entre la longitud del pico. La codificación de caracteres continuos no se pueden incluir fácilmente en las matrices de caracteres, por lo que se debe realizar una categorización arbitraria. Idealmente, se deben buscar divisiones naturales, es decir, estados discretos de un carácter de variación continua.
-    ![continuos](images/caracterescontinuos.png)
-    
-
-### Ponderación de los caracteres
-Se puede emplear un valor relativo de los diferentes caracteres y transformaciones como indicadores de las relaciones filogenéticas entre taxones. Se puede realizar una ponderación uniforme, que minimiza los supuestos del análisis, o una ponderación diferencial, en la que no todas las características de un organismo tienen el mismo valor como evidencias filogenéticas.
-
-#### Poderación *a priori*
-
-
-
-
-# Modelos de evolución molecular <a name="modelos"></a>
-
-# Métodos filogenéticos  de inferencia <a name="metodos"></a>
-
-# Máxima parsimonia (MP) <a name="mp"></a>
-
-# Métodos de distancias <a name="distancias"></a>
-# Máxima verosimilitud (ML) <a name="ml"></a>
-# Inferencia Bayesiana <a name="bayesian"></a>
-# Reloj molecular relajado <a name="reloj"></a>
-
-
-
-[def]: images/treeparts.png
