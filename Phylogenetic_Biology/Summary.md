@@ -423,8 +423,62 @@ Existen reglas para recodificar los gaps, basadas en su solapamiento y la compar
 - Complejo: SEQSTATE
 
 
-
 # Modelos de evolución molecular <a name="modelos"></a>
+### Supuestos de los métodos de reconstrucción filogenética
+Todos los métodos de inferencia implican una serie de supuestos (aunque éstos no se hagan explícitos):
+- Todos los sitios cambian independientemente
+- Las tasas de evolución son constantes a lo largo del tiempo y entre linajes
+- La composición de bases es homogénea
+- La verosimilitud de los cambios de base es la misma para todos los sitios y no cambia a lo largo del tiempo
+
+> Esto son las asunciones... pero en realidad no son ciertas. Las tasas de evolución no son constantes, las posiciones no cambian independientes las unas de las otras, la composición de bases no es homogénea (hay mayor porcentaje de GC que de AT) y se pueden dar múltiples cambios en un único sitio que quedan ocultos (si el nucleótido original es C, puede que en un organismo cambie a A y en otro a G). Estos cambios ocultos hacen que las secuencias estén cada vez más saturadas: la mayoría de los sitios que cambian han cambiado antes.
+
+Se intentan hacer correcciones a esto, aplicando los modelos de sustitución. A nivel probabilístico se hacen predicciones.
+
+En un contexto filogenético, los modelos predicen el proceso de sustitución de las secuencias a través de las ramas. Describen probabilísticamente el proceso por el que los estados de los caracteres homólogos de las secuencias (posiciones alineadas, i.e. nucleótidos o aminoácidos) cambian a lo largo del tiempo. 
+
+Los modelos implican por lo general los siguientes parámetros:
+- Composición: frecuencia de las diferentes bases o aminoácidos.
+- Proceso de sustitución: tasa de cambio de uno a otro estado de carácter.
+- Otros parámetros (heterogeneidad de tasas): proporción de sitios invariables o agregación de los cambios a lo largo de la secuencia.
+
+## Modelos frecuentes
+El modelo más sencillo es el de Jukes Cantor, el cual asume que todos los cambios son igualmente probables y que la frecuencia de todas las bases es la misma. A partir de este, la complejidad empezó a aumentar, ya que las combinaciones de parámetros son muchas. Algunos de los modelos más frecuentes son:
+- Jukes and Cantor (JC69): La frecuencia de todas las bases es la misma (0.25 cada una), y la tasa de cambio de una a otra base es igual.
+- Kimura 2-parámetros (K2P): La frecuencia de todas las bases es la misma (0.25 cada una), pero la tasa de sustitución es diferente para transiciones y transversiones.
+- Hasegawa-Kishino-Yano (HKY): Como K2P, pero la composición de bases varía libremente.
+- General Time Reversible (GTR): La composición de bases varía libremente, y todas las sustituciones posibles pueden tener distintas frecuencias.
+
+Hay programas que ya proponen un modelo a elegir según los datos que se le proporcionen. Cada vez, los modelos son más complejos, y normalmente se utiliza el más complejo.
+
+## Heterogeneidad de tasas de sustitución
+Los modelos anteriores asumen que el cambio es igualmente probable en todas las posiciones de la secuencia y que la tasa de cambio es constante a lo largo de la logenia.
+Pero la intensidad de la selección es rara vez uniforme a lo largo de las posiciones, de modo que lo deseable es modelar la variación de las tasas de sustitución sitio por sitio.
+
+Para una matriz dada, esperamos observar posiciones invariables:
+- Porque existen restricciones funcionales (selección puricadora relacionada con la función de los genes).
+- Porque algunas posiciones no han tenido ocasión de cambiar.
+- Debido a homoplasias que hacen que un sitio aparezca como constante.
+  
+La probabilidad de que un sitio sea invariable puede incluirse en los modelos: la verosimilitud de los datos puede aumentar si consideramos que cierta proporción de los sitios son invariables.
+
+La intensidad de la selección es rara vez uniforme a través de los sitios, de modo que lo deseable es modelar la **variación de las tasas de sustitución sitio por sitio**.
+Hay dos posibilidades:
+- Tasa especíca de sitio (posición en el codón, alfa-hélices, etc.)
+- Aproximación discreta a una distribución continua (distribución gamma).
+
+La **distribución gamma** se utiliza para modelar la heterogeneidad de las tasas de sustitución entre sitios. La forma de la distribución cambia con diferentes parámetros alfa. Cuanto más bajo es alfa, más concentrados están los cambios en unos pocos sitios. Este parámetro normalmente se calcula por el programa.
+
+Las tasas de sustitución se
+calculan para el conjunto
+de datos. Porque lo que
+hacemos es compararlos
+entre ellos
+
+## Elegir el mejor modelo
+
+
+
 
 
 
