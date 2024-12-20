@@ -93,3 +93,17 @@ arXiv. https://doi.org/10.48550/arXiv.2312.06824.
 progression models: What genotype comes next? Plos Computational Biology, 17(12), e1009055. https://doi.org/10.1371/journal.pcbi.1009055
 - Diaz-Uriarte, R., & Vasallo, C. (2019). Every which way? on predicting tumor evolution using cancer progression
 models. Plos Computational Biology, 15(8), e1007246. https://doi.org/10.1371/journal.pcbi.1007246
+
+
+## Questions
+* Models: debemos incluir ejemplos de todos los diferentes modelos?
+* OncoSimul Objectives: debemos incluir ejemplos de todos estos: 
+  - mutational context
+  - disease symptoms
+  - tool use
+  - student progress
+  - anything else that comes to mind
+ * Limitations: mention them? analyze them? Not at all
+ * Data for the simulations? From where we get it?
+ * Software use? Mirar EvAM-Tools? Los monotonic accumulation models son lo mismo que evolutionary accumulation or event accumulation models?
+   
