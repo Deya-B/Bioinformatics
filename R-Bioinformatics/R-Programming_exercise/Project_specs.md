@@ -97,7 +97,7 @@ models. Plos Computational Biology, 15(8), e1007246. https://doi.org/10.1371/jou
 
 ## Questions
 * Models: debemos incluir ejemplos de todos los diferentes modelos?
-* OncoSimul Objectives: debemos incluir ejemplos de todos estos: 
+* OncoSimul Objectives: debemos incluir ejemplos de todos estos? 
   - mutational context
   - disease symptoms
   - tool use
@@ -105,5 +105,6 @@ models. Plos Computational Biology, 15(8), e1007246. https://doi.org/10.1371/jou
   - anything else that comes to mind
  * Limitations: mention them? analyze them? Not at all
  * Data for the simulations? From where we get it?
- * Software use? Mirar EvAM-Tools? Los monotonic accumulation models son lo mismo que evolutionary accumulation or event accumulation models?
-   
+ * Software use? Donde podemos ver como empezar a usar el software? Mirar EvAM-Tools? Los monotonic accumulation models son lo mismo que evolutionary accumulation or event accumulation models?
+ * How many scenarios shall we create? More like 2 well analyzed and tested with a good number of replicates, for the whole group? Or more like one scenario each member of the group?
+
