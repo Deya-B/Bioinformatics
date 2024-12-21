@@ -32,7 +32,9 @@ Some factors that make this harder to model are:
 ### Challenges to traditional view:
 - **Non representable fitness landscapes**: the traditional models and the traditional way of visualizing how mutations affect survival, breaks down in certain scenarios where relashionships are too dynamic, too context dependant. Some of the stochastic models are better to handle this scenarios and allow for more complicated relashionships (such as HyperTraPS or HyperHMM).
 - **“Lines of descent” (LOD)**: which are the “lineages that arrive at the most populated genotype at the final time”. Focusing on LODs helps us identify the crucial steps, in order to target the key steps that shaped the tumour's development.
-- **Frequency-dependent fitness -AGAIN-**: it discusses how can environment influence mutations. Suggesting that a mutation success can depend on how common other mutations are in the sorrounding cells, for example.
+- **Frequency-dependent fitness -AGAIN-**: it discusses how can environment influence mutations. It is not just about the inherited benefit of the mutation, is about how that benefit is affected by its neighbour. This means: context adds another whole dimension to the competition.
+
+
 
 ## Steps: 
 ![CMPsteps](images/CPMsteps.png)
@@ -116,14 +118,25 @@ Uses
 Entities under study: A careful consideration of the empirical entities and the possible evolutionary assumptions will not only prevent us from endowing inferences with unsubstantiated implications, but also represents an opportunity for applying these models in novel scenarios.
 
 
+## Evaluation of acuracy
+If a mutation success depends on its neighbours, how can we predict which one will ultimately drive the tumour?
+How can we be sure they are reflecting reality?
 
+There are a few key aproaches to this:
+#### 1. Cross-validated likelihood: 
+A statistical technique that assesses how well our model predicts data. This is done by repeating the process multiple times, each time holding a different portion of the data. Testing it multiple times we can see how robust our results are.
+- Limitations:
+    -  It tells us how well we are predicting the data but does't say if we are capturing the true biology.
+#### 2. Experimental evolution studies:
+In these studies you can tract the mutation in the lab in real time, we are watching it happen under controlled conditions. Then we can compare this to the model predictions. This is like checking our predictions against reality, and therefore obtaining some more concrete way to assess the model.
+- Limitations:
+    - With this methods we loose some of the new answers, the details, because this control environment is not so realistic.
+#### 3. Single-cell data
+Is a combination of approaches that can analize mutations at the individual cell level. This method allow us to test some of the assumptions of these models, for example, the idea that mutations always happen in order (sequentially and irreversibly)... single-cell data can show us if this actually is true. This reveals some things such as that some mutations actually happen in parallel.
 
-#### 
-    
+> Is important to refine these methods, and create new tools to navegate this increasingly landscape. We can't asume the models are perfect, but they offer a valuable framework for understanding this driving forces. Therefore, caution is important specially when using bulk data to make inferences about individual cells. By refining these models we can learn more in develop better treatments. 
 
-
-
-
+**Cancer is a formidable oponent** but, by **asking questions**, **challenging assumptions**, **developing new tools**... we will hopefully oversmart it eventually.
 
 
 
