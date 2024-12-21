@@ -425,42 +425,88 @@ Existen reglas para recodificar los gaps, basadas en su solapamiento y la compar
 
 # Modelos de evolución molecular <a name="modelos"></a>
 ### Supuestos de los métodos de reconstrucción filogenética
-Todos los métodos de inferencia implican una serie de supuestos (aunque éstos no se hagan explícitos):
-- Todos los sitios cambian independientemente
-- Las tasas de evolución son constantes a lo largo del tiempo y entre linajes
-- La composición de bases es homogénea
-- La verosimilitud de los cambios de base es la misma para todos los sitios y no cambia a lo largo del tiempo
+Todos los *métodos de inferencia* asumen que (aunque éstos no se hagan explícitos):
+- Todos los **sitios cambian independientemente**
+- Las **tasas de evolución** son **constantes** a lo largo del tiempo y entre linajes
+- La **composición de bases es homogénea**
+- La verosimilitud de los **cambios de base es la misma** para todos los sitios y no cambia a lo largo del tiempo
 
-> Esto son las asunciones... pero en realidad no son ciertas. Las tasas de evolución no son constantes, las posiciones no cambian independientes las unas de las otras, la composición de bases no es homogénea (hay mayor porcentaje de GC que de AT) y se pueden dar múltiples cambios en un único sitio que quedan ocultos (si el nucleótido original es C, puede que en un organismo cambie a A y en otro a G). Estos cambios ocultos hacen que las secuencias estén cada vez más saturadas: la mayoría de los sitios que cambian han cambiado antes.
+> Esto son las asunciones, pero en realidad no son ciertas... **NOTE:**
+>- las posiciones NO cambian independientes las unas de las otras, 
+>- Las tasas de evolución NO son constantes,
+>- la composición de bases no es homogénea (hay mayor porcentaje de GC que de AT) 
+>- y se pueden dar múltiples cambios en un único sitio que quedan ocultos (si el nucleótido original es C, puede que en un organismo cambie a A y en otro a G). Estos cambios ocultos hacen que las secuencias estén cada vez más saturadas: la mayoría de los sitios que cambian han cambiado antes.
 
-Se intentan hacer correcciones a esto, aplicando los modelos de sustitución. A nivel probabilístico se hacen predicciones.
+Se intentan hacer correcciones a esto, aplicando los **modelos de sustitución**. A nivel probabilístico se hacen predicciones.
 
-En un contexto filogenético, los modelos predicen el proceso de sustitución de las secuencias a través de las ramas. Describen probabilísticamente el proceso por el que los estados de los caracteres homólogos de las secuencias (posiciones alineadas, i.e. nucleótidos o aminoácidos) cambian a lo largo del tiempo. 
+En un contexto filogenético, los modelos predicen el proceso de sustitución de las secuencias a través de las ramas. 
+> Describen probabilísticamente el proceso por el que los estados de los caracteres homólogos de las secuencias (posiciones alineadas, i.e. nucleótidos o aminoácidos) cambian a lo largo del tiempo. 
 
-Los modelos implican por lo general los siguientes parámetros:
-- Composición: frecuencia de las diferentes bases o aminoácidos.
-- Proceso de sustitución: tasa de cambio de uno a otro estado de carácter.
-- Otros parámetros (heterogeneidad de tasas): proporción de sitios invariables o agregación de los cambios a lo largo de la secuencia.
+Los modelos implican por lo general los siguientes **parámetros**:
+![modelo](images2/modelo.png)
+- **Composición**: frecuencia de las diferentes bases o aminoácidos. La frecuencia de los nucleótidos se representa por:
+
+    $ π = [0.25 0.25 . .]$
+
+    Se estima a partir de los datos. <br>
+    Si trabajamos con proteínas, sería la frecuencia de aminoácidos.
+
+- **Proceso de sustitución**: tasa de cambio de uno a otro estado de carácter.
+
+    El proceso de sustitución se representa mediante una matriz. 
+    <img src="images2/sustitucion.png" alt="sustitucion" width="200"/>
+
+    - Para secuencias de nucleótidos, hay 16 cambios posibles (una matriz de 4 x 4).<br>
+    - Para los *nucleótidos*, se puede estimar a partir de los datos.
+    Por ejemplo:
+    <img src="images2/ejSust.png" alt="sustEj" width="220"/>
+        - La probabilidad de que una "a" cambie por una "c" es 0.01, la probabilidad de que una "c" se mantenga como está es 0.983, etc. 
+        - Las filas de la matriz suman 1 (se cubren todas las posibilidades para cada nucleótido)
+        - Las columnas no suman nada en particular
+
+    - Para los *aminoácidos*, la matriz Q es fija y no tiene ningún parámetro libre. Hay diferentes modelos: Dayhoff y JTT (DNA nuclear),mtREV24, mtMAM, mtART (mtDNA) y BLOSUM 62  y WAG (secuencias de aminoácidos distantemente relacionadas).<br> 
+    Para los diferentes modelos, las tasas de sustitución de aminoácidos se estiman a partir de datos empíricos.
+
+- **Otros parámetros (heterogeneidad de tasas)**: proporción de sitios invariables o agregación de los cambios a lo largo de la secuencia.
+
 
 ## Modelos frecuentes
-El modelo más sencillo es el de Jukes Cantor, el cual asume que todos los cambios son igualmente probables y que la frecuencia de todas las bases es la misma. A partir de este, la complejidad empezó a aumentar, ya que las combinaciones de parámetros son muchas. Algunos de los modelos más frecuentes son:
-- Jukes and Cantor (JC69): La frecuencia de todas las bases es la misma (0.25 cada una), y la tasa de cambio de una a otra base es igual.
-- Kimura 2-parámetros (K2P): La frecuencia de todas las bases es la misma (0.25 cada una), pero la tasa de sustitución es diferente para transiciones y transversiones.
-- Hasegawa-Kishino-Yano (HKY): Como K2P, pero la composición de bases varía libremente.
-- General Time Reversible (GTR): La composición de bases varía libremente, y todas las sustituciones posibles pueden tener distintas frecuencias.
+Algunos de los modelos más frecuentes son:
+### 1. Jukes and Cantor (JC69): 
+El modelo más sencillo, asume que:
+
+- La frecuencia de todas las bases es la misma (0.25 cada una), y
+- la tasa de cambio de una a otra base es igual (todos los cambios son igualmente probables).
+
+<img src="images2/JC.png" alt="JC" width="220"/>
+
+La complejidad de los modelos va en aumento, ya que las combinaciones de parámetros son muchas...
+
+### 2. Kimura 2-parámetros (K2P): 
+- La frecuencia de todas las bases es la misma (0.25 cada una), pero 
+- la tasa de sustitución es diferente para transiciones y transversiones.
+### 3. Hasegawa-Kishino-Yano (HKY): 
+Como K2P, pero la composición de bases varía libremente.
+### 4. General Time Reversible (GTR): 
+- La composición de bases varía libremente, y 
+- todas las sustituciones posibles pueden tener distintas frecuencias.
 
 Hay programas que ya proponen un modelo a elegir según los datos que se le proporcionen. Cada vez, los modelos son más complejos, y normalmente se utiliza el más complejo.
 
 ## Heterogeneidad de tasas de sustitución
-Los modelos anteriores asumen que el cambio es igualmente probable en todas las posiciones de la secuencia y que la tasa de cambio es constante a lo largo de la logenia.
-Pero la intensidad de la selección es rara vez uniforme a lo largo de las posiciones, de modo que lo deseable es modelar la variación de las tasas de sustitución sitio por sitio.
+Los *modelos anteriores* asumen que: 
+- el cambio es igualmente probable en todas las posiciones de la secuencia y 
+- la tasa de cambio es constante a lo largo de la filogenia.
 
-Para una matriz dada, esperamos observar posiciones invariables:
-- Porque existen restricciones funcionales (selección puricadora relacionada con la función de los genes).
-- Porque algunas posiciones no han tenido ocasión de cambiar.
-- Debido a homoplasias que hacen que un sitio aparezca como constante.
+Pero la intensidad de la selección es rara vez uniforme a lo largo de las posiciones, de modo que lo deseable es **modelar la variación de las tasas de sustitución sitio por sitio**.
+
+¿Cómo se modela dicha **heterogeneidad**?<br>
+Para una matriz dada, esperamos observar **posiciones invariables**:
+- Porque existen **restricciones funcionales** (selección purificadora relacionada con la función de los genes).
+- Porque algunas posiciones **no han tenido ocasión de cambiar**.
+- Debido a **homoplasias** que hacen que un sitio aparezca como constante.
   
-La probabilidad de que un sitio sea invariable puede incluirse en los modelos: la verosimilitud de los datos puede aumentar si consideramos que cierta proporción de los sitios son invariables.
+La probabilidad de que un sitio sea invariable puede incluirse en los modelos: *la verosimilitud de los datos* puede aumentar si consideramos que cierta proporción de los sitios son invariables.
 
 La intensidad de la selección es rara vez uniforme a través de los sitios, de modo que lo deseable es modelar la **variación de las tasas de sustitución sitio por sitio**.
 Hay dos posibilidades:
