@@ -613,20 +613,34 @@ Por lo tanto, es conveniente contar con formas de resumir los puntos de acuerdo 
 
 Existen diferentes **formas para construir árboles de consenso**, pero los tres métodos más comunes son:
 
-1. Árbol de consenso estricto: conserva sólo los agrupamientos que comparten todos los cladogramas rivales.
+1. **Árbol de consenso estricto**: conserva sólo los agrupamientos que comparten todos los cladogramas rivales.
 
-2. Árbol de consenso semi-estricto: conserva todos los agrupamientos que no son contradictorios en los cladogramas rivales.
+2. **Árbol de consenso semi-estricto**: conserva todos los agrupamientos que no son contradictorios en los cladogramas rivales.
 
-3. Árbol de consenso de regla de la mayoría: conserva todos los agrupamientos que son apoyados por la mayoría de cladogramas rivales.
+3. **Árbol de consenso de regla de la mayoría**: conserva todos los agrupamientos que son apoyados por la mayoría de cladogramas rivales.
 
 ![concenso2](images2/concenso2.png)
 
+## Medidas de soporte: confianza en el árbol
+La mayor parte de las medidas científicas van acompañadas de una estima de su precisión.
+
+En el caso de la inferencia filogenética, no es suficiente con estimar hipótesis filogenéticas, sino que es necesario indicar una estima de la confianza que dicha hipótesis presenta.
+Esto se debe a:
+
+1. **Error de muestreo**:
+    - Nuestros análisis están basados en muestras, pero sólo tenemos **una muestra** de los datos.
+    - Los valores estimados a partir de muestras de una población raramente van a coincidir con el valor real
+    - Una forma de calcular este error es tomando múltiples muestras y comparando las estimas obtenidas entre sí.
+
+2. **Error sistemático**: Asociado a la metodología y las asunciones de los análisis.
+
+Las **formas de dar apoyo y soporte a un nodo** se pueden dar de forma cualitativa (soporte de Bremer), remuestreo (bootstrapping, jackknife) y probabilístico (probabilidad posterior bayesiana).
+
+#### 1. Soporte de Bremer o Decay Index:
+se calcula la diferencia en el número de pasos entre el árbol óptimo y el mejor árbol en el que no aparece el clado en cuestión.
 
 
-
-
-
-
+#### 2. Remuestreo por bootstrapping:
 
 
 
