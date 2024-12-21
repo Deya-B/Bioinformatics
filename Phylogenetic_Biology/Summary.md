@@ -581,6 +581,7 @@ el likinghood de que consigas el árbol óptimo.
 > Mientras más corras los datos, más
 posibilidad hay de que encuentres el óptimo
 
+
 ### Algoritmos de reordenación de ramas (branch swapping):
 A. **Nearest Neighbour Interchange (NNI):**<br> intercambia dos vecinos por cada rama interna.
 
@@ -594,6 +595,42 @@ El espacio de árboles puede estar poblado por mínimos locales e islas de árbo
 óptimos.
 
 ![reordenacionRamas](images2/reordenacionRamas.png)
+
+
+El espacio de árboles puede estar poblado por mínimos locales e islas de árboles óptimos.
+![heuristica2](images2/heuristica2.png)
+
+
+## Árboles de consenso
+A menudo existen varios árboles candidatos a ser el cladograma más parsimonioso.
+
+En el siguiente ejemplo, hay tres cladogramas diferentes que son igualmente parsimoniosos para los 4 caracteres estudiados (1-4) en cuatro especies de homínidos.<br>
+![concenso](images2/concenso.png)
+Si aumentamos el número de caracteres y el de taxones, la cantidad de cladogramas igualmente parsimoniosos se dispara y se hace inmanejable.<br>
+Por lo tanto, es conveniente contar con formas de resumir los puntos de acuerdo entre cladogramas rivales para llegar a formar un "árbol de consenso".
+
+> Un **árbol de consenso** es un árbol que combina los *agrupamientos preferidos* a partir de los cladogramas rivales de un determinado grupo de taxones, de tal forma que los agrupamientos discutibles (contenciosos, ambiguos) se condensan en puntos con múltiples ramas (politomías).
+
+Existen diferentes **formas para construir árboles de consenso**, pero los tres métodos más comunes son:
+
+1. Árbol de consenso estricto: conserva sólo los agrupamientos que comparten todos los cladogramas rivales.
+
+2. Árbol de consenso semi-estricto: conserva todos los agrupamientos que no son contradictorios en los cladogramas rivales.
+
+3. Árbol de consenso de regla de la mayoría: conserva todos los agrupamientos que son apoyados por la mayoría de cladogramas rivales.
+
+![concenso2](images2/concenso2.png)
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Máxima parsimonia (MP) <a name="mp"></a>
