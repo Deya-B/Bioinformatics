@@ -501,34 +501,50 @@ Los *modelos anteriores* asumen que:
 Pero la intensidad de la selección es rara vez uniforme a lo largo de las posiciones, de modo que lo deseable es **modelar la variación de las tasas de sustitución sitio por sitio**.
 
 ¿Cómo se modela dicha **heterogeneidad**?<br>
-Para una matriz dada, esperamos observar **posiciones invariables**:
-- Porque existen **restricciones funcionales** (selección purificadora relacionada con la función de los genes).
-- Porque algunas posiciones **no han tenido ocasión de cambiar**.
-- Debido a **homoplasias** que hacen que un sitio aparezca como constante.
+- Para una matriz dada, esperamos observar **posiciones INVARIABLES**:
+    - Porque existen **restricciones funcionales** (selección purificadora relacionada con la función de los genes).
+    - Porque algunas posiciones **no han tenido ocasión de cambiar**.
+    - Debido a **homoplasias** que hacen que un sitio aparezca como constante.
   
-La probabilidad de que un sitio sea invariable puede incluirse en los modelos: *la verosimilitud de los datos* puede aumentar si consideramos que cierta proporción de los sitios son invariables.
+    La probabilidad de que un sitio sea invariable puede incluirse en los modelos: **la verosimilitud de los datos** puede **aumentar** si consideramos que **cierta proporción de los sitios son invariables**.
 
-La intensidad de la selección es rara vez uniforme a través de los sitios, de modo que lo deseable es modelar la **variación de las tasas de sustitución sitio por sitio**.
-Hay dos posibilidades:
-- Tasa especíca de sitio (posición en el codón, alfa-hélices, etc.)
-- Aproximación discreta a una distribución continua (distribución gamma).
+- También esperamos observar **posiciones VARIABLES**, hay dos posibilidades:
+    - **Tasa especíca de sitio** (posición en el codón, alfa-hélices, etc.)
+    - Aproximación discreta a una distribución continua (**distribución gamma**).
+    <img src="images2/distribGamma.png" alt="JC" width="300"/>
+    *La **distribución gamma** se utiliza para modelar la heterogeneidad de las tasas de sustitución entre sitios. La forma de la distribución cambia con diferentes parámetros alfa. Cuanto más bajo es alfa, más concentrados están los cambios en unos pocos sitios. Este parámetro normalmente se calcula por el programa.*
 
-La **distribución gamma** se utiliza para modelar la heterogeneidad de las tasas de sustitución entre sitios. La forma de la distribución cambia con diferentes parámetros alfa. Cuanto más bajo es alfa, más concentrados están los cambios en unos pocos sitios. Este parámetro normalmente se calcula por el programa.
-
-Las tasas de sustitución se
-calculan para el conjunto
-de datos. Porque lo que
-hacemos es compararlos
-entre ellos
+> Las tasas de sustitución se calculan para el conjunto de datos. Porque lo que hacemos es compararlos entre ellos.
 
 ## Elegir el mejor modelo
+Para obtener el mejor modelo, se suelen utilizar **métodos probabilísticos**.<br>
+Los mejores valores para cada parámetro son aquellos que, colectivamente, maximizan la **verosimilitud de los datos**. La verosimilitud de un modelo es igual a la *probabilidad de los datos* (como un alineamiento de secuencias) dada una hipótesis de un modelo de evolución molecular.<br>
+$L = Pr (D|H)$
+
+Para cada modelo, se calcula la verosimilitud de observar los datos si los cambios de secuencia se producen de acuerdo con el modelo. Los modelos serán tanto más complejos cuanto mayor sea el número de parámetros que contemplen. <br>
+Se comparan unos modelos con otros mediante tests estadísticos (hLRT) o utilizando criterios de información de Akaike (AIC) o Bayesiano (BIC).
+
+> Al añadir parámetros, el modelo se hace más realista. Sin embargo, cada parámetro es estimado a partir de los datos: cuantos más parámetros añadamos, mayor será la varianza de nuestras estimaciones. 
+>
+> Por ello, un modelo demasiado "realista" (complejo) puede provocar un excesivo término error, perdiendo potencia estadística. 
+
+> Los criterios de información tienen en cuenta ambas características de los modelos: 
+> - El **ajuste** del modelo (es mejor el modelo que hace más verosímil observar esos datos).
+> - La **complejidad** del modelo (de dos modelos igualmente verosímiles, el más simple es mejor).
+
+### Seleccion de esquemas de partición
+Trata de elegir la mejor forma de **particionar los datos**.
+- Distintas partes del alineamiento (posiciones de codón, codificantes frente a no codificantes, etc) pueden ajustarse mejor a diferentes modelos de sustitución o diferentes parámetros de un mismo modelo.
+- Algunas particiones con parámetros de modelos similares pueden combinarse de modo que el número de parámetros final se reduce.
+- La elección del mejor esquema de partición se hace también utilizando criterios de información (AIC y/o BIC).
+- Hay métodos de búsqueda simultánea de los mejores modelos de sustitución y esquemas de partición, como [PartitionFinder](http://www.robertlanfear.com/partitionfinder/).
+
+
+# Métodos filogenéticos de inferencia <a name="metodos"></a>
 
 
 
 
-
-
-# Métodos filogenéticos  de inferencia <a name="metodos"></a>
 
 
 
