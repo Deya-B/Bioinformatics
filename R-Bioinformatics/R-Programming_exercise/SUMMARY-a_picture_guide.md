@@ -6,7 +6,7 @@ The **key idea** is that many phenomena involve the irreversible accumulation (o
 
 Understanding the sequence of events can help identify diagnostic targets or stratify patients for differential treatments.
 
-Types of CPM's:
+### Types of CPM's
 - **Deterministic models**: layout specific pathways, assuming that a mutation can only occur if certain conditions are met. A straight sequence of events.
     - Linear accumulation models: asume that one event is always directly required for the accumulation of another event.
     - Richer deterministic models: allow more complex dependencies (e.g. an event can depend on the occurrence of one among several possible previous events).
@@ -20,15 +20,19 @@ We are interested in how some features or events that characterise a process acc
 To visualize these, we use **directed acyclic graphs (DAGs)**: visual representations that show the potential paths of mutations and the relashionships between them.
 
 
-## Challenges
+## General Challenges
 Some factors that make this harder to model are:
-- **Reciprocal sign epistasis (RSE)**: The effect of one mutation can change depending on the presence of others.
+- **Reciprocal sign epistasis (RSE)**: The effect of one mutation can change depending on the presence of other mutations. Therefore, the context is important. For example, if we have a mutation in gene A and a mutation in gene B, mutation A gives the cell an advantage, and B is harmful; but if the cell already have that mutation in gene A, getting the mutation in gene B may be beneficial... in this way, the interaction changes the effect.
 - **Type of data used**: because a lot of the research relies on bulk sequencing data, and because these are taken from a whole tumour, which has a mixture of different cells, meaning that we are getting an average view of the mutation (therefore is not precise), and this can create dificulties to trace the lineage of the tumour.
     > What are these models telling us about? Individual cell levels? or a summary of the tumour? <br>
     > - Depends on the data and the model assumptions: for example CPMs based on bulk sequencing data give more of a general overview of the tumour
 - **Broader evolutionary forces**: such as population size, rate of mutation, selective pressure within the tumour environment...
-- **Frequency-dependent fitness**: it suggests a mutation success can depend on how common other mutations are in the sorrounding cells.
+- **Frequency-dependent fitness**: it discusses how can environment influence mutations. Suggesting that a mutation success can depend on how common other mutations are in the sorrounding cells, for example.
 
+### Challenges to traditional view:
+- **Non representable fitness landscapes**: the traditional models and the traditional way of visualizing how mutations affect survival, breaks down in certain scenarios where relashionships are too dynamic, too context dependant. Some of the stochastic models are better to handle this scenarios and allow for more complicated relashionships (such as HyperTraPS or HyperHMM).
+- **“Lines of descent” (LOD)**: which are the “lineages that arrive at the most populated genotype at the final time”. Focusing on LODs helps us identify the crucial steps, in order to target the key steps that shaped the tumour's development.
+- **Frequency-dependent fitness -AGAIN-**: it discusses how can environment influence mutations. Suggesting that a mutation success can depend on how common other mutations are in the sorrounding cells, for example.
 
 ## Steps: 
 ![CMPsteps](images/CPMsteps.png)
