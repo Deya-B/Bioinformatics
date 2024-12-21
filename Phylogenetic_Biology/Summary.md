@@ -542,10 +542,58 @@ Trata de elegir la mejor forma de **particionar los datos**.
 
 # Métodos filogenéticos de inferencia <a name="metodos"></a>
 
+Los pasos generales en el proceso de reconstrucción filogenética son:
+1. **Diseño experimental**: selección del ingroup y outgroup, selección de los marcadores moleculares
+2. **Recolección de datos de secuencia homóloga**
+3. **Ensamblaje de la matriz de secuencias**
+4. **Alineamiento de la secuencia**
+5. **Selección del modelo**: modelo de sustitución y esquema de partición
+6. **Inferencia filogenética**: MP (máxima parsimonia), minimum evolution, neighbour-joining, ML (máxima verosimilitud), inferencia Bayesiana
+7. Construcción del **árbol filogenético**:
+    1. **Soporte estadístico**: Non-parametric bootstrap, posterior probabilities 
+    2. **Testar hipótesis filogenética**: Parametric bootstrap, Kishino-Hasegawa, Shimodaira-Hasegawa, approximately unbiased
+    3. **Estimación del tiempo de divergencia**: Reloj molecular (convencional), Penalized likelyhood, Bayesian rate autocorrelation dating, Bayesian uncorrelated relaxed clock
 
+## Busqueda de árboles
 
+Sólo hay una manera de construir el primer  árbol sin raíz, uno con tres puntas (nodos terminales) y tres ramas.<br>
+Cada vez que añadimos un taxón, se crean dos ramas.<br>
+Un árbol con n puntas (taxones) tendrá por tanto 2n-3 ramas.<br>
+A partir de unas pocas especies, las búsquedas de árboles sin raíz son exhaustivas y computacionalmente demasiado exigentes. Por ello, se realiza una **búsqueda heurística**:
 
+1. Construir el *árbol inicial* (Ej., mediante adición secuencial de taxones) y determinar su longitud (ver el número de cambios de un taxón a otro).
 
+2. Construir un conjunto de *"árboles vecinos"* haciendo pequeñas reordenaciones en el árbol inicial, y determinar las longitudes de cada nuevo árbol.
+
+3. Si cualquiera de los árboles vecinos es *mejor que el inicial* (tienen un menor número de pasos o cambios evolutivos, es decir, la hipótesis se ajusta mejor a los datos): **retenerlo** y usarlo como punto de partida para una nueva ronda de reordenaciones (es posible que varios de estos árboles sean igual de buenos).
+
+4. *Repetir pasos 2 y 3* hasta encontrar un árbol que es mejor que todos sus vecinos.
+
+5. Este árbol es un **óptimo local** (¡no necesariamente un óptimo global!)
+
+El procedimiento semeja un paseo en un paisaje montañoso, donde nos interesa alcanzar la cumbre más alta (hill climbing).
+![heuristica](images2/heuristica.png)
+> Los árboles en la zona más alta son los mejores (con menos pasos y que maximizan la verosimilitud de los datos).
+>
+> Cuando se empieza la búsqueda no se sabe donde estás. Pero según analizas va aumentando
+el likinghood de que consigas el árbol óptimo.
+>
+> Mientras más corras los datos, más
+posibilidad hay de que encuentres el óptimo
+
+### Algoritmos de reordenación de ramas (branch swapping):
+A. **Nearest Neighbour Interchange (NNI):**<br> intercambia dos vecinos por cada rama interna.
+
+B. **Subtree Pruning and Regrafting (SPR):**<br> se corta un clado (subárbol) y se empalma en todas las ramas del resto del árbol, usando el punto de corte del subárbol como punto de unión. 
+    > Realmente, NNI es un subconjunto de SPR.
+
+C. **Tree Bisection and Reconnection (TBR):**<br> se divide el árbol en dos partes
+y se reconectan los subárboles usando todos los posibles pares de ramas. NNI y
+SPR son subsets de TBR.
+El espacio de árboles puede estar poblado por mínimos locales e islas de árboles
+óptimos.
+
+![reordenacionRamas](images2/reordenacionRamas.png)
 
 
 # Máxima parsimonia (MP) <a name="mp"></a>
