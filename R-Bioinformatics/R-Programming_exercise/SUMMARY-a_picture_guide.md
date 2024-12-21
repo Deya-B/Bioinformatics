@@ -1,24 +1,37 @@
-# Cancer progression models or monotonic accumulation models
-Monotonic accumulation models try to infer the dependencies that give rise to the patterns we observe in the data. 
+# Cancer progression models (CPM) and monotonic accumulation models
+Tools that allow researchers to map out how cancer develops, step by step.<br>
+Monotonic accumulation models try to infer the dependencies that give rise to the patterns we observe in the data. In other words, the core idea of these CPM models is to understand the tendency of an event to rely on others and how events lead to a cell to become cancerous.<br>
 
-The key idea is that many phenomena involve the irreversible accumulation (or loss) of certain features or events, and that different events are not independent but can affect the acquisition (or loss) of other events.
+The **key idea** is that many phenomena involve the irreversible accumulation (or loss) of certain features or events, and that different events are not independent but can affect the acquisition (or loss) of other events. In other words, not just which mutations happen, but what order they happen, and the relashionships between them.
 
 Understanding the sequence of events can help identify diagnostic targets or stratify patients for differential treatments.
 
-Types:
-- **Linear accumulation** (deterministeic) models: asume that one event is always directly required for the accumulation of another event.
-- **Richer deterministic** models: allow more complex dependencies (e.g. an event can depend on the occurrence of one among several possible previous events).
-- **Stochastic dependencies** models: assume that events have inhibiting or enhancing effects on the probability of acquisition of other events.
+Types of CPM's:
+- **Deterministic models**: layout specific pathways, assuming that a mutation can only occur if certain conditions are met. A straight sequence of events.
+    - Linear accumulation models: asume that one event is always directly required for the accumulation of another event.
+    - Richer deterministic models: allow more complex dependencies (e.g. an event can depend on the occurrence of one among several possible previous events).
+- **Stochastic models**: assume that events have inhibiting or enhancing effects on the probability of acquisition of other events. They acknowledge that there may be preferred paths, but there is room for variation and detours along the way.
 
 We are interested in how some features or events that characterise a process accumulate (or are lost) irreversibly. Examples: 
 - how mutations in driver genes accumulate during cancer progression 
 - or how symptoms (fever, vomiting, anemia, . . . ) accumulate during severe malaria
 - these models can be used to help identify therapeutic targets and improve evolutionary-based adaptive treatment approaches
 
+To visualize these, we use **directed acyclic graphs (DAGs)**: visual representations that show the potential paths of mutations and the relashionships between them.
+
+
+## Challenges
+Some factors that make this harder to model are:
+- **Reciprocal sign epistasis (RSE)**: The effect of one mutation can change depending on the presence of others.
+- **Type of data used**: because a lot of the research relies on bulk sequencing data, and because these are taken from a whole tumour, which has a mixture of different cells, meaning that we are getting an average view of the mutation (therefore is not precise), and this can create dificulties to trace the lineage of the tumour.
+    > What are these models telling us about? Individual cell levels? or a summary of the tumour? <br>
+    > - Depends on the data and the model assumptions: for example CPMs based on bulk sequencing data give more of a general overview of the tumour
+- **Broader evolutionary forces**: such as population size, rate of mutation, selective pressure within the tumour environment...
+- **Frequency-dependent fitness**: it suggests a mutation success can depend on how common other mutations are in the sorrounding cells.
+
+
+## Steps: 
 ![CMPsteps](images/CPMsteps.png)
-
-### Steps: 
-
 1. (a) Features of relevance are measured on some subjects, i.e.**presence or absence** of the events of interest (e.g., mutations in genes or presence of malaria symptoms) 
 
 2. (b)**Data** are **arranged** as a binary matrix of samples by features.
@@ -72,11 +85,6 @@ These models have some common assumptions.
     > For example, for *cancer data*, we would regard all the subjects in a cross-sectional data set, corresponding to a homogeneous cancer type, as `replicate evolutionary runs` where all subjects share the same genetic constraints and dependencies
 
 
-**Software**
-
-Details for software use should be sought in **EvAM-Tools** (Diaz-Uriarte and Herrera-Nieto, 2022): is a web-based tool and R package that tries to provide a single, unified interface for analysing data with most of these methods, as well as for simulating random dependency structures and data under these models.
-
-
 ### Deterministic dependencies
 The models in this section use directed acyclic graphs (DAGs) and trees to represent deterministic dependencies, or restrictions, in the accumulation of events.
 
@@ -102,4 +110,16 @@ Uses
 - Intervention(medical treatment)/patient stratification
 
 Entities under study: A careful consideration of the empirical entities and the possible evolutionary assumptions will not only prevent us from endowing inferences with unsubstantiated implications, but also represents an opportunity for applying these models in novel scenarios.
+
+
+
+
+#### 
+    
+
+
+
+
+
+
 
