@@ -636,18 +636,70 @@ Esto se debe a:
 
 Las **formas de dar apoyo y soporte a un nodo** se pueden dar de forma cualitativa (soporte de Bremer), remuestreo (bootstrapping, jackknife) y probabilístico (probabilidad posterior bayesiana).
 
-#### 1. Soporte de Bremer o Decay Index:
-se calcula la diferencia en el número de pasos entre el árbol óptimo y el mejor árbol en el que no aparece el clado en cuestión.
+Esta información se puede dar en tablas adicionales para mostrar porque tu confianza.
 
+#### 1. Soporte de Bremer o Decay Index:
+Apoyo *cualitativo* donde se calcula la diferencia en el número de pasos entre el árbol óptimo y el mejor árbol en el que no aparece el clado en cuestión.
+![DI](images2/DI.png)
 
 #### 2. Remuestreo por bootstrapping:
+Se remuestrean los caracteres al **azar**, con **reemplazamiento**, **múltiples veces** (entre 500 y 2000, normalmente 1000)
+
+Se realiza el análisis con cada nueva pseudoréplica utilizando los mismos parámetros que en el análisis original.
+
+Se analiza la coincidencia entre las topologías obtenidas resumiéndolas en un *majority-rule consensus tree*.
+
+![bootstrap](images2/bootstrap.png)
+*Las pseudoreplicas se construyen a partir de la matriz original con reemplazamiento para construir una nueva matriz del mismo tamaño que la original.*
+
+![bt2](images2/bt2.png)
+*Ejemplos del cálculo de bootstrap. En el primer caso (mostrado en verde), tras 100 pseudoréplicas, han salido tres árboles con frecuencias de 30, 60 y 10. Tanto en el primer como en el segundo árbol, los taxones A y B se han relacionado juntos, por lo que esa dicotomía tiene un soporte de bootstrap de 90 (60 + 30).La siguiente relación más soportada, con un bootstrap de 60, es la de relacionar el taxón C con el antepasado común de A y B, por lo que el árbol final muestra esa variante (la otra opción sería relacionar C con D, como hacen los otros dos árboles, pero su frecuencia es de 40). En el segundo caso (mostrado en azul), las frecuencias han cambiado. Ahora, la relación de A y B pasa a tener un soporte de 80 (31 + 49), y así sucesivamente.*
+
+La frecuencia con que aparece un determinado grupo es una medida de la estabilidad de ese grupo.
+
+Estos valores se muestran en un árbol de majority-rule consensus y se da información adicional en una tabla (de biparticiones).
+![bt3](images2/bt3.png)
+
+
+Los valores de **bootstrap probabilities** (BPs) son conservadores.
+
+Los BPs son un índice relativo del soporte estadístico de los grupos, proporcionado por los datos que se están analizando bajo un método de análisis concreto: valores altos de BP nos indican la existencia de una señal filogenética “fuerte” en los datos.
+
+Estudios realizados con datos empíricos y simulaciones han indicado que un **70% de soporte de bootstrap** puede considerarse **apoyo razonable** para una relación determinada.
+
+No obstante, este número se puede aumentar, según se considere.
+
+#### 3. Remuestreo por Jackknife:
+Jackknife es muy similar al bootstrap, sólo se diferencia en la estrategia de remuestreo de los caracteres.
+
+Una cierta proporción de los caracteres es eliminada al azar (por ej. 50%).
+
+No hay reemplazo, por lo que la matriz es más pequeña.
+
+Se analizan las pseudoreplicas y los resultados se resumen en un *majority-rule consensus tree*.
+
+Jackknifing y bootstrapping suelen dar resultados similares y se interpretan de forma similar. Jackknife se está utilizando cada vez menos y se está reemplazando por bootstrap al estar reduciendo los datos.
+
+
+# Máxima parsimonia (MP) - Cladística <a name="mp"></a>
+
+La cladística es un **método de análisis** de la sistemática filogenética que busca **reconstruir las "genealogías" de los organismos** y elaborar clasificaciones que las reflejen. 
+
+Descansa sobre el *axioma fundamental* de que en la naturaleza, como resultado de la evolución, existe un orden que se manifiesta en las **similitudes de los caracteres**. 
+
+Determina las relaciones evolutivas entre los organismos basándose en los caracteres relativamente derivados o **apomórficos (novedades evolutivas)**.
+
+La reconstrucción filogenética consiste en identificar todos los **grupos monofiléticos** que existen en una muestra de taxones, que son aquellos definidos por **sinapomorfías (caracteres derivados compartidos)**
+
+
+> ![species](images2/species.png)
+> Desconocemos el aspecto del antecesor común más reciente de esas especies y el modo en que están emparentadas, por lo que comenzamos a analizar sus relaciones buscando las diferentes formas en que pueden ser conectadas.
 
 
 
 
 
 
-# Máxima parsimonia (MP) <a name="mp"></a>
 
 
 
