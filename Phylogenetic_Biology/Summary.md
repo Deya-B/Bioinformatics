@@ -15,11 +15,10 @@
 3. [Modelos de evolución molecular](#modelos)
 4. [Métodos filogenéticos de inferencia](#metodos)
 5. [Máxima parsimonia](#mp)
-6. [Métodos de distancias](#distancias)
-7. [Máxima verosimilitud](#mv)
-8. [Inferencia Bayesiana](#bayesian)
-9. [Reloj molecular relajado](#reloj)
-10. [What do we need to build a phylogenetic tree](#summary)
+6. [Máxima verosimilitud](#mv)
+7. [Inferencia Bayesiana](#bayesian)
+8. [Reloj molecular relajado](#reloj)
+9. [What do we need to build a phylogenetic tree](#summary)
 
 # Introducción a la filogenética <a name="intro"></a>
 
@@ -764,19 +763,62 @@ En los posibles árboles, marcamos el lugar donde debe ocurrir la transformació
 ![MPTree](images2/MPtree.png)
 El árbol más parsimonioso es aquel que necesita menos transformaciones para explicar la distribución de los estados derivados de los caracteres, y el que probablemente mejor registre las relaciones evolutivas de las cuatro especies de insectos.
 
+La máxima parsimonia asume los siguientes principios:
+- **_Principio auxiliar de Hennig_**: Ante *caracteres similares* y en ausencia de evidencia que indique evolución paralela o convergencia, siempre se asume que dichos *caracteres son homólogos*.
+- **_Regla de agrupación de Hennig_**: 
+    - Las **sinapomorfías** *son* evidencias de relaciones de **ancestro común**, mientras que 
+    - las **simplesiomorfías**, las **convergencias** y los **paralelismos** NO proporcionan evidencias sobre el ancestro común.
 
+Una auténtica homología debe circunscribir un grupo consistente con los especificados por otras homologías. Para comprobar esto, se realiza un **test de congruencia**. Así, se considera *homología primaria* cuando coincide, mientras que cuando se debe reinterpretar un carácter, se considera *homología secundaria*.
 
+![congruenciaT](images2/testcongruencia.png)
+*Árboles filogenéticos entre anguilas, tiburones, peces y cocodrilos basados en los caracteres de extremidades pares, mandíbulas, esqueleto óseo, dentición maxilar y aletas con radios. La mayoría de los árboles muestran una distribución similar de los taxones, mostrando así homología primaria. No obstante, el carácter aletas con radios es diferente, al relacionar dos taxones que en los demás caracteres no estaban relacionados. Ese carácter se debe reinterpretar, siendo así homología secundaria.*
 
+En el cladismo, se busca **maximizar la congruencia entre caracteres**, y así **minimizar la incongruencia** (homoplasia). 
 
+En una *aplicación computacional* de la máxima parsimonia, se sigue un criterio de optimización (criterio para escoger entre diferentes cladogramas / relaciones filogenéticas), en el cual **el cladograma preferido es aquél que tiene el menor número de transformaciones entre estados de carácter** (pasos). 
 
+Determinar los estados ancestrales implica poder identificar cambios de estado de
+carácter.
 
-
-
-
-# Métodos de distancias <a name="distancias"></a>
+> **Optimización: Evaluación de cladogramas - Algoritmo de Fitch**
+>
+> Para decidir el número de pasos, ir de arriba abajo y después volver a analizar de abajo a arriba, para adivinar donde han ocurrido los cambios y resolverlo con el menor número de pasos posibles.
+>
+> Esto se hace de la siguiente manera:
+> 1. Calcular el número de pasos asumiendo que siempre hay homología. Yendo de arriba a abajo del árbol:
+>       1. Para que haya dos C, el ancestro común debe tener una C<br>
+>       <img src="images2/MP1.png" alt="MP1" width="200"/>
+>
+>       2. A, T tendría A y T el ancestro común<br>
+>       <img src="images2/MP2.png" alt="MP2" width="200"/>
+>
+>       3. El sig nodo tiene C,A,T <br>
+>       <img src="images2/MP3.png" alt="MP3" width="200"/>
+>       
+>       4. El siguiente, tiene una T, porque es la común entre ambas <br>
+>        <img src="images2/MP4.png" alt="MP4" width="200"/>
+>       
+>       5. La última es T, G porque al ser distintas, se mantienen ambas<br>
+        <img src="images2/MP5.png" alt="MP5" width="200"/>
+>
+> 2. Seguir el árbol de abajo a arriba: observar lo más parsimonioso siguiendo el árbol hacia arriba.
+>
+>       <img src="images2/MP6.png" alt="" width="200"/>
+>
+>       - Por número de cambios, lo más parsimonioso es que la T se mantiene, y la novedad evolutiva es la C y la única autapomorfía es la A.
+>
+>       <img src="images2/MP7.png" alt="" width="250"/>
+>       <img src="images2/MP8.png" alt="" width="350"/>
 
 
 # Máxima verosimilitud (ML) <a name="ml"></a>
+
+Los métodos probabilísticos se apoyan en la verosimilitud de obtener los datos (un alineamiento múltiple de secuencias) si los linajes hubieran evolucionado de acuerdo con un determinado árbol filogenético (con su topología y longitudes de las ramas) y bajo un determinado modelo de evolución molecular. 
+![ML](images3/ML.png)
+La máxima verosimilitud intenta responder a la siguiente pregunta: ¾cuál es la probabilidad de observar los datos (el alineamiento), dada una hipótesis (un árbol y un modelo concreto de evolución molecular)? El árbol que hace que los datos sean el resultado más probable es una estimación de máxima verosimilitud de la filogenia. Se hacen dos estimaciones:
+
+
 
 
 # Inferencia Bayesiana <a name="bayesian"></a>
