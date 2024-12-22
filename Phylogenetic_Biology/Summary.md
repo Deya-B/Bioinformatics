@@ -42,7 +42,7 @@ Representaciones gráficas (patrones) de las relaciones ancestro-descendientes (
 
 
 ### Partes de un árbol filogenético: <a name="partes"></a>
-![treeparts](images/treeparts.png)
+<img src="images/treeparts.png" alt="treeparts" width="400"/>
 
 #### **Nodos externos** o **terminales**. 
 - Se denominan **grupos hermanos** a los nodos terminales que parten de un mismo nodo interno, es decir, dos taxones que compartan un ancestro común no compartido por ningún otro taxón.
@@ -58,16 +58,15 @@ En las distintas ramas se pueden representar la transformación de caracteres qu
 #### **Raiz**. 
 Los árboles filogenéticos se pueden representar sin enraizar o enraizado. 
 - **Sin raíz**: Un árbol filogenético que no asume conocimiento de un ancestro común, solo posiciones de los taxones para mostrar sus relaciones relativas (no hay dirección de un camino evolutivo).
-- **Con raíz**: Para describir la dirección de la evolución se necesita un árbol filogenético donde todas las secuencias bajo estudio tienen un ancestro o nodo raíz común *(más informativo)*.
-![root](images/root.png)
+- **Con raíz**: Para describir la dirección de la evolución se necesita un árbol filogenético donde todas las secuencias bajo estudio tienen un ancestro o nodo raíz común *(más informativo)*.<br>
+<img src="images/root.png" alt="root" width="300"/>
 
 
 ### Representación de los arboles: <a name="rep"></a>
 Hay varias formas de representar los árboles filogenéticos.
-Los distintos elementos no tienen un orden concreto; da igual si en un árbol los nodos terminales están en distinto orden mientras que las ramas sigan el mismo camino.
-![treerep1](images/treerep1.png)
-![treerep2](images/treerep.png)
-
+Los distintos elementos no tienen un orden concreto; da igual si en un árbol los nodos terminales están en distinto orden mientras que las ramas sigan el mismo camino.<br>
+<img src="images/treerep1.png" alt="treerep1" width="500"/>
+<img src="images/treerep.png" alt="treerep" width="500"/>
 
 ### Tipos de arboles: <a name="tipo"></a>
 
@@ -76,11 +75,8 @@ Los distintos elementos no tienen un orden concreto; da igual si en un árbol lo
 2. **Filogramas (PHYLOGRAM)**: a branching tree where the branch lengths indicate the amount of **evolutionary change** inferred from the analysis.
 Tienen la ventaja de mostrar tanto las relaciones evolutivas como la información sobre el tiempo relativo de divergencia de las ramas.
 
-3. **PHYLOGRAM (ultrametric) or CRONOGRAM**: ages assigned to each node using molecular clocks. Representan la relación de los elementos de forma
-temporal.
-
-![cladophylo](images/cladophylo.png)
-
+3. **PHYLOGRAM (ultrametric) or CRONOGRAM**: ages assigned to each node using molecular clocks. Representan la relación de los elementos de forma temporal.<br>
+<img src="images/cladophylo.png" alt="cladophylo" width="500"/>
 
 <style>
 td, th {
@@ -101,21 +97,21 @@ El inicio de lo de abajo es para que no haya header :) -->
 
 - **Monophyly / grupo monofilético**: 
 (los que nos interesan en filogenia)
-Un conjunto de taxones que comparten una sinapomorfía, es decir, que contiene un ancestro y todos sus descendientes, formando así un solo grupo evolutivo = un clado.
-![monophyly](images/monophyly.png)
+Un conjunto de taxones que comparten una sinapomorfía, es decir, que contiene un ancestro y todos sus descendientes, formando así un solo grupo evolutivo = un clado.<br>
+<img src="images/monophyly.png" alt="monophyly" width="450"/>
 
-- **Paraphyly / grupo parafilético**: Un conjunto de taxones con una simplesiomorfía en común, incluye el antecesor común más reciente y algunos de sus descendientes, pero no a todos.
-![paraphyly](images/paraphyly.png)
+- **Paraphyly / grupo parafilético**: Un conjunto de taxones con una simplesiomorfía en común, incluye el antecesor común más reciente y algunos de sus descendientes, pero no a todos.<br>
+<img src="images/paraphyly.png" alt="paraphyly" width="450"/>
 
-- **Polyphyly / grupo polifilético**: Un grupo de taxones agrupados por la presencia de un carácter homoplásico. Es un grupo en el que el antecesor común más reciente, y quizá también algunos de sus descendientes, no son miembros de este grupo, es decir, un grupo con miembros de líneas evolutivas separadas.
-![polyphyly](images/polyphyly.png)
+- **Polyphyly / grupo polifilético**: Un grupo de taxones agrupados por la presencia de un carácter homoplásico. Es un grupo en el que el antecesor común más reciente, y quizá también algunos de sus descendientes, no son miembros de este grupo, es decir, un grupo con miembros de líneas evolutivas separadas.<br>
+<img src="images/polyphyly.png" alt="polyphyly" width="450"/>
 
 > [**Grupos y caracteres que se apoyan**](#homol)
 
 ### Politomías: <a name="politomia"></a>
  - **Dicotomía**: Cuando todas las ramas en un árbol filogenético se bifurcan. Los árboles filogenéticos se consideran resueltos cuando sus ramas se distribuyen dicotómicamente.
-- **Politomía**: si de un nodo surgen más de dos ramas (descendientes). Los árboles no resueltos presentan politomías.
-![politomias](images/politomia.png)
+- **Politomía**: si de un nodo surgen más de dos ramas (descendientes). Los árboles no resueltos presentan politomías.<br>
+<img src="images/politomia.png" alt="politomias" width="400"/>
 
 
 ---
@@ -125,20 +121,24 @@ _Conceptos básicos:_
 ## Homología <a name="homol"></a>
 La homología es la relación que existe entre dos partes orgánicas diferentes de dos organismos distintos cuando sus determinantes genéticos tienen el mismo origen evolutivo, es decir, cuando un mismo órgano tiene diversas formas y funciones.
 
-![homologia](images/homologia.png)
+<img src="images/homologia.png" alt="homologia" width="400"/>
+
 *El mismo organo diversas formas y funciones. Semejanza en la estructura debido a la herencia común.*
 
 Los caracteres que se estudian en filogenia deben ser **homólogos**. Se compara la semejanza de una estructura debido a la herencia común.
 
 > Las alas de las aves y las de los murciélagos son **análogas** — es decir, sus orígenes evolutivos son independientes, pero se parecen superficialmente porque evolucionaron para realizar la misma función. Las analogías son el resultado de la **evolución convergente** o **paralelismo**..
-![wings](images/wings.png)
-![batbird](images/batbird.png)
+>
+> <img src="images/wings.png" alt="wings" width="400"/>
+> <img src="images/batbird.png" alt="batbird" width="200"/>
+> 
 > Por lo tanto, es interesante que mientras las alas de las aves y de los murciélagos son análogas como alas, como miembros anteriores son homólogas. Las aves y los murciélagos no heredaron las alas de un antepasado común alado, pero sí heredaron las extremidades anteriores de un antepasado común con extremidades anteriores.
 
 
 En genética y biología molecular, también existe **homología en las secuencias**. Los caracteres o estados son homólogos si derivan del mismo carácter en el ancestro común más cercano. Se distinguen dos tipos: la ortología y la paralogía.
 
-![para-orthologs](images/paraorto.png)
+<img src="images/paraorto.png" alt="para-orthologs" width="400"/>
+
 *A gene that has diverged as a result of a speciation event is called an ortholog. Orthologs will generally retain the same function after the speciation event—this is how ‘transfer of annotation’ is possible.  But they may not have the same name. If two genes diverge as a result of a gene duplication event, they are called paralogs. Generally, paralogs will take on a different-but-related gene function, while their cousins—the orthologs—will retain the same function through the course of evolution.*
 
 ### Genes Ortólogos 
@@ -156,23 +156,24 @@ Idealmente se deben comparar caracteres **ortólogos** para hacer las reconstruc
 ### Tipos de homología: 
 Clasificaciones de las propiedades de organismos basándose en similitudes derivadas.
 
-![homologTipos](images/homoltipos.png)
+<img src="images/homoltipos.png" alt="homologTipos" width="400"/>
+
 *Tipos de homología en el árbol filogenético. El carácter A es plesiomórfico al estar en el ancestro. El carácter C es apomórfico al ser una novedad evolutiva. En los nodos terminales, el carácter A se considera simplesiomórfico al estar compartido por los descendientes y ser un carácter ancestral. Por el contrario, el carácter C en los nodos terminales es sinapomórfico por ser un carácter novedoso y estar compartido en el ancestro en el que surgió y sus descendientes. Los caracteres B, D y E son autopomorfos por estar presentes en un único nodo terminal.*
 
 Se distinguen dos tipos de estados en los caracteres homólogos:
 
 **_Plesiomorfía_** (ancestral character state) se refiere al estado ancestral (o primitivo) de un carácter que comparten distintas especies por heredarlo del antepasado común; en el ejemplo se presenta en los ancestros y los grupos externos.
 
-- **Simplesiomorfía** [Homología ancestral compartida - e.g. cuatro patas (tetrápodos)] se refiere a una plesiomorfía (carácter ancestral) compartida por dos o más taxa. They do not need to be associated with monophyletic groups, could be paraphyletic or polyphyletic groups.
-![simplesio](images/simplesio.png)
+- **Simplesiomorfía** [Homología ancestral compartida - e.g. cuatro patas (tetrápodos)] se refiere a una plesiomorfía (carácter ancestral) compartida por dos o más taxa. They do not need to be associated with monophyletic groups, could be paraphyletic or polyphyletic groups.<br>
+<img src="images/simplesio.png" alt="simplesio" width="500"/>
 
 **_Apomorfía_** (derived character state) es un carácter novedoso evolutivamente y se dice que es derivado, ya que deriva de otro rasgo perteneciente a un taxón ancestral filogenéticamente próximo.
 
-- **Sinapomorfía** [Homología derivada compartida - e.g. vision binocular (humano y mono)] una apomorfía (carácter exclusivo) compartida por un ancestro común y todos sus descendientes. Only synapomorphic character states are expected to be associated with *monophyletic groups* = clades.
-![sinapo](images/sinapo.png)
+- **Sinapomorfía** [Homología derivada compartida - e.g. vision binocular (humano y mono)] una apomorfía (carácter exclusivo) compartida por un ancestro común y todos sus descendientes. Only synapomorphic character states are expected to be associated with *monophyletic groups* = clades.<br>
+<img src="images/sinapo.png" alt="sinapo" width="500"/>
 
-- **Autapomorfía** [Homología derivada exclusiva - e.g. bipedismo (humano)] es un carácter novedoso y único de un taxón que no aparece en el antepasado, por lo que no lo comparte con ningún otro.
-![autapo](images/autapomorfia.png)
+- **Autapomorfía** [Homología derivada exclusiva - e.g. bipedismo (humano)] es un carácter novedoso y único de un taxón que no aparece en el antepasado, por lo que no lo comparte con ningún otro.<br>
+<img src="images/autapomorfia.png" alt="autapo" width="550"/>
 
 <style>
 td, th {
@@ -191,7 +192,8 @@ El inicio de lo de abajo es para que no haya header :) -->
 >|[*apó-* gr. 'a partir de' (derivado, novedoso)] |  |  |
 
 > **Grupos y caracteres que se apoyan**: los grupos monofiléticos presentan sinapomorfía, los grupos parafiléticos presentan simplesiomorfía, y los grupos polifiléticos homoplasia.
-![gruposychar](images/grupos.png)
+>
+><img src="images/grupos.png" alt="gruposychar" width="400"/>
 
 
 ## Homoplasia <a name="homoplasia"></a>
@@ -217,7 +219,8 @@ Hay 3 tipos de homoplasia en función de la causa que produce la homoplasia:
     > No obstante, en la práctica, la distinción entre convergencia y paralelismo es un tanto arbitraria porque no existe una regla exacta para limitar la antigüedad del antepasado común.
 
 - **Reversión** cuando un carácter se transforma en otro evolutivamente anterior, i.e. un organismo adquiere un carácter de sus antepasados más lejanos. Esto implica que uno o más caracteres adquiridos previamente se han eliminado y se han vuelto a los más anteriores.
-![homoplasia](images/homoplasia.png)
+
+    <img src="images/homoplasia.png" alt="homoplasia" width="450"/>
 
 
 ## Fenotipo vs moléculas <a name="fenotipo-molec"></a>
@@ -278,7 +281,6 @@ Es importante que el conjunto de datos sea lo más completo posible. Es necesari
 # Alineamiento de secuencias <a name="alineamiento"></a>
 Decidir qué caracteres investigar, y cómo codificarlos, es un primer paso crucial en cualquier análisis filogenético.
 
-
 ## Caracteres y estado del caracter
 **Caracteres** son características del individuo que creemos que van a ser heredadas. Cuantos más caracteres estudiemos de cada individuo mejor.<br>
 Ej. un carácter que hayas adquirido a lo largo de tu vida no es heredable, en principio, por ej. el tamaño del cuádriceps no sería una buena referencia.<br>
@@ -294,16 +296,15 @@ Existen dos tipos de caracteres en función de su *origen*: los *homólogos* y l
 - Sitios **invariables**: que no cambian en los distintos taxones. 
 - Sitios **filogenéticamente neutrales**: que son autapomorfías (solo cambia en un taxón). 
 - Sitios **filogenéticamente informativos**: son comunes por pares (permiten dicotomía), son sinapomorfías.
-![tipos](images/tiposChar.png)
+<img src="images/tiposChar.png" alt="tipos" width="450"/>
 
 ### Estados de un caracter
 - **Binarios 0/1** (presentes o ausentes) [0 , 1]
 - **Multiestado** o **binarios V/S** (transversiones o transiciones)
 - **Discretos** o **continuos**: 
     - Discretos: Ej. Número de dedos
-    - Continuos: Ej. Diferencia de longitud (%) entre el dedo medio y los otros; diferencia entre la longitud del pico. La codificación de caracteres continuos no se pueden incluir fácilmente en las matrices de caracteres, por lo que se debe realizar una categorización arbitraria. Idealmente, se deben buscar divisiones naturales, es decir, estados discretos de un carácter de variación continua.
-    ![continuos](images/caracterescontinuos.png)
-    
+    - Continuos: Ej. Diferencia de longitud (%) entre el dedo medio y los otros; diferencia entre la longitud del pico. La codificación de caracteres continuos no se pueden incluir fácilmente en las matrices de caracteres, por lo que se debe realizar una categorización arbitraria. Idealmente, se deben buscar divisiones naturales, es decir, estados discretos de un carácter de variación continua.<br>
+    <img src="images/caracterescontinuos.png" alt="continuos" width="300"/> 
 
 ### Ponderación de los caracteres
 Se puede emplear un valor relativo de los diferentes caracteres y transformaciones como indicadores de las relaciones filogenéticas entre taxones. Se puede realizar una ponderación uniforme, que minimiza los supuestos del análisis, o una ponderación diferencial, en la que no todas las características de un organismo tienen el mismo valor como evidencias filogenéticas.
@@ -339,7 +340,9 @@ Generalmente, se toma la tasa de sustitución como medida de la fiabilidad de la
 
 $Homoplasia = Saturación$
 
-![VS](images/VS.png) *Las **transversiones** evolucionan lentamente y aumentan su frecuencia a medida que pasa el tiempo. Las **transiciones** se saturan a partir de cierta distancia filogenética, perdiéndose su señal.*
+<img src="images/VS.png" alt="VS" width="600"/> 
+
+*Las **transversiones** evolucionan lentamente y aumentan su frecuencia a medida que pasa el tiempo. Las **transiciones** se saturan a partir de cierta distancia filogenética, perdiéndose su señal.*
 
 Hacer una transición es más difícil que una transversion, por ello si una transición ocurre es más importante, i.e. las transiciones (S) son más costosas 
 que las transversiones (V)
@@ -367,13 +370,13 @@ Cada secuencia está formada por muchos caracteres (cada posición en la secuenc
 
 
 ### El concepto de Homología aplicada a los genes: alineamiento de secuencias
-- Un alineamiento es una **hipótesis acerca de la homología posicional** de diferentes secuencias de bases o aminoácidos.
-![alineamiento](images/alineamiento.png)
+- Un alineamiento es una **hipótesis acerca de la homología posicional** de diferentes secuencias de bases o aminoácidos.<br>
+<img src="images/alineamiento.png" alt="alineamiento" width="350"/>
 - El alineamiento tiene como objetivo identificar **qué posiciones son homólogas** en diferentes secuencias.
 - Cada posición de la secuencia (**residuo** = nucleótido o aminoácido) se interpreta como un **carácter** que puede tomar diferentes **valores** (estados de carácter: una de 4 bases, o uno de 20 aminoácidos).
 - El alineamiento asume **parsimonia**: el cambio evolutivo es improbable, de modo que los segmentos de secuencia coincidentes sirven de guía para identificar posiciones homólogas.
-- Eventualmente se identifican cambios, que cuando son compartidos por varias especies son informativos para la reconstrucción de filogenias.
-![alignm3](images/alignm3.png)
+- Eventualmente se identifican cambios, que cuando son compartidos por varias especies son informativos para la reconstrucción de filogenias. <br>
+<img src="images/alignm3.png" alt="alignm3" width="400"/>
 
 - **Gaps** son marcadores
 de posición que introducimos en los alineamientos para mantener la homología posicional (para secuencias de distinta longitud). Representan eventos de inserción o pérdida denominados *indels* (del inglés insertion/deletion). 
@@ -399,7 +402,7 @@ Pero como los gaps no penalizan pueden darse alineamientos con misma puntuación
 Para solucionar esto se pueden aplicar **penalizaciones para los GAPS**:
 - penalizaciones por la apertura de los huecos 
 - penalizaciones por la extensión de los huecos abiertos (típicamente menores que las impuestas por apertura). 
-![alignm4](images/alignm4.png)
+ <img src="images/alignm4.png" alt="alignm4" width="250"/>
 
 No tiene mucho sentido alinear las secuencias de ADN de los genes codificantes de proteínas. Es mejor traducir las secuencias de ADN a secuencias de aminoácidos y alinear éstas últimas. Existen varios programas para alineamiento múltiple: clustal W/X/Omega, MAFFT, Muscle, T-Coffee, Dialign 2, etc.
 
@@ -430,7 +433,9 @@ Todos los *métodos de inferencia* asumen que (aunque éstos no se hagan explíc
 - La **composición de bases es homogénea**
 - La verosimilitud de los **cambios de base es la misma** para todos los sitios y no cambia a lo largo del tiempo
 
-> Esto son las asunciones, pero en realidad no son ciertas... **NOTE:**
+> Esto son las asunciones, pero en realidad no son ciertas... 
+
+>**NOTE:**
 >- las posiciones NO cambian independientes las unas de las otras, 
 >- Las tasas de evolución NO son constantes,
 >- la composición de bases no es homogénea (hay mayor porcentaje de GC que de AT) 
@@ -442,7 +447,9 @@ En un contexto filogenético, los modelos predicen el proceso de sustitución de
 > Describen probabilísticamente el proceso por el que los estados de los caracteres homólogos de las secuencias (posiciones alineadas, i.e. nucleótidos o aminoácidos) cambian a lo largo del tiempo. 
 
 Los modelos implican por lo general los siguientes **parámetros**:
-![modelo](images2/modelo.png)
+
+ <img src="images2/modelo.png" alt="modelo" width="450"/>
+
 - **Composición**: frecuencia de las diferentes bases o aminoácidos. La frecuencia de los nucleótidos se representa por:
 
     $ π = [0.25 0.25 . .]$
@@ -453,12 +460,12 @@ Los modelos implican por lo general los siguientes **parámetros**:
 - **Proceso de sustitución**: tasa de cambio de uno a otro estado de carácter.
 
     El proceso de sustitución se representa mediante una matriz. 
-    <img src="images2/sustitucion.png" alt="sustitucion" width="200"/>
+    <img src="images2/sustitucion.png" alt="sustitucion" width="160"/>
 
     - Para secuencias de nucleótidos, hay 16 cambios posibles (una matriz de 4 x 4).<br>
     - Para los *nucleótidos*, se puede estimar a partir de los datos.
     Por ejemplo:
-    <img src="images2/ejSust.png" alt="sustEj" width="220"/>
+    <img src="images2/ejSust.png" alt="sustEj" width="200"/>
         - La probabilidad de que una "a" cambie por una "c" es 0.01, la probabilidad de que una "c" se mantenga como está es 0.983, etc. 
         - Las filas de la matriz suman 1 (se cubren todas las posibilidades para cada nucleótido)
         - Las columnas no suman nada en particular
@@ -571,7 +578,8 @@ A partir de unas pocas especies, las búsquedas de árboles sin raíz son exhaus
 5. Este árbol es un **óptimo local** (¡no necesariamente un óptimo global!)
 
 El procedimiento semeja un paseo en un paisaje montañoso, donde nos interesa alcanzar la cumbre más alta (hill climbing).
-![heuristica](images2/heuristica.png)
+> <img src="images2/heuristica.png" alt="heuristica" width="500"/>
+
 > Los árboles en la zona más alta son los mejores (con menos pasos y que maximizan la verosimilitud de los datos).
 >
 > Cuando se empieza la búsqueda no se sabe donde estás. Pero según analizas va aumentando
@@ -590,21 +598,19 @@ B. **Subtree Pruning and Regrafting (SPR):**<br> se corta un clado (subárbol) y
 C. **Tree Bisection and Reconnection (TBR):**<br> se divide el árbol en dos partes
 y se reconectan los subárboles usando todos los posibles pares de ramas. NNI y
 SPR son subsets de TBR.
-El espacio de árboles puede estar poblado por mínimos locales e islas de árboles
-óptimos.
-
-![reordenacionRamas](images2/reordenacionRamas.png)
-
-
 El espacio de árboles puede estar poblado por mínimos locales e islas de árboles óptimos.
-![heuristica2](images2/heuristica2.png)
+<img src="images2/reordenacionRamas.png" alt="reordenacionRamas" width="500"/>
+
+El espacio de árboles puede estar poblado por mínimos locales e islas de árboles óptimos.<br>
+<img src="images2/heuristica2.png" alt="heuristica2" width="500"/>
 
 
 ## Árboles de consenso
 A menudo existen varios árboles candidatos a ser el cladograma más parsimonioso.
 
 En el siguiente ejemplo, hay tres cladogramas diferentes que son igualmente parsimoniosos para los 4 caracteres estudiados (1-4) en cuatro especies de homínidos.<br>
-![concenso](images2/concenso.png)
+<img src="images2/concenso.png" alt="concenso" width="500"/>
+
 Si aumentamos el número de caracteres y el de taxones, la cantidad de cladogramas igualmente parsimoniosos se dispara y se hace inmanejable.<br>
 Por lo tanto, es conveniente contar con formas de resumir los puntos de acuerdo entre cladogramas rivales para llegar a formar un "árbol de consenso".
 
@@ -616,9 +622,8 @@ Existen diferentes **formas para construir árboles de consenso**, pero los tres
 
 2. **Árbol de consenso semi-estricto**: conserva todos los agrupamientos que no son contradictorios en los cladogramas rivales.
 
-3. **Árbol de consenso de regla de la mayoría**: conserva todos los agrupamientos que son apoyados por la mayoría de cladogramas rivales.
-
-![concenso2](images2/concenso2.png)
+3. **Árbol de consenso de regla de la mayoría**: conserva todos los agrupamientos que son apoyados por la mayoría de cladogramas rivales.<br>
+<img src="images2/concenso2.png" alt="concenso2" width="250"/>
 
 ## Medidas de soporte: confianza en el árbol
 La mayor parte de las medidas científicas van acompañadas de una estima de su precisión.
@@ -639,7 +644,8 @@ Esta información se puede dar en tablas adicionales para mostrar porque tu conf
 
 #### 1. Soporte de Bremer o Decay Index:
 Apoyo *cualitativo* donde se calcula la diferencia en el número de pasos entre el árbol óptimo y el mejor árbol en el que no aparece el clado en cuestión.
-![DI](images2/DI.png)
+
+<img src="images2/DI.png" alt="DI" width="400"/>
 
 #### 2. Remuestreo por bootstrapping:
 Se remuestrean los caracteres al **azar**, con **reemplazamiento**, **múltiples veces** (entre 500 y 2000, normalmente 1000)
@@ -648,17 +654,15 @@ Se realiza el análisis con cada nueva pseudoréplica utilizando los mismos par�
 
 Se analiza la coincidencia entre las topologías obtenidas resumiéndolas en un *majority-rule consensus tree*.
 
-![bootstrap](images2/bootstrap.png)
-*Las pseudoreplicas se construyen a partir de la matriz original con reemplazamiento para construir una nueva matriz del mismo tamaño que la original.*
+![bootstrap](images2/bootstrap.png) *Las pseudoreplicas se construyen a partir de la matriz original con reemplazamiento para construir una nueva matriz del mismo tamaño que la original.*
 
-![bt2](images2/bt2.png)
-*Ejemplos del cálculo de bootstrap. En el primer caso (mostrado en verde), tras 100 pseudoréplicas, han salido tres árboles con frecuencias de 30, 60 y 10. Tanto en el primer como en el segundo árbol, los taxones A y B se han relacionado juntos, por lo que esa dicotomía tiene un soporte de bootstrap de 90 (60 + 30).La siguiente relación más soportada, con un bootstrap de 60, es la de relacionar el taxón C con el antepasado común de A y B, por lo que el árbol final muestra esa variante (la otra opción sería relacionar C con D, como hacen los otros dos árboles, pero su frecuencia es de 40). En el segundo caso (mostrado en azul), las frecuencias han cambiado. Ahora, la relación de A y B pasa a tener un soporte de 80 (31 + 49), y así sucesivamente.*
+<img src="images2/bt2.png" alt="bt2" width="450"/> *Ejemplos del cálculo de bootstrap. En el primer caso (mostrado en verde), tras 100 pseudoréplicas, han salido tres árboles con frecuencias de 30, 60 y 10. Tanto en el primer como en el segundo árbol, los taxones A y B se han relacionado juntos, por lo que esa dicotomía tiene un soporte de bootstrap de 90 (60 + 30).La siguiente relación más soportada, con un bootstrap de 60, es la de relacionar el taxón C con el antepasado común de A y B, por lo que el árbol final muestra esa variante (la otra opción sería relacionar C con D, como hacen los otros dos árboles, pero su frecuencia es de 40). En el segundo caso (mostrado en azul), las frecuencias han cambiado. Ahora, la relación de A y B pasa a tener un soporte de 80 (31 + 49), y así sucesivamente.*
 
 La frecuencia con que aparece un determinado grupo es una medida de la estabilidad de ese grupo.
 
 Estos valores se muestran en un árbol de majority-rule consensus y se da información adicional en una tabla (de biparticiones).
-![bt3](images2/bt3.png)
 
+<img src="images2/bt3.png" alt="bt3" width="450"/>
 
 Los valores de **bootstrap probabilities** (BPs) son conservadores.
 
@@ -816,12 +820,41 @@ carácter.
 
 Los métodos probabilísticos se apoyan en la verosimilitud de obtener los datos (un alineamiento múltiple de secuencias) si los linajes hubieran evolucionado de acuerdo con un determinado árbol filogenético (con su topología y longitudes de las ramas) y bajo un determinado modelo de evolución molecular. 
 ![ML](images3/ML.png)
-La máxima verosimilitud intenta responder a la siguiente pregunta: ¾cuál es la probabilidad de observar los datos (el alineamiento), dada una hipótesis (un árbol y un modelo concreto de evolución molecular)? El árbol que hace que los datos sean el resultado más probable es una estimación de máxima verosimilitud de la filogenia. Se hacen dos estimaciones:
+
+La máxima verosimilitud (ML) intenta responder a la siguiente pregunta: ¿cuál es la **probabilidad de observar los datos** (un alineamiento de secuencias), **dada una hipótesis** (un árbol y un modelo concreto de evolución molecular)? 
+
+$L = Pr (D|H)$
+> *L*: Verosimilitud del modelo (un árbol filogenético), es igual a la probabilidad (*Pr*) de los datos (*D*) (un alineamiento de secuencias) dada una hipótesis (*H*) (un árbol y un modelo de evolución molecular).
+ 
 
 
+El árbol que hace que los datos sean el resultado más probable es una estimación de máxima verosimilitud de la filogenia. Se hacen dos estimaciones:
+1. ¿Cuál de las posibles topologías hace los datos más verosímiles? (NNI, SPR, TBR)
+2. Para una topología: ¿qué longitudes de ramas hacen los datos mas verosímiles?
+
+Esto es una consideración filosófica, ya que la verosimilitud calculada *no es la probabilidad de que el árbol sea el correcto*, sino la **probabilidad de que el árbol estimado generase los datos** (si cambian los datos, cambia el árbol). En otras palabras, la ecuación de verosimilitud no es la probabilidad de que la hipótesis sea correcta en términos absolutos, sino para nuestros datos.
+
+La máxima verosimilitud cuenta con una serie de supuestos:
+- Los sitios evolucionan independientemente
+- Los cambios siguen un modelo de Markov: la probabilidad de que tenga lugar un cambio en un sitio no depende de la historia previa de ese sitio
+- Los cambios son reversibles en el tiempo
+
+El procedimiento interno calcula la verosimilitud de un alineamiento de dos secuencias, dada una matriz de sustituciones, cierta composición de bases y una longitud concreta para la rama que separa esas secuencias (CED: **certain evolutionary distance**). <br>
+Para ello, se calculan todos los eventos posibles. <br>
+<img src="images3/ML1.png" alt="ML1" width="350"/>
+
+En caso de que haya diferentes longitudes de ramas: 
+- para las *ramas muy cortas*, la probabilidad de que un carácter permanezca inmutable es alta, y la probabilidad de cambio es baja.<br>
+- para las *ramas largas*, aumenta la probabilidad de cambio de caracteres y se reduce la probabilidad de mantener estados. 
+
+Esto genera el problema de **long branch attraction**, que ocurre cuando grupos que han evolucionado rápidamente son colocados erróneamente en la base de los árboles filogenéticos al contar con más cambios en sus secuencias.
+<img src="images3/longbranchatt.png" alt="lba" width="500"/> *La atracción de ramas largas es un fenómeno que se produce cuando se infiere que los linajes que evolucionan rápidamente están estrechamente relacionados, independientemente de sus verdaderas relaciones evolutivas.*
 
 
 # Inferencia Bayesiana <a name="bayesian"></a>
+
+
+
 
 
 # Reloj molecular relajado <a name="reloj"></a>
