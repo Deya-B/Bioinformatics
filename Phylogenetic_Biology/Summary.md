@@ -851,7 +851,31 @@ Esto genera el problema de **long branch attraction**, que ocurre cuando grupos 
 <img src="images3/longbranchatt.png" alt="lba" width="500"/> *La atracción de ramas largas es un fenómeno que se produce cuando se infiere que los linajes que evolucionan rápidamente están estrechamente relacionados, independientemente de sus verdaderas relaciones evolutivas.*
 
 
-# Inferencia Bayesiana <a name="bayesian"></a>
+# Inferencia Bayesiana (BI) <a name="bayesian"></a>
+La inferencia bayesiana se basa en la **probabilidad posterior** de un árbol condicionada por la matriz observada (alineamiento de secuencias): la probabilidad de que el árbol sea correcto dados los datos.
+
+La maxima verosimilitud (ML) examina modelos cuyos parámetros son constantes, y obtiene la verosimilitud de obtener los datos dados esos parámetros. BI también usa la verosimilitud de los datos, pero usando modelos cuyos parámetros son variables aleatorias con distribuciones estadísticas. 
+
+Antes del análisis de los datos, se asigna una distribución inicial a los parámetros del modelo (prior), que combinada con la verosimilitud de los datos permite calcular la probabilidad posterior de dichos parámetros.
+ 
+El teorema de Bayes sirve para calcular esa probabilidad:
+
+<img src="images3/BIeq.png" alt="bayesianEQ" width="420"/>
+
+¿Cuál es la probabilidad inicial de un árbol? No se puede calcular el denominador de la expresión.
+
+Sin embargo, sí se puede aproximar la probabilidad posterior usando un procedimiento de muestreo que se acelera mediante simulaciones de Monte Carlo con cadenas de Markov (MCMC)
+
+La idea es vagar al azar en el espacio de árboles de manera que se genera una distribución de árboles cuya media es la de la distribución deseada (la probabilidad Bayesiana).
+
+
+
+
+
+
+
+
+
 
 
 
