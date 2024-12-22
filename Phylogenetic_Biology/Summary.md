@@ -691,9 +691,35 @@ Determina las relaciones evolutivas entre los organismos basándose en los carac
 
 La reconstrucción filogenética consiste en identificar todos los **grupos monofiléticos** que existen en una muestra de taxones, que son aquellos definidos por **sinapomorfías (caracteres derivados compartidos)**
 
+## Aplicar el principio de MP para contruir un arbol
+Desconocemos el aspecto del antecesor común más reciente de las siguientes especies y el modo en que están emparentadas, por lo que comenzamos a analizar sus relaciones buscando las diferentes formas en que pueden ser conectadas...
+![species](images2/speciestree.png)
+Este ejemplo implica mayor similitud entre…<br>
+Red (network) o árbol sin enraizar con ramificación dicotómica que conecta un grupo de taxones.<br>
+No tiene raíz que conecte con un antecesor común.<br>
+Es como un mapa filogenético visto desde arriba, con el antecesor común oculto por sus descendientes.<br>
+Es de ramificación dicotómica porque sólo tres ramas se juntan en cada unión o nodo; cada línea se divide siempre en dos ramas.<br>
+![spec2](images2/species2.png)
+Se puede obtener otra red cambiando la posición de las especies...<br>
+Existen tres posibles formas de unir 4 especies en una red de ramificación dicotómica.
 
-> ![species](images2/species.png)
-> Desconocemos el aspecto del antecesor común más reciente de esas especies y el modo en que están emparentadas, por lo que comenzamos a analizar sus relaciones buscando las diferentes formas en que pueden ser conectadas.
+**Principio de parsimonia** <br>
+¿Cuál es la red que explica de forma más sencilla la distribución de los diferentes estados de caracteres que distinguen las cuatro especies?
+
+>*La selección de la explicación más sencilla se denomina principio de parsimonia.*
+
+1. Revisamos los caracteres de las 4 especies para ver si pueden ayudarnos a elegir entre los tres árboles
+<img src="images2/caracteres.png" alt="caracteres" width="300"/>
+
+2. Construimos la matriz de caracteres… y a continuación miramos cómo se sitúan los estados de los caracteres en las tres redes posibles
+![caracteres2](images2/caracteres2.png)
+    >En la primera red necesitamos un mínimo de 4 transformaciones para explicar la distribución de los diferentes estados de los caracteres analizados.
+    >
+    >¿Cuántas transformaciones necesitamos en la segunda red? Respuesta: 2
+    >
+    >¿Cuántas transformaciones necesitamos en la tercera red? Respuesta: 4
+
+3. Aplicando el principio de parsimonia rechazamos el primer y tercer árbol y nos quedamos con él segundo como el **más parsimonioso** ya que *"es el que necesita menos transformaciones evolutivas para explicar la distribución de los estados de los caracteres analizados"*.
 
 
 
@@ -704,9 +730,19 @@ La reconstrucción filogenética consiste en identificar todos los **grupos mono
 
 
 # Métodos de distancias <a name="distancias"></a>
+
+
 # Máxima verosimilitud (ML) <a name="ml"></a>
+
+
 # Inferencia Bayesiana <a name="bayesian"></a>
+
+
 # Reloj molecular relajado <a name="reloj"></a>
+
+
+
+
 
 
 # What do we need to build a phylogenetic tree <a name="summary"></a>
