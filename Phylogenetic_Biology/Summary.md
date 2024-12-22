@@ -691,7 +691,7 @@ Determina las relaciones evolutivas entre los organismos basándose en los carac
 
 La reconstrucción filogenética consiste en identificar todos los **grupos monofiléticos** que existen en una muestra de taxones, que son aquellos definidos por **sinapomorfías (caracteres derivados compartidos)**
 
-## Aplicar el principio de MP para contruir un arbol
+## Paso 1: elegir el arbol más parsimonioso
 Desconocemos el aspecto del antecesor común más reciente de las siguientes especies y el modo en que están emparentadas, por lo que comenzamos a analizar sus relaciones buscando las diferentes formas en que pueden ser conectadas...
 ![species](images2/speciestree.png)
 Este ejemplo implica mayor similitud entre…<br>
@@ -703,23 +703,67 @@ Es de ramificación dicotómica porque sólo tres ramas se juntan en cada unión
 Se puede obtener otra red cambiando la posición de las especies...<br>
 Existen tres posibles formas de unir 4 especies en una red de ramificación dicotómica.
 
-**Principio de parsimonia** <br>
 ¿Cuál es la red que explica de forma más sencilla la distribución de los diferentes estados de caracteres que distinguen las cuatro especies?
 
->*La selección de la explicación más sencilla se denomina principio de parsimonia.*
+>*La selección de la explicación más sencilla se denomina **principio de parsimonia**.*
 
+**Pasos a seguir:**
 1. Revisamos los caracteres de las 4 especies para ver si pueden ayudarnos a elegir entre los tres árboles
 <img src="images2/caracteres.png" alt="caracteres" width="300"/>
 
 2. Construimos la matriz de caracteres… y a continuación miramos cómo se sitúan los estados de los caracteres en las tres redes posibles
 ![caracteres2](images2/caracteres2.png)
-    >En la primera red necesitamos un mínimo de 4 transformaciones para explicar la distribución de los diferentes estados de los caracteres analizados.
+    >En cada árbol de arriba y abajo del todo vemos que han habido 4 transformaciones, para que los caracteres dados sean posibles.
     >
-    >¿Cuántas transformaciones necesitamos en la segunda red? Respuesta: 2
-    >
-    >¿Cuántas transformaciones necesitamos en la tercera red? Respuesta: 4
+    > El árbol del centro, muestra que solo una vez se ha ganado o perdido los caracteres y esto hace que este sea el árbol más parsimonioso.
 
 3. Aplicando el principio de parsimonia rechazamos el primer y tercer árbol y nos quedamos con él segundo como el **más parsimonioso** ya que *"es el que necesita menos transformaciones evolutivas para explicar la distribución de los estados de los caracteres analizados"*.
+
+---
+**Principio de parsimonia**
+
+Ante distintas hipótesis sobre las relaciones filogenéticas de los organismos dados, elegimos la más parsimoniosa, esto es, la que tenga:
+ 
+- **longitud menor** (menor número de cambios = menor numero de pasos evolutivos)
+- **mayor número de homologías** y 
+- **menor número de homoplasias**
+
+*"la explicación más sencilla es la verdadera"*
+
+Si hay varios árboles o hipótesis igualmente parsimoniosos, no podremos elegir entre ellos.
+
+---
+
+**Longitud de un árbol (L)** <br>
+Número de transformaciones evolutivas necesarias para explicar los datos dada una topología de árbol concreta. Corresponde al **número de cambios de estado** que se producen en el árbol.
+
+
+## Paso 2: Enraizar el arbol
+El siguiente paso es enraizar la red, la raíz nos permite determinar el lugar donde se encuentra el ancestro común.<br>
+Para ello, se debe elegir la **polaridad de los caracteres**, es decir, conocer en qué orden se produjeron las transformaciones.<br>
+Conocer qué estado del carácter es primitivo y cuál es derivado nos ayudará a elegir el cladograma con la
+distribución más sencilla de estados derivados (el más parsimonioso).
+
+> Siguiendo el ejemplo anterior. <br>
+> Como partíamos de 3 redes diferentes, cada una de las cuales podría dar lugar a 5 cladogramas, en total tendríamos 15 cladogramas diferentes para representar las relaciones evolutivas de 4 especies... <br>
+> Sin embargo, como previamente descartamos dos de las redes por necesitar de un mayor número de transformaciones evolutivas (y ser menos parsimoniosas), nos quedamos con los cinco cladogramas provenientes de la red más parsimoniosa.
+>![enraizar](images2/enraizarArbol.png)
+> …hay varias posibilidades… supongamos por ejemplo que el antecesor se encontraba en la rama de la polilla…<br>
+> …obtenemos un primer cladograma.<br>
+> Como en la red hay otras 4 ramas, podemos construir 4 nuevos cladogramas…<br>
+> Ahora se trata de ver cuál de ellos es el más probable aplicando el principio de la parsimonia a la distribución de los estados de los caracteres.
+
+
+
+
+Primero, sería importante conocer en qué orden se produjeron las transformaciones, si derivaron los halterios del segundo par de alas o si fue a la inversa. 
+
+Supongamos que hay evidencias que sugieren que los halterios derivaron del segundo par de alas (que era el estado primitivo) y que la adquisición de escamas en las alas es otro estado de carácter derivado. 
+
+En los posibles árboles, marcamos el lugar donde debe ocurrir la transformación de cada carácter de primitivo a derivado. 
+![MPTree](images2/MPtree.png)
+El árbol más parsimonioso es aquel que necesita menos transformaciones para explicar la distribución de los estados derivados de los caracteres, y el que probablemente mejor registre las relaciones evolutivas de las cuatro especies de insectos.
+
 
 
 
