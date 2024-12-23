@@ -18,7 +18,7 @@
 6. [Máxima verosimilitud](#mv)
 7. [Inferencia Bayesiana](#bayesian)
 8. [Cronogramas - árboles temporales](#temporales)
-9. [What do we need to build a phylogenetic tree](#summary)
+9. [What do we need to build a phylogenetic tree? - Summary](#summary)
 
 # Introducción a la filogenética <a name="intro"></a>
 
@@ -945,20 +945,21 @@ Para crear estos árboles, al programa se le aportan unas estimaciones temporale
 
 
 
-# What do we need to build a phylogenetic tree <a name="summary"></a>
+# What do we need to build a phylogenetic tree? <a name="summary"></a>
 
-1. What **taxa**? - Your decision, but don’t be biased!
+### 1. What **taxa**? 
+- Para construir un árbol filogenético, se necesitan elegir los taxones. Esto es decisión nuestra, pero hay que intentar no tener sesgos y elegir un buen ingroup y outgroup.
 - Impact of the **outgroup** taxa selection:
 
 ![outgrouptaxa](images/taxa.png)
 
 - Impact of the **ingroup** taxa selection:
-![ingrouptaxa](images/ingrouptaxa.png)
+<img src="images/ingrouptaxa.png" alt="ingrouptaxa" width="500"/>
 
-2. Data / Markers:
+### 2. Data / Markers:
 
 - What type of **data**? - Your decision, but based on what is available!
-- How many **markers**? - Budget! …also, PCR success…as many as possible
+- How many **markers**? - depende del presupuesto que haya... pero se debe intentar tener los máximos posibles por PCR u otros.
 
     Variability vs. Conservation: Depending on your question, but most (small scale) phylogenetic studies now in *metazoans* use:
     - Ribosomal genes (18S, 28S, 16S, ITS1&2) which are more conserved
@@ -966,13 +967,13 @@ Para crear estos árboles, al programa se le aportan unas estimaciones temporale
 
     **Do your research… and check ncbi first to see what is available already**
 
-4. What [**alignment program**](#alineamiento)? - Muscle? MAFFT?
+### 3. What [**alignment program**](#alineamiento)? - Muscle? MAFFT?
 
 ![alignmentcomp](images/alignmentcomp.png)
 
-5. What [**model of evolution**](#modelos)? - jModelTest
-Not all genes evolve (mutate) at the same pace and in the same manner.
-Their mutation rates depend on many parameters:
+### 4. What [**model of evolution**](#modelos)? - jModelTest. <br>
+- Not all genes evolve (mutate) at the same pace and in the same manner. <br>
+- Their mutation rates depend on many parameters:
     - GC genome content
     - Genome size
     - Generation time
@@ -982,104 +983,100 @@ Their mutation rates depend on many parameters:
     - Linkage disequilibrium
     - etc
 
-    Each gene will have its own substitution model. These substitution models differ in terms of the parameters used to describe the rates at which one nucleotide replaces another during evolution.
-    ![nucleotidesevo](images/nucleotides.png)
-    ![nuclevo2](images/nuclevo2.png)
+- Therefore, each gene will have its own substitution model. These substitution models differ in terms of the parameters used to describe the rates at which one nucleotide replaces another during evolution.
 
-![models](images/models.png)
+    > <img src="images/nucleotides.png" alt="nucleotides" width="350"/>
+    > <img src="images/nuclevo2.png" alt="nuclevo2" width="310"/>
+    > <img src="images/models.png" alt="models" width="550"/>
 
-[jModelTest](https://github.com/ddarriba/jmodeltest2) 
-    is a tool to carry out statistical selection of best-fit models of nucleotide substitution. It implements five different model selection strategies: hierarchical and dynamical likelihood ratio tests (hLRT and dLRT), Akaike and Bayesian information criteria (AIC and BIC), and a decision theory method (DT).
+- [jModelTest](https://github.com/ddarriba/jmodeltest2) 
+    is a tool to carry out statistical selection of best-fit models of nucleotide substitution. <br>
+    It implements five different model selection strategies: hierarchical and dynamical likelihood ratio tests (hLRT and dLRT), Akaike and Bayesian information criteria (AIC and BIC), and a decision theory method (DT).
 
-6. What [**phylogenetic method**](#metodos)? - Your decision…mine is always ML + BI
+### 5. What [**phylogenetic method**](#metodos)? 
+Finalmente se debe elegir un método filogenético (por ejemplo, máxima verosimilitud + inferencia bayesiana).
 
-- Statistical phylogenetics
-- Probabilistic methods
-- Society for Systematic
+#### **MAXIMUM PARSIMONY**
 
-    Biology
+- The assumption is that the ‘true’ tree will contain the least number of mutations possible i.e., the most parsimonious solution.
 
-- Cladistics-
-- Parsimony
-- Willi Hennig Society
+- Given a set of sequences (partial evidence) we need to find ancestral sequences, build a rooted tree, and estimate the smallest number of changes contained in the branches
 
-    Distance vs discrete data <br>
-    (distance vs MP, ML, Bayesian)
+- It poses an impossible computational problem (no algorithm known) and therefore all models use simplified versions...
 
-    Or
+**Weighted parsimony**: different scoring for each change (transition/transversion) and different scoring for each position:
 
-    MP vs model-based methods <br>
-    (MP vs distance, ML, Bayesian)
+<img src="images/MP.png" alt="MP" width="450"/>
 
-- DISTANCE METHODS
-![distancemethods](images/distancemethods.png)
+---
+<img src="images/mptree.png" alt="mptree" width="450"/>
+<img src="images/MPexplained.png" alt="MPexplained" width="450"/>
+---
 
 
-- **MAXIMUM PARSIMONY**
+#### **MAXIMUM LIKELIHOOD**
 
-    The assumption is that the ‘true’ tree will contain the least number of mutations possible i.e., the most parsimonious solution.
-
-    Given a set of sequences (partial evidence) we need to find ancestral sequences, build a rooted tree, and estimate the smallest number of changes contained in the branches
-
-    It poses an impossible computational problem (no algorithm known) and therefore all models use simplified versions
-
-    **Weighted parsimony**: different scoring for each change (transition/transversion) and different scoring for each position
-    ![MP](images/MP.png)
-    ![MPtree](images/mptree.png)
-    ![MPexpl](images/MPexplained.png)
-
-- **MAXIMUM LIKELIHOOD**
-
-    Likelihood: the probability of producing the observed data by a model given the model parameters, LD=Pr(X|Θ)
+- Likelihood: the probability of producing the observed data by a model given the model parameters, LD=Pr(X|Θ)
     - X: data already aligned, each site mutates independently
     - Θ: parameters of the model (topology, model of substitution)
 
-    In big datasets the computation is extremely difficult and long, BUT it is one of the most powerful methods because:
+- In big datasets the computation is extremely difficult and long, BUT it is one of the most powerful methods because:
     - it uses models of substitution (evolutionary models)
     - it corrects multiple substitutions
     - it allows estimation of branch length (=amount of change from ancestor)
     - fixing all but one parameter it allows finding the max. likelihood for that parameter
 
-    ![ML](images/ML.png)
+    <img src="images/ML.png" alt="ML" width="600"/>
 
-- **Problems with maximum likelihood (and parsimony)**
-    1. _**Long branch attraction**_: is a phenomenon when **rapidly evolving lineages** are inferred to be closely related,regardless of their true evolutionary relationships
-    ![longbranchatt](images/longbranchattr.png)
+> **Problems with maximum likelihood (and parsimony)**
+>   
+>_**Long branch attraction**_: is a phenomenon when **rapidly evolving lineages** are inferred to be closely related,regardless of their true evolutionary relationships
+>
+> <img src="images3/longbranchatt.png" alt="longbranchatt" width="500"/>
 
 
-- **BAYESIAN INFERENCE**
+#### **BAYESIAN INFERENCE**
+Based on Bayes' theorem, the bayesian approach combines the prior probability of a tree P(A) with the likelihood of the data (B) to produce a posterior probability distribution on trees P(A|B).
 
-    Reverend Thomas Bayes 1763: inverse probability 
-    > Based on Bayes' theorem, the bayesian approach combines the prior probability of a tree P(A) with the likelihood of the data (B) to produce a posterior probability distribution on trees P(A|B).
+Likelihood gives you the probability of the data given the hypothesis and *Bayesian gives you the probability of the hypothesis given the data.* 
 
-    Likelihood gives you the probability of the data given the hypothesis and Bayesian gives you the probability of the hypothesis given the data 
-    
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⇩
-    
-    **Posterior probabilities** 
-    
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⇩ 
-    
-    **It uses MCMC (Markov chain-Montecarlo) algorithms**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⇩
+
+**Posterior probabilities** 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⇩ 
+
+**It uses MCMC (Markov chain-Montecarlo) algorithms**
 
 - **How does it work?**
-    - Start somewhere, that somewhere will have a likelihood and a prior
-    - Randomly propose a new state (maybe adjust one branch length), if the change has a better likelihood x prior, the chain goes there
-    - Calculate the posterior probability ratio between the current and previous state. It should be between 0 and 1
-    - Choose a random number between 0 and 1 and if that number has a better likelihood than the ratio of states, the change is accepted (sometimes if slightly worse as well)
-    - That is how the chain crosses likelihood valleys
-    ![Valleys](images/MLvalley.png)
-    ![bayesian](images/bayesian.png)
-    ![bayesian2](images/bayesian2.png)
+    - Start somewhere (that somewhere will have a likelihood and a prior).
+    - Will move randomly and propose a new state (maybe adjust one branch length), if the change has a better *likelihood x prior*, the chain goes there.
+    - Calculate the posterior probability ratio between the current and previous state. It should be between 0 and 1.<br>
+    <img src="images/bayesian.png" alt="bayesian" width="400"/>
+    - Choose a random number between 0 and 1 and if that number has a better likelihood than the ratio of states, the change is accepted (sometimes if slightly worse as well).
+    - That is how the chain crosses likelihood valleys. <br>
+    <img src="images/MLvalley.png" alt="MLvalley" width="400"/>
 
-7. How to **assess confidence**? Evaluating support.
-- Bremer support: difference in the branch lengths when clades are removed (only in parsimony) ~ over 70%
-- Jacknife: probability of a clade observed in all the trees (parsimony) ~ over 70%
-- Bootstrap: probability of a clade observed in all the trees (ML) ~ over 70%
-- Posterior probability: probability of a clade being assigned under the conditions sampled (BI) ~ over 0.95
-- Convergence: assessing whether all chains (MCMC) converged in the same solution (BI)
-![support](images/support.png)
+### 6. How to **assess confidence**? 
+There are multiple ways for **evaluating support**:
+- **Bremer support [> 70 %]**: 
+    - Only in parsimony (MP)
+    - Difference in the branch lengths when clades are removed
+
+- **Jacknife [> 70 %]**: 
+    - Parsimony (MP)
+    - probability of a clade observed in all the trees
+
+- **Bootstrap [> 70 %]**: 
+    - Máxima verosimilitud (ML)
+    - probability of a clade observed in all the trees 
+
+- **Posterior probability [> 0.95]**: 
+    - inferencia bayesiana (BI)
+    - probability of a clade being assigned under the conditions sampled
+
+- **Convergence**: 
+    - inferencia bayesiana (BI)
+    - assessing whether all chains (MCMC) converged in the same solution
+
 ![support2](images/support2.png)
-![support3](images/supp3.png)
-
-WE NEED TO READ A LOT!
