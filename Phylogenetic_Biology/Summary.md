@@ -19,6 +19,7 @@
 7. [Inferencia Bayesiana](#bayesian)
 8. [Cronogramas - árboles temporales](#temporales)
 9. [What do we need to build a phylogenetic tree? - Summary](#summary)
+10. [Ejercicios](#ejercicios)
 
 # Introducción a la filogenética <a name="intro"></a>
 
@@ -1080,3 +1081,48 @@ There are multiple ways for **evaluating support**:
     - assessing whether all chains (MCMC) converged in the same solution
 
 ![support2](images/support2.png)
+
+
+# Ejercicios <a name="ejercicios"></a>
+### Ejercicio 1: Construir un árbol a partir de un alineamiento.
+Dado el siguiente alineamiento, construye un árbol filogenético.<br>
+<img src="images3/alignmejerc.png" alt="alignmejerc" width="120"/>
+
+Empezar por aquellos alineamientos que son iguales:
+- Los taxones A y B son iguales, al igual que D y E. Por tanto, sabemos que esos taxones van juntos (fechas azul y rojas). 
+- Después, se busca el taxón más similar. En este caso, el taxón C es el siguiente más similar a los taxones A y B.
+
+    <img src="images3/alineamejercres.png" alt="alineamejercres" width="320"/>
+
+- Por último, el taxón F es el más diferente, siendo por
+tanto el outgroup. 
+
+El árbol quedaría así: <br>
+<img src="images3/arbolejercicio.png" alt="arbolejercicio" width="300"/>
+
+
+### Ejercicio 2: Construir la matriz de caracteres desde un árbol.
+Dado el siguiente árbol filogenético con las distintas mutaciones, construye una matriz de alineamiento.
+
+<img src="images3/ej2.png" alt="alineamejercres" width="400"/>
+
+Pasos:
+- Crear una tabla con las especies y las mutaciones en filas y columnas.
+- Ir anotando si la mutación está presente (*a*) o ausente (*b*) <br>
+[mejor usar 0 (ausente) y 1 (presente)] <br>
+<img src="images3/ej2matriz.png" alt="alineamejercres" width="300"/>
+
+### Ejercicio 3: Identificación de caracteres
+En relación con el árbol filogenético del ejercicio 2, explica los caracteres en relación con todos los integrantes del árbol.
+
+- Los caracteres 1 y 2 son **plesiomorfías** al ser ancestrales.
+
+- El carácter 3 es una **sinapomorfía** (sería una **simplesiomorfía** *para los amniotas*, pero como nos piden relacionarlo con todos los taxones, es una sinapomorfía del árbol). 
+
+- El carácter 9 es una **autapomorfía** de las ranas, y el 7 de los lagartos. 
+
+- El carácter 8 es otra *autapomorfía con convergencia* entre ranas y primates, generando así un grupo **polifilético** (el ancestro común más cercano no tiene el carácter).
+
+- El grupo hermano de los amniotas son las ranas. 
+
+- Así, el grupo hermano de los mamíferos son lagartos y aves; no son los amniotas porque los mamíferos están englobados en los amniotas.
