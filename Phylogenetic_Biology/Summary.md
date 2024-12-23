@@ -17,7 +17,7 @@
 5. [Máxima parsimonia](#mp)
 6. [Máxima verosimilitud](#mv)
 7. [Inferencia Bayesiana](#bayesian)
-8. [Reloj molecular relajado](#reloj)
+8. [Cronogramas - árboles temporales](#temporales)
 9. [What do we need to build a phylogenetic tree](#summary)
 
 # Introducción a la filogenética <a name="intro"></a>
@@ -864,27 +864,84 @@ El teorema de Bayes sirve para calcular esa probabilidad:
 
 ¿Cuál es la probabilidad inicial de un árbol? No se puede calcular el denominador de la expresión.
 
-Sin embargo, sí se puede aproximar la probabilidad posterior usando un procedimiento de muestreo que se acelera mediante simulaciones de Monte Carlo con cadenas de Markov (MCMC)
+Sin embargo, sí se puede aproximar la probabilidad posterior usando un procedimiento de muestreo que se acelera mediante simulaciones de **Monte Carlo con cadenas de Markov** (MCMC).<br>
+<img src="images3/MCMCrules.png" alt="MCMCrules" width="420"/>
 
 La idea es vagar al azar en el espacio de árboles de manera que se genera una distribución de árboles cuya media es la de la distribución deseada (la probabilidad Bayesiana).
 
+Así, la inferencia bayesiana utiliza MCMC como herramienta para explorar todos los árboles posibles. Hace una buena aproximación del paisaje tras el periodo de "burnin". 
+> Como burnin se conocen las primeras búsquedas al
+estar más alejadas de los árboles más probables (hay un consenso de quitar el primer 20% de las búsquedas por este efecto).<br>
+<img src="images3/MCMCburning.png" alt="bayesianEQ" width="300"/>
+*20 ciclos*
+
+Cuanto más tiempo corre el procedimiento MCMC (más generaciones), mejor es la aproximación.<br>
+<img src="images3/MCMCcien.png" alt="bayesianEQ" width="250"/> 
+<img src="images3/MCMC1000.png" alt="bayesianEQ" width="250"/> <br>
+*100 y 1000 ciclos*
+
+Conviene repetir el proceso empezando desde diferentes puntos (random seeds).
+
+Se realizan dos búsquedas: 
+- Las cadenas frías contienen colinas altas y valles profundos. 
+- Las cadenas calientes son paisajes en los que la travesía entre colinas es más fácil. 
+
+<img src="images3/paisajesfrioscalientes.png" alt="paisajes1" width="250"/> *En un paisaje frío (típico de las distribuciones de parámetros) es fácil atascarse en **óptimos locales**.*
+<img src="images3/paisajes.png" alt="paisajes2" width="400"/> 
+
+Por ello, se utilizan técnicas de mezclado para resolver el problema de los óptimos locales: se busca que **_las dos cadenas sean convergentes_**. <br> 
+![convergencia](images3/convergencia.png)
+
+<img src="images3/mixedTechniques.png" alt="mixedTechniques" width="250"/> *Metropolis-coupled MCMC = MCMCMC = MC3*
 
 
+Los **criterios de convergencia** son:
+- Las distribuciones posteriores de los parámetros del modelo son similares entre cadenas independientes.
+- Las probabilidades posteriores de los clados son similares entre cadenas independientes comenzadas con topologías aleatorias (desviación estándar promedio de las frecuencias divididas).
 
 
+### En la práctica ("resumen"):
+1. Empezar el procedimiento de MCMC con un árbol aleatorio y un modelo con parámetros aleatorios.
+
+2. En cada generación, y al azar, se propone: 
+    * Un nuevo árbol (que se acepta o se rechaza)
+    * Un nuevo valor para los parámetros del modelo (que se acepta o se rechaza)
+
+3. Se ejecutan en paralelo una cadena fría y varias calentadas (que orientan a la fría a través del espacio de árboles), mediante un procedimiento MCMCMC.
+
+4. Cada *k* generaciones, se muestrea los valores de los parámetros de la cadena fría.
+
+5. Tras *n* generaciones se obtiene una distribución muestral (la cadena fría habrá pasado más tiempo en los mejores lugares del espacio de árboles) y una desviación
+estándar de las frecuencias divididas.
+
+### Interpretación y soporte
+
+El método de inferencia Bayesiana calcula una **probabilidad posterior (BPP)** para cada nodo, que va del 0 al 1.
+
+La interpretación estadística es inmediata: es la **probabilidad de que el clado sea cierto**, *dado un modelo, unas premisas y unos datos*. 
+
+Sin embargo, las BPP suelen ser *sospechosamente altas* (tendencia a la sobreestimación), mucho más que los valores de apoyo de bootstrap. Por ello, se suelen
+quedar con los valores bayesianos a partir de un 0.9, pero un bootstrap a partir de 70.
+
+<img src="images3/metodosresumen.png" alt="metodosresumen" width="650"/>
 
 
+# Cronogramas - árboles temporales <a name="temporales"></a>
 
+Para estimar los años o las fechas de los cambios evolutivos de los caracteres se emplean cronogramas. 
 
+La datación se basa en el **reloj molecular**, que a su vez se basa en la **tasa de evolución** de diferentes macromoléculas, ya sea ADN o proteínas. 
 
+Se propone que las *tasas evolutivas son constantes* en el tiempo. Cada proteína o cada gen es un reloj independiente; aunque la tasa sea constante para los linajes, no es igual para todos los genes o proteínas.
 
+Para la calibración de la datación se utiliza: 
+- la fecha de muestreo, 
+- la edad del fósil y 
+- los eventos biogeográficos (eventos geológicos, como apertura o cierre de océanos, movimiento de continentes, etc).
 
+Para crear estos árboles, al programa se le aportan unas estimaciones temporales, que pueden ser más estrictas (strict clock) o más relajadas (relaxed clock). Como mínimo, se debe tener una datación para el grupo externo.
 
-
-# Reloj molecular relajado <a name="reloj"></a>
-
-
-
+![cronogr](images3/cronograma.png) *Ejemplo de cronograma. La datación se ha basado en registros fósiles (flechas azules) y eventos biogeográficos (flechas rojas).*
 
 
 
