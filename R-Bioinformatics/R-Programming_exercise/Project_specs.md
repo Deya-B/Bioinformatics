@@ -95,4 +95,44 @@ progression models: What genotype comes next? Plos Computational Biology, 17(12)
 models. Plos Computational Biology, 15(8), e1007246. https://doi.org/10.1371/journal.pcbi.1007246
 
 
+### Questions / Answers:
+> El trabajo 5 - A recipe book for simulations with OncoSimulR, parece bastante abierto.
+- Lo es :-)  La **idea fundamental** es:
+  - **identificar qué escenarios no se pueden modelar bien**,
+  - **cuáles sí** se pueden modelar bien, y
+  - **cuáles requieren contorsiones**.
+
+> 1.- ¿Cómo debemos enfocar el trabajo? <br>
+> ¿Tenemos que plantear muchos escenarios y enseñar brevemente sus parámetros o plantear unos pocos escenarios y profundizar más en por qué hemos elegido esos parámetros? <br>
+> ¿Tenemos que profundizar en las limitaciones y ventajas de los modelos?
+  - Lo más interesante sería que el lector pudiera saber "si quiero modelar este escenario general, lo hago así, pero si quiero modelar este otro, no hay manera".
+  - En algunos casos eso puede requerir plantear un escenario y profundizar en él en el sentido de "esto se puede hacer así, pero si quieres también este otro aspecto, no"
+
+> 2.- Sobre los escenarios y modelos<br>
+> ¿Debemos incluir ejemplos de todos los modelos? EJ: Deterministic (Single, AND, OR, XOR) y Stochastic.
+- No, eso no es relevante per se. Con escenarios me refiero a cosas como
+  - "strong selection, weak mutation (**SSWM**)" o
+  - "strong selection strong mutation (**SSSM**)" o
+  - "weak selection strong mutation (**WSSM**)"
+- y a "**gran heterogeneidad intratumoral**"
+- y "**tarda mucho/poco en producirse la sustitución de clones**"
+- O sea, que si pones un AND y generas un fitness landscape vas a simular en un fitness landscape con AND no es relevante en sí mismo.
+- Stochastic: no está claro (de hecho yo no sé) cómo se simula con OncoSimulR un modelo como MHN o HyperTraPS, y más si permitimos thetas asmétricas. No es esto lo que os pido, porque creo que no se puede. Pero si sabéis como, estupendo!
+
+> ¿Debemos incluir ejemplos similares a los ejemplos del paper (y cuántos)? Véase: "mutational context", disease symptoms, tool use, student progress...
+- No necesariamente. Si algo os parece muy interesante y curioso, sí, por fa. Pero cosas obvias como "sistituir un clón por otro" quizás no.
+- Y más que, por ej., "disease symptoms" yo pensaba en lo mencionado arriba como escenarios: SSWM, SSSM, ..., gran heterogeneidad intratumroal, etc. 
+- No sé si hay algo específico de "student progress" a simular, porque uno puede modelar eso de muchas formas, cada una de las cuales tendrán patterns distintos. 
+- Lo mismo con disease symptoms o tool use. De hecho, estos tres son un poco peculiares, porque la noción de heterogeidad intratumoral (o intraentidad) no sé si aplica.
+- No sé a qué os referís con "mutational context"
+
+> 3.- ¿De dónde sacamos los datos? ¿Hay algún repositorio de datos (oncogénicos, por ejemplo), los sacamos de bibliografía o nos los inventamos?
+- No sacáis datos de ningún sitio, a menos que veáis un conjunto de datos que os parezca interesante y cuyos patrones queréis emular. 
+- O sea, el objetivo aquí es dar una serie de recetas para:
+  - quieres alta heterogeneidad tumoral: haz esto (o "no es posible")
+  - quieres alta heterogeneidad tumoral con un número muy alto de clones: haz lo otro
+  - quieres baja heterogeneidad pero tiempos hasta la sustitución muy largos: haz lo de más allá <br>
+  etc
+
+
 
