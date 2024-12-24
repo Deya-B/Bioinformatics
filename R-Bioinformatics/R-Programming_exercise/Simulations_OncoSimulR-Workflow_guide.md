@@ -35,7 +35,7 @@ install_github("rdiaz02/OncoSimul/OncoSimulR",
 # Steps that follow
 ## 1. Familiarizing with OncoSimulR
 Understand the Basics:
-- Read the documentation from [OncoSimulR's BioConductor page](https://www.bioconductor.org/packages/devel/bioc/html/OncoSimulR.html).
+- Read the documentation from [OncoSimulR's BioConductor page](https://www.bioconductor.org/packages/devel/bioc/html/OncoSimulR.html), or directly on the [documentation HTML](https://rdiaz02.github.io/OncoSimul/OncoSimulR.html).
 - Review examples and vignettes from the documentation or from R itself doing:
   ```
   # R
