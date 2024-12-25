@@ -196,6 +196,14 @@ Here:
   fe <- allFitnessEffects(epistasis = c("A:-B" = 0.1, "B:-A" = 0.4, "A : B" = 0.2,
                                         "C:-A:-B" = 0.5, "C:A" =-0.5, "C:B"=0.4))
   evalAllGenotypes(fe, order = FALSE)
+  ## Genotype Fitness
+  ##1       A    1.10
+  ##2       B    1.40
+  ##3       C    1.50
+  ##4    A, B    1.20
+  ##5    A, C    0.55
+  ##6    B, C    1.96
+  ##7 A, B, C    0.84
   ```
 
   
