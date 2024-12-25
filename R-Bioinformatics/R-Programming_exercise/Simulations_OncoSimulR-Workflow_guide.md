@@ -284,23 +284,124 @@ plot(sim)
 - detectionDrivers = 3: Stop simulation when 3 driver mutations occur.
 
 
+---
+Advanced Models
+---
+
+### 2. High Intratumour Heterogeneity
+To model heterogeneity:
+- Increase the **mutation rate** (mu).
+- Allow for **large populations and diverse genotypes**.
+- Specify **interaction networks** to allow co-occurrence of many mutations.
+
+**Example: High Heterogeneity**
 ```R
+fitness_matrix <- allFitnessEffects(genotFitness = c("WT" = 1, 
+                                                     "A" = 1.1, 
+                                                     "B" = 1.2, 
+                                                     "C" = 1.15, 
+                                                     "A:B" = 1.3, 
+                                                     "A:C" = 1.25))
+
+sim <- oncoSimulIndiv(fitness_matrix, 
+                      model = "McFL", 
+                      mu = 1e-5, 
+                      initSize = 1e6, 
+                      finalTime = 200)
+plot(sim)
+```
+- **model = "McFL"**: McFarland logistic model, suitable for modeling competition among subclones.
+- **initSize = 1e6**: Initial population size.
+- **mu = 1e-5**: Elevated mutation rate.
+
+
+### 3. Low Heterogeneity with Long Time to Substitution
+To achieve this:
+- Reduce mutation rates.
+- Introduce strong selective bottlenecks or constraints on fitness.
+
+**Example: Low Heterogeneity**
+```R
+fitness_matrix <- allFitnessEffects(orderEffects = c("A > B" = 1.2, 
+                                                     "B > C" = 1.1))
+
+sim <- oncoSimulIndiv(fitness_matrix, 
+                      model = "Bozic", 
+                      mu = 1e-7, 
+                      initSize = 100, 
+                      detectionDrivers = 3)
+plot(sim)
 
 ```
+- **model = "Bozic"**: Linear growth, often used for modeling slow-growing tumors.
+- **mu = 1e-7**: Very low mutation rate.
 
+
+### 3. Modeling SSWM, SSSM, and WSSM Scenarios
+#### 3.1 Strong Selection, Weak Mutation (SSWM)
+- **Characteristics**: Rare mutations; each mutation fixes before the next one appears.
+- **Modeling Strategy**:
+  - Use **low mutation rates** (e.g., $𝜇=10^{−8}$).
+  - Set **fitness effects for drivers** significantly **higher** than neutral.
+
+**Example: SSWM**
 ```R
-
+fitness_matrix <- allFitnessEffects(genotFitness = c("WT" = 1, 
+                                                     "A" = 1.5, 
+                                                     "B" = 2.0))
+sim <- oncoSimulIndiv(fitness_matrix, 
+                      model = "Exp", 
+                      mu = 1e-8)
+plot(sim)
 ```
 
+#### 3.2 Strong Selection, Strong Mutation (SSSM)
+- **Characteristics**: High mutation rates; rapid fixation of beneficial mutations.
+- **Modeling Strategy**:
+  - Use high mutation rates (e.g., $𝜇=10^{−5}$).
+  - Allow multiple advantageous mutations to co-exist.
 
+**Example: SSSM**
 ```R
-
+fitness_matrix <- allFitnessEffects(genotFitness = c("WT" = 1, 
+                                                     "A" = 1.2, 
+                                                     "B" = 1.4, 
+                                                     "A:B" = 2.0))
+sim <- oncoSimulIndiv(fitness_matrix, 
+                      model = "McFL", 
+                      mu = 1e-5)
+plot(sim)
 ```
 
-```R
+#### 3.3 Weak Selection, Strong Mutation (WSSM)
+- **Characteristics**: High mutation rates; minimal fitness differences among mutations.
+- **Modeling Strategy**:
+  - Use high mutation rates but keep fitness effects close to neutral.
+  - Simulate high heterogeneity with neutral or nearly neutral evolution.
 
+**Example: WSSM**
+```R
+fitness_matrix <- allFitnessEffects(genotFitness = c("WT" = 1, 
+                                                     "A" = 1.01, 
+                                                     "B" = 1.02, 
+                                                     "C" = 1.03))
+sim <- oncoSimulIndiv(fitness_matrix, 
+                      model = "Exp", 
+                      mu = 1e-4, 
+                      initSize = 1e6, 
+                      finalTime = 500)
+plot(sim)
 ```
 
+---
+
+### Scenarios That Are Hard or Impossible to Model
+1. **Very High Clonal Diversity**: OncoSimulR handles up to thousands of clones effectively, but extreme cases might require simplifying assumptions or aggregating clones.
+2. **Neutral Evolution**: Direct modeling of purely neutral evolution is challenging because OncoSimulR assumes fitness-based evolution.
+3. **Spatial Tumor Evolution**: OncoSimulR does not explicitly model spatial constraints. Use other tools like **Cellular Automata** for this.
+
+### Summary Table
+<img title="Summary table" alt="table" src="https://github.com/user-attachments/assets/499e5c78-369f-43ac-b78a-cccc8b3efab3" width="600">
 
 ```R
 
