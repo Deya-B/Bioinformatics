@@ -189,11 +189,20 @@ fitness_matrix <- allFitnessEffects(epistasis = c("A:B" = 1.3),
                                     noIntGenes = c("C" = 0.9))
 ```
 Here:
-- **Epistasis** between A and B boosts their combined fitness to 1.3.
+- **Epistasis** between A and B boosts their combined fitness to 1.3. Epistasis is used to indicate when a mutated gene can loose or gain advantage in function of another mutation (mutated gene). This parameter is a list of expressions, each of these has an associated fitness input.
+
+  Other examples of `epistasis` include:
+  ```R
+  fe <- allFitnessEffects(epistasis = c("A:-B" = 0.1, "B:-A" = 0.4, "A : B" = 0.2,
+                                        "C:-A:-B" = 0.5, "C:A" =-0.5, "C:B"=0.4))
+  evalAllGenotypes(fe, order = FALSE)
+  ```
+
+  
 - **Order effects**: A > B implies B is only advantageous if A has occurred.
 - **No interaction genes**: C reduces fitness by 10%. **Genes without interactions**. This parameter is a list of genes, each of them will be associated to their fitness input if they are mutated.
 
-    Other examples of this are:
+    Other examples of `noIntGenes` are:
     
   - Here we indicate the fitness effects with the function `allFitnessEffects` and the function `evalAllGenotypes` help us to evaluate the fitness of all possible genotypes.
   ```R
@@ -249,6 +258,27 @@ Here:
   
   ```
 
+#### b. Simulating Cancer Progression
+Once fitness effects are specified, simulate progression using:
+- oncoSimulIndiv() for single simulations.
+- oncoSimulPop() for multiple replicates.
+
+**Example: Simple Simulation**
+```R
+sim <- oncoSimulIndiv(fitness_matrix, 
+                      model = "Exp", 
+                      mu = 1e-6, 
+                      detectionDrivers = 3)
+plot(sim)
+```
+- model = "Exp": Exponential growth.
+- mu = 1e-6: Mutation rate.
+- detectionDrivers = 3: Stop simulation when 3 driver mutations occur.
+
+
+```R
+
+```
 
 ```R
 
