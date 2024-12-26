@@ -176,6 +176,14 @@ The two main ways to specify them are:
 ```R
 library(OncoSimulR)
 fitness_matrix <- allFitnessEffects(genotFitness = c("WT" = 1, "A" = 1.2, "B" = 1.5, "A:B" = 1.8))
+
+### The previous is a wrong way to insert fitness, either a matrix or a df must be provided.
+# Was converted into a matrix:
+
+matrix1 = cbind(c(1, 0, 1), c(0, 1, 1), c(1.2, 1.5, 1.8))
+fm1 <- allFitnessEffects(genotFitness = matrix1)
+evalAllGenotypes(fm1, addwt = TRUE)
+plotFitnessLandscape(evalAllGenotypes(fm1))
 ```
 Here:
 - "WT" (wild type) has a baseline fitness of 1.
