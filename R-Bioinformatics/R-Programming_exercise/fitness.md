@@ -86,7 +86,7 @@ evalAllGenotypes(fem6, addwt = TRUE) # Here shows how the genotypes were modifie
 - You DON'T need to specify all the genotypes: 
    - the missing genotypes are assigned fitness = 0 
    - the WT is assigned fitness = 1
-                
+
 The matrix `m7` is constructed as follows:
 ```r
 m7 <- cbind(c(1, 1), c(1, 0), c(2, 3))
@@ -140,7 +140,36 @@ Each row corresponds to:
 3. **B**: Only B mutated (A = 0, B = 1) → Fitness = **0** (default, not explicitly in the matrix).
 4. **A, B**: Both A and B mutated (A = 1, B = 1) → Fitness = **2** (from matrix).
 
----
+
+> To specify the WT assign 0 to both A and B in the same row. For example:
+> ```r
+> m11 <- cbind(c(0, 0), c(1, 0), c(2, 3))
+> ```
+> This results in:
+> ```
+>     [,1] [,2] [,3]
+> [1,]    0    1    2
+> [2,]    0    0    3
+> ```
+> Here, the second row explicitly specifies the fitness of the wild type (`A = 0, B = 0`) as **3**.
+>
+> But here, because OncoSimulR expects the wild type to have a fitness of **1**. To handle this discrepancy, OncoSimulR **normalizes all fitness values by dividing them by the fitness of the WT**.
+>
+> 1. Wild type (`A = 0, B = 0`) fitness = **3**.
+> 2. All fitness values are divided by **3**:
+>    - WT: `3 / 3 = 1`.
+>    - B mutated: `2 / 3 = 0.666...`.
+>    - A mutated: `0 / 3 = 0`.
+>    - A, B mutated: `0 / 3 = 0`.
+>      
+> ```
+> #   Genotype     Birth
+> # 1       WT 1.0000000
+> # 2        A 0.0000000
+> # 3        B 0.6666667
+> # 4     A, B 0.0000000
+> ```
+
 
 ```r
 ############################## PLAYING AROUND! #################################
@@ -193,8 +222,112 @@ plotFitnessLandscape(evalAllGenotypes(fem10))
 # [1,]    0    1    2 - B mutado, se le asigna 2
 # [2,]    1    0    3 - A mutado, se le asigna 3
                       # A,B no especificados = asignacion de 0
+
+m11 <- cbind(c(0, 0), c(1, 0), c(2, 3))
+fem11 <- allFitnessEffects(genotFitness = m11)
+evalAllGenotypes(fem11, addwt = TRUE)
+plotFitnessLandscape(evalAllGenotypes(fem11))
+# Aviso:
+#   In to_genotFitness_std(genotFitness, frequencyDependentBirth = FALSE,  :
+#   Birth of wildtype != 1. Dividing all births by birth of wildtype.
+# 
+#        Genotype     Birth
+#      1       WT 1.0000000
+#      2        A 0.0000000
+#      3        B 0.6666667 - Result of the division of its value 
+#      4     A, B 0.0000000         by the wildtype value: 2/3        
+                         
+           
+```
+## Two conflictive cases:
+### Case 1: `m8`
+```r
+m8 <- cbind(c(1, 1), c(0, 0), c(2, 3))
+fem8 <- allFitnessEffects(genotFitness = m8)
+evalAllGenotypes(fem8, addwt = TRUE)
 ```
 
+Matrix `m8`:
+```
+     [,1] [,2] [,3]
+[1,]    1    0    2
+[2,]    1    0    3
+```
+
+This corresponds to:
+- Row 1: A = 1, B = 0 → Fitness = 2.
+- Row 2: A = 1, B = 0 → Fitness = 3. **This 3 is lost!!**
+
+In this matrix, **gene B is always 0** (non-mutated) for all rows, so the fitness of "3" is ignored. This is because there is no distinction between genotypes in the matrix; both rows describe the same genotype (`A = 1, B = 0`).
+
+When OncoSimulR processes the input, it sees duplicate genotype definitions, and only one (the first) is retained:
+- Genotype: `(A = 1, B = 0)` → Fitness = **2** (from the first row).
+- The second row with fitness = 3 is discarded.
+
+**Result:**
+```
+#   Genotype Birth
+# 1       WT     1  # Wild type (A = 0, B = 0), automatically assigned 1
+# 2        A     2  # A mutated (A = 1, B = 0), two times here... therefore only the first asignation (fitness = 2) is kept
+# 3        B     0  # Only B mutated (A = 0, B = 1), here NONE=0
+# 4     A, B     0  # If Both A and B mutated (A = 1, B = 1), here NONE=0
+```
+
+
+### Case 2: `m11`
+```r
+m11 <- cbind(c(0, 0), c(1, 0), c(2, 3))
+fem11 <- allFitnessEffects(genotFitness = m11)
+evalAllGenotypes(fem11, addwt = TRUE)
+```
+
+Matrix `m11`:
+```
+     [,1] [,2] [,3]
+[1,]    0    1    2
+[2,]    0    0    3
+```
+
+- **Column 1**: Mutation presence for gene A.
+- **Column 2**: Mutation presence for gene B.
+- **Column 3**: Fitness values for specified genotypes.
+
+This corresponds to:
+- Row 1: A = 0, B = 1 → Fitness = 2.
+- Row 2: A = 0, B = 0 → Fitness = 3.
+Here, the second row explicitly specifies the fitness of the wild type (`A = 0, B = 0`) as **3**. <br>
+Since OncoSimulR expects the wild type to have a fitness of **1**. To handle this discrepancy, OncoSimulR **normalizes all fitness values by dividing them by the fitness of the WT**.
+
+1. Wild type (`A = 0, B = 0`) fitness = **3**.
+2. All fitness values are divided by **3**:
+   - WT: `3 / 3 = 1`.
+   - B mutated: `2 / 3 = 0.666...`.
+   - A mutated: `0 / 3 = 0`.
+   - A, B mutated: `0 / 3 = 0`.
+
+**Result:**
+```
+#   Genotype     Birth
+# 1       WT 1.0000000
+# 2        A 0.0000000
+# 3        B 0.6666667
+# 4     A, B 0.0000000
+```
+
+---
+
+### Conclusions
+1. **Duplicate Genotypes Are Overwritten:** <br>
+   In `m8`, the second row was ignored because it described the same genotype as the first row.
+
+2. **Explicit WT Fitness Causes Normalization:** <br>
+   In `m11`, the WT fitness was explicitly set to 3, triggering normalization to ensure the WT fitness equals 1.
+
+3. **Best Practices:**
+   - Avoid specifying duplicate genotypes in the matrix.
+   - If you specify WT fitness explicitly, expect all other fitness values to be normalized.
+
+---
 
 
 
