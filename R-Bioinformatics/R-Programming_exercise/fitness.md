@@ -5,21 +5,8 @@
 - Two main ways of specifying fitness:
   - Directly through fitness coefficients (**lego system of fitness effects**).
   - Indirectly via epistasis and interaction matrices (**explicit mapping** of genotypes to fitness).
-```r
-allFitnessEffects <- function(rT = NULL,  # un DF que crea un grafo en el que cada
-                              # nodo es un gen y tiene unos efectos de
-                              # fitness asociados si se cumplen unas 
-                              # condiciones y otros si no se cumplen
-                              epistasis = NULL, # efectos en los que el gen mutado
-                              # pierde o gana ventajas en funcion
-                              # de si hay otro mutado
-                              orderEffects = NULL,  # dar orden de efectos
-                              noIntGenes = NULL,    # genes que no interactúan
-                              geneToModule = NULL,
-                              drvNames = NULL,
-                              keepInput = TRUE)
-```
-
+ 
+## Specifying fitness directly (lego system of fitness effects):
 ### Simple Additive Fitness
 Let’s suppose you have a simple two-gene scenario, so a total of four genotypes (WT [the wild type], A, B and AB):
 
@@ -329,6 +316,23 @@ Since OncoSimulR expects the wild type to have a fitness of **1**. To handle thi
 
 ---
 
+
+## Specifying fitness Indirectly via epistasis and interaction matrices 
+This is the **explicit mapping** of genotypes to fitness:
+```r
+allFitnessEffects <- function(rT = NULL,  # un DF que crea un grafo en el que cada
+                              # nodo es un gen y tiene unos efectos de
+                              # fitness asociados si se cumplen unas 
+                              # condiciones y otros si no se cumplen
+                              epistasis = NULL, # efectos en los que el gen mutado
+                              # pierde o gana ventajas en funcion
+                              # de si hay otro mutado
+                              orderEffects = NULL,  # dar orden de efectos
+                              noIntGenes = NULL,    # genes que no interactúan
+                              geneToModule = NULL,
+                              drvNames = NULL,
+                              keepInput = TRUE)
+```
 
 
 
