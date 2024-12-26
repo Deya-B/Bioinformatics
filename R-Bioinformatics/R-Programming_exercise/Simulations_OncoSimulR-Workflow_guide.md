@@ -78,7 +78,8 @@ Fitness in OncoSimulR:
 - You define fitness values based on genotypes or specific mutations.
 - Fitness landscapes can be additive (fitness is summed across mutations) or epistatic (interactions between mutations influence fitness).
 
-Example:
+## Example Workflow in OncoSimulR
+Define the Fitness Landscape:
 ```R
 fitness_table <- data.frame(
   Genotype = c("WT", "A", "B", "A, B"),
@@ -87,52 +88,14 @@ fitness_table <- data.frame(
 ```
 Here, mutation A increases fitness to 1.2, while B alone decreases it to 0.8. The combination of A and B has a synergistic effect (fitness = 1.5).
 
-## 2. Mutations
-Mutations are the driver of genetic diversity in tumor populations.
-
-OncoSimulR allows:
-- Specifying mutation rates for individual genes.
-- Simulating the impact of mutations on fitness.
-```R
-mutator <- allFitnessEffects(
-  genotFitness = fitness_table,
-  mutationRates = c(A = 1e-6, B = 2e-6)
-)
-```
-## 3. Simulation Dynamics
-OncoSimulR simulates tumor growth over time by tracking:
-- Clones: Subpopulations of cells with distinct genotypes.
-- Fitness dynamics: How fitness landscapes affect clonal expansion.
-- Mutation acquisition: The accumulation of mutations over generations.
-
-Types of Simulations:
-- McFarland model: Simulates the effect of deleterious mutations in cancer progression.
-- Continuous models: Simulates clonal dynamics under fitness constraints.
-
-## Example Workflow in OncoSimulR
-Define the Fitness Landscape:
-```R
-fitness_table <- data.frame(
-  Genotype = c("WT", "A", "B", "A, B"),
-  Fitness = c(1, 1.1, 0.9, 1.3)
-)
-```
 Use the `allFitnessEffects()` function to build the model.
-
-Simulate Tumor Evolution:
 ```R
-mutator <- allFitnessEffects(
-  genotFitness = fitness_table,
-  mutationRates = c(A = 1e-6, B = 2e-6)
-)
-
-sim <- oncoSimulIndiv(mutator, model = "McFL", finalTime = 1000)
+fefitness_table <- allFitnessEffects(genotFitness = fitness_table)
 ```
 
 Visualize Results:
 ```R
-plotClones(sim)
-plotDrivers(sim)
+evalAllGenotypes(fefitness_table, addwt = TRUE)
 ```
 
 ## Understanding Fitness
