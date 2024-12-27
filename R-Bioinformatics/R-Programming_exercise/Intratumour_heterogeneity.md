@@ -79,8 +79,10 @@ To define or compute ITH in a simulation:
    - **Expected Results:** Many small clones with varying mutations. No single dominant clone.
    - **Results**:
       ```R
+      # Break down of results:
       high_ith_sim
-      
+      ```
+      ```
       Individual OncoSimul trajectory with call:
        oncoSimulIndiv(fp = fe_high_ith, model = "McFL", mu = 1e-04, 
           initSize = 1e+05, finalTime = 100, onlyCancer = FALSE)
@@ -104,6 +106,10 @@ To define or compute ITH in a simulation:
       8         1, 2, 4, 38     0
       9         1, 2, 4, 40     1
       ...
+      ```
+      ```R
+      # Visualization:
+      
       ```
       <img src="images/ith1.png" alt="ith" width="500"/>
 
