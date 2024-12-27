@@ -18,14 +18,24 @@ El objetivo aquí es dar una serie de recetas para:
 
 ---
 
+
 ### **Definition of Intratumor Heterogeneity (ITH)**
 "*Cancer is the result of a gradual accumulation of somatic genetic mutations. While most of the acquired mutations are putatively neutral and have no significant effect on a cell’s phenotype, some confer a selective advantage to the host cell; they are known as driver mutations. Consequently, individual tumors are heterogeneous and typically consist of multiple populations of cells (subclones), each harboring a distinct set of driver mutations and possessing a distinct phenotype, a phenomenon known as intra-tumor heterogeneity (ITH). Detecting ITH helps identify the key events initiating the development of the disease or leading to metastasis, and allows for the determination of a tumor’s subclonal composition.*" (Khakabimamaghani *et al.*, 2019)
 
 > In other words:
 >
-> Intratumor heterogeneity (ITH) refers to the genetic, epigenetic, and phenotypic diversity observed within tumor cell populations in a single patient. This diversity results from mutations, epigenetic changes, selection pressures, and other factors during tumor evolution. 
+> Tumours are highly heterogeneous ecosystems with a mixture of cancerous and non-cancerous sub-populations of cells. These cells are in constant competition for oxigen,  space, growth-factors and other nutrients and limited resources. Intratumor heterogeneity (ITH) refers to the genetic, epigenetic, and phenotypic diversity observed within tumor cell populations in a single patient. This diversity results from mutations, epigenetic changes, selection pressures, and other factors during tumor evolution.
+>
+> Current explanations of intra-tumour heterogeneity include:
+> - evolutionary neutrality: *"This neutral theory claims that the overwhelming majority of evolutionary changes at the molecular level are not caused by selection acting on advantageous mutants, but by random fixation of selectively neutral or very nearly neutral mutants through the cumulative effect of sampling drift (due to finite population number) under continued input of new mutations"*  (Kimura, 1991)
+> - niche specialisation: The process by which a species becomes better adapted, by natural selection, to the specific characteristics of a particular habitat.
+> - non-equilibrium dynamics
+> - frequency-dependent selection: a situation where fitness is dependent upon the frequency of a phenotype or genotype in a population.
+> 
+> It remains an open problem to identify which, or how many, of these mechanisms are at work in any given neoplasm.
 
 **Importance of ITH:**
+This heterogeneity has consequences for diagnosis, treatment and disease progression.
 - **High ITH**: Associated with treatment resistance, immune evasion, and poor prognosis.
 - **Low ITH**: Often seen in tumors with dominant clones and more straightforward evolutionary trajectories.
 
@@ -155,3 +165,176 @@ To define or compute ITH in a simulation:
 ### References for Further Understanding
 - **Papers:** Use the provided DOI references for insights into modeling strategies.
 - **Documentation:** Check [OncoSimulR documentation](https://rdiaz02.github.io/OncoSimul/) for parameter specifics.
+
+---
+### References from [OncoSimulR guide](https://rdiaz02.github.io/OncoSimul/OncoSimulR.html)
+This example is based on Kaznatcheev et al. ([2017](https://www.nature.com/articles/bjc20175). In this work, it is explained that the progression of cancer is marked by the acquisition of a number of hallmarks, including self-sufficiency of growth factor production for angiogenesis and reprogramming energy metabolism for aerobic glycolysis. Moreover, there is evidence of intra-**tumour heterogeneity**.
+
+Given that some cancer cells can not invest in something that benefits the whole tumor while others can free-ride on the benefits created by them (evolutionary social dilemmas), how do these population level traits evolve, and how are they maintained? The authors answer this question with a mathematical model that treats acid production through glycolysis as a tumour-wide public good that is coupled to the club good of oxygen from better vascularisation.
+
+The cell types of the model are:
+- VOP: VEGF (over)-producers.
+- GLY: glycolytic cells.
+- DEF: aerobic cells that do not call for more vasculature.
+
+On the other hand, the micro-environmental parameters of the model are:
+- a: the benefit per unit of acidification.
+- v: the benefit from oxygen per unit of vascularisation.
+- c: the cost of (over)-producing VEGF.
+
+Finally, depending of the parameter’s values, the model can lead to three different situations (as in other examples, the different types are one mutation away from WT):
+
+#### 1. Fully glycolytic tumours:
+If the fitness benefit of a single unit of acidification is higher than the maximum benefit from the club good for aerobic cells, then GLY cells will always have a strictly higher fitness than aerobic cells, and be selected for. In this scenario, the population will converge towards all GLY, regardless of the initial proportions (as long as there is at least some GLY in the population).
+
+```R
+# Definition of the function for creating the corresponding dataframe.
+avc <- function (a, v, c) {
+  data.frame(Genotype = c("WT", "GLY", "VOP", "DEF"),
+             Fitness = c("1",
+                         paste0("1 + ",a," * (f_GLY + 1)"),
+                         paste0("1 + ",a," * f_GLY + ",v," * (f_VOP + 1) - ",c),
+                         paste0("1 + ",a," * f_GLY + ",v," * f_VOP")
+                         ))
+                          }
+
+# Specification of the different effects on fitness.
+afavc <- allFitnessEffects(genotFitness = avc(2.5, 2, 1),
+                           frequencyDependentFitness = TRUE,
+                           frequencyType = "rel")
+## Warning in allFitnessEffects(genotFitness = avc(2.5, 2, 1),
+## frequencyDependentFitness = TRUE, : v2 functionality detected.
+## Adapting to v3 functionality.
+```
+
+```R
+## For real, you would probably want to run
+## this multiple times with oncoSimulPop
+simulation <- oncoSimulIndiv(afavc,
+                           model = "McFL",
+                           onlyCancer = FALSE,
+                           finalTime = 15,
+                           mu = 1e-3,
+                           initSize = 4000,
+                           keepPhylog = FALSE,
+                           seed = NULL,
+                           errorHitMaxTries = FALSE,
+                           errorHitWallTime = FALSE)
+```
+
+```R
+# Representation of the plot of one simulation as an example (the others are
+# highly similar).
+plot(simulation, show = "genotypes", type = "line",
+     ylab = "Number of individuals", main = "Fully glycolytic tumours",
+     font.main=2, font.lab=2, cex.main=1.4, cex.lab=1.1, las = 1)
+```
+
+#### 2. Fully angiogenic tumours:
+If the benefit to VOP from their extra unit of vascularisation is higher than the cost c to produce that unit, then VOP will always have a strictly higher fitness than DEF, selecting the proportion of VOP cells towards 1. In addition, if the maximum possible benefit of the club good to aerobic cells is higher than the benefit of an extra unit of acidification, then for sufficiently high number of VOP, GLY will have lower fitness than aerobic cells. When both conditions are satisfied, the population will converge towards all VOP.
+
+```R
+# Definition of the function for creating the corresponding dataframe.
+avc <- function (a, v, c) {
+  data.frame(Genotype = c("WT", "GLY", "VOP", "DEF"),
+             Fitness = c("1",
+                         paste0("1 + ",a," * (f_GLY + 1)"),
+                         paste0("1 + ",a," * f_GLY + ",v, " * (f_VOP + 1) - ",c),
+                         paste0("1 + ",a," * f_GLY + ",v, " * f_VOP")
+                         ))
+                          }
+
+# Specification of the different effects on fitness.
+afavc <- allFitnessEffects(genotFitness = avc(2.5, 7, 1),
+                           frequencyDependentFitness = TRUE,
+                           frequencyType = "rel")
+## Warning in allFitnessEffects(genotFitness = avc(2.5, 7, 1),
+## frequencyDependentFitness = TRUE, : v2 functionality detected.
+## Adapting to v3 functionality.
+```
+
+```R
+simulation <- oncoSimulIndiv(afavc,
+                           model = "McFL",
+                           onlyCancer = FALSE,
+                           finalTime = 15,
+                           mu = 1e-4,
+                           initSize = 4000,
+                           keepPhylog = FALSE,
+                           seed = NULL,
+                           errorHitMaxTries = FALSE,
+                           errorHitWallTime = FALSE)
+```
+
+```R
+## We get a huge number of VOP very quickly
+## (too quickly?)
+plot(simulation, show = "genotypes", type = "line",
+     ylab = "Number of individuals", main = "Fully angiogenic tumours",
+     font.main=2, font.lab=2, cex.main=1.4, cex.lab=1.1, las = 1)
+```
+
+#### 3. Heterogeneous tumours:
+If the benefit from an extra unit of vascularisation in a fully aerobic group is lower than the cost c to produce that unit, then for a sufficiently low proportion of GLY and thus sufficiently large number of aerobic cells sharing the club good, DEF will have higher fitness than VOP. This will lead to a decrease in the proportion of VOP among aerobic cells and thus a decrease in the average fitness of aerobic cells. A lower fitness in aerobic cells will lead to an increase in the proportion of GLY until the aerobic groups (among which the club good is split) get sufficiently small and fitness starts to favour VOP over DEF, swinging the dynamics back.
+
+```R
+# Definition of the function for creating the corresponding dataframe.
+avc <- function (a, v, c) {
+  data.frame(Genotype = c("WT", "GLY", "VOP", "DEF"),
+             Fitness = c("1",
+                         paste0("1 + ",a," * (f_GLY + 1)"),
+                         paste0("1 + ",a," * f_GLY + ",v," * (f_VOP + 1) - ",c),
+                         paste0("1 + ",a," * f_GLY + ",v," * f_VOP")
+                         ))
+                          }
+
+# Specification of the different effects on fitness.
+afavc <- allFitnessEffects(genotFitness = avc(7.5, 2, 1),
+                           frequencyDependentFitness = TRUE,
+                           frequencyType = "rel")
+## Warning in allFitnessEffects(genotFitness = avc(7.5, 2, 1),
+## frequencyDependentFitness = TRUE, : v2 functionality detected.
+## Adapting to v3 functionality.
+```
+
+```R
+# Launching of the simulation (20 times).
+simulation <- oncoSimulIndiv(afavc,
+                           model = "McFL",
+                           onlyCancer = FALSE,
+                           finalTime = 25,
+                           mu = 1e-4,
+                           initSize = 4000,
+                           keepPhylog = FALSE,
+                           seed = NULL,
+                           errorHitMaxTries = FALSE,
+                           errorHitWallTime = FALSE)
+```
+
+```R
+# Representation of the plot of one simulation as an example (the others are
+# highly similar).
+plot(simulation, show = "genotypes", type = "line",
+     ylab = "Number of individuals", main = "Heterogeneous tumours",
+     font.main=2, font.lab=2, cex.main=1.4, cex.lab=1.1, las = 1)
+```
+
+```R
+
+```
+
+```R
+
+```
+
+```R
+
+```
+
+```R
+
+```
+
+```R
+
+```
