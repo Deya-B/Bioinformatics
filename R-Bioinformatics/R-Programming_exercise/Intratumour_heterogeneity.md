@@ -64,12 +64,70 @@ To define or compute ITH in a simulation:
 
 1. **High ITH:**
    - **Parameters:**
-     - **Weak Selection, Strong Mutation (WSSM)**: 
-       - **Mutation rate (\(mu\))**: High values (e.g., \(10^{-4}\) or \(10^{-5}\)).
-       - **Fitness landscape**: Neutral or shallow gradients between genotypes.
-       - **Population size**: Large.
-       - **Sampling model**: Single-cell sampling to capture clonal diversity.
-   - **Setup:**
+     - **Weak Selection, Strong Mutation (WSSM)**:
+       The term weak selection refers to a situation where mutations confer small fitness advantages or disadvantages.<br>
+       Weak Selection refers to small fitness coefficients (e.g., 0.01 or smaller).<br>
+       Strong Mutation refers to high mutation rate, where new mutations arise frequently
+       (e.g., \( \mu = 10^{-4} \) or higher). <br>
+       In weak selection:
+         - Small differences in fitness mean that no single genotype rapidly takes over the population.
+         - Mutations can coexist for long periods, fostering genetic diversity.
+         - Frequent mutations (strong mutation rates) ensure the continuous introduction of new clones, preventing dominance.
+
+       Parameters to ensure **WSSM**:
+          1. **Fitness Effects** or **Fitness landscape**: Neutral or shallow gradients between genotypes.
+             - Use small fitness coefficients for individual mutations, as in `rep(0.01, 50)`
+               that creates a list of 50 genes, each with a fitness advantage of 0.01 (1% increase in fitness).
+             - A fitness advantage of 0.01 is considered small compared to, for instance, 0.5 or 1.0,
+               where selection would be strong.
+             - In a weak selection regime, these small fitness effects do not dominate the evolutionary dynamics,
+               leading to significant genetic drift and slower fixation of mutations.
+             - Small fitness effects allow many clones to coexist for longer periods.
+             - This coexistence fosters **high intratumor heterogeneity (ITH)**.
+
+         2. **Mutation Rate (`mu`)**:
+            - Set High values of mutation rates, such as: \( \mu = 10^{-4} \) or \( \mu = 10^{-5} \).
+            - These values ensure mutations occur frequently relative to the selection effects.
+           
+         3. **Population Size (`initSize`)**:
+            - A **large population size** (e.g., \( 10^5 \) to \( 10^8 \)) ensures sufficient
+              diversity to maintain many clones.
+
+         4. **Final Time (`finalTime`)**:
+            - Ensure that the simulation runs long enough for mutations to accumulate (e.g., `finalTime = 100` to `1500`).
+         
+         5. **Other Considerations**:
+            - Use `onlyCancer = FALSE` to allow exploration of non-oncogenic dynamics.
+            - Sampling frequency can be controlled with `keepEvery` to capture changes in diversity over time.
+            - **Sampling model**: Single-cell sampling to capture clonal diversity.
+            - **Population Size and Weak Selection** Increasing population size **does not directly define weak selection**,
+               but it interacts with weak selection as follows:
+               - Larger populations reduce the effects of genetic drift,
+                 allowing small fitness differences to play a role over time.
+               - For weak selection, larger populations can amplify **clonal interference**,
+                 where many clones compete without any single one dominating.
+
+   - **Example 1. Simulation Setup**:
+      ```R
+      # Weak Selection, Strong Mutation Simulation
+      fe_wssm <- allFitnessEffects(noIntGenes = rep(0.01, 20))  # Small fitness effects
+      sim_wssm <- oncoSimulIndiv(fe_wssm,
+                                 mu = 1e-4, 
+                                 initSize = 1e5,
+                                 finalTime = 200,
+                                 model = "McFL")
+      
+      # Plot the results
+      plot(sim_wssm, show = "genotypes", type = "line",
+           ylab = "Number of individuals", main = "WSSM Dynamics",
+           font.main=2, font.lab=2, cex.main=1.4, cex.lab=1.1, las = 1)
+      ```
+
+   - **Expected Dynamics**:
+      - Multiple genotypes will coexist with none dominating.
+      - High clonal diversity due to frequent mutations.
+
+   - **Example 2**:
      ```R
      fe_high_ith <- allFitnessEffects(noIntGenes = rep(0.01, 50)) # Weak selection
      high_ith_sim <- oncoSimulIndiv(fe_high_ith,
@@ -79,7 +137,9 @@ To define or compute ITH in a simulation:
                                     finalTime = 100,
                                     onlyCancer = FALSE))
      ```
+
    - **Expected Results:** Many small clones with varying mutations. No single dominant clone.
+
    - **Results**:
       ```R
       # Break down of results:
@@ -118,8 +178,24 @@ To define or compute ITH in a simulation:
       ```
       <img src="images/ith1.png" alt="ith" width="500"/>
 
+This setup from the OncoSimulR documentation with:
+- **Large population size (`initSize = 1e8`)**,
+- **High mutation rate (`mu = 1e-6`)**, and
+- **Weak fitness differences (`genotFitness` effects small)**
+  ```R
+   (sr7b3 <- oncoSimulIndiv(allFitnessEffects(genotFitness = r7b2),
+                          model = "McFL",
+                          mu = 1e-6,
+                          onlyCancer = FALSE,
+                          finalTime = 1500,
+                          initSize = 1e8,
+                          keepEvery = 4,
+                          detectionSize = 1e10))
+   ```
+can lead to **WSSM** dynamics.
 
-2. **High ITH with Many Clones:**
+
+3. **High ITH with Many Clones:**
    - Increase the number of genes or loci under consideration and their mutation rates.
    - Example:
      ```R
@@ -134,7 +210,8 @@ To define or compute ITH in a simulation:
      plotClonalEvolution(many_clones_sim)
      ```
 
-3. **Low ITH with Long Time to Substitution:**
+
+4. **Low ITH with Long Time to Substitution:**
    - **Parameters:**
      - **Strong Selection, Weak Mutation (SSWM)**: In this regime, mutations are rare (much smaller than the mutation rate times the population size) and selection is strong (much larger than 1/population size), so that the population consists of a single clone most of the time, and evolution proceeds by complete, successive clonal expansions of advantageous mutations.
        - **Mutation rate (\(mu\))**: Low values (\(10^{-8}\)).
@@ -154,7 +231,26 @@ To define or compute ITH in a simulation:
 
 ---
 
-### **Sampling in OncoSimulR**
+## CHECK IF THIS WORKS!
+### Sampling and Measuring Heterogeneity
+#### Sampling from Simulation:
+Use clonal diversity metrics like **Shannon Index** or **Simpson Index** on single-cell or bulk samples:
+```R
+# Single-cell sampling
+sample_single <- samplePopulations(sim_wssm, timeSample = 50, typeSample = "single")
+shannon <- diversity(sample_single, index = "shannon")
+
+# Bulk sequencing
+sample_bulk <- samplePopulations(sim_wssm, timeSample = 50, typeSample = "bulk")
+bulk_diversity <- diversity(sample_bulk, index = "simpson")
+```
+#### **Interpreting Results**:
+- **High ITH**: High Shannon/Simpson Index.
+- **Low ITH**: Dominance of a few clones, low diversity indices.
+
+
+## or THIS!
+### Sampling in OncoSimulR
 
 1. **Single-Cell Sampling:**
    - Use to capture high ITH and detect rare clones.
