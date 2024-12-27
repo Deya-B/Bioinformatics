@@ -109,7 +109,9 @@ To define or compute ITH in a simulation:
       ```
       ```R
       # Visualization:
-      
+      plot(high_ith_sim, show = "genotypes", type = "line",
+           ylab = "Number of individuals", main = "Heterogeneous tumours",
+           font.main=2, font.lab=2, cex.main=1.4, cex.lab=1.1, las = 1)
       ```
       <img src="images/ith1.png" alt="ith" width="500"/>
 
