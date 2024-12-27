@@ -72,10 +72,41 @@ To define or compute ITH in a simulation:
      high_ith_sim <- oncoSimulIndiv(fe_high_ith,
                                     mu = 1e-4, 
                                     model = "McFL", # Moran or Wright-Fisher
-                                    initSize = 1e5)
-     plotClonalEvolution(high_ith_sim)  # Visualization
+                                    initSize = 1e5,
+                                    finalTime = 100,
+                                    onlyCancer = FALSE))
      ```
    - **Expected Results:** Many small clones with varying mutations. No single dominant clone.
+   - **Results**:
+      ```R
+      high_ith_sim
+      
+      Individual OncoSimul trajectory with call:
+       oncoSimulIndiv(fp = fe_high_ith, model = "McFL", mu = 1e-04, 
+          initSize = 1e+05, finalTime = 100, onlyCancer = FALSE)
+      
+        NumClones TotalPopSize LargestClone MaxNumDrivers MaxDriversLast NumDriversLargestPop
+      1      3779       101771        42398             0              0                    0
+        TotalPresentDrivers FinalTime NumIter HittedWallTime HittedMaxTries     errorMF minDMratio
+      1                   0       100   54933          FALSE          FALSE 0.001658369   199.6077
+        minBMratio OccurringDrivers
+      1        200                 
+      
+      Final population composition:
+                   Genotype     N
+      1                     42398
+      2                   1   805
+      3                1, 2     0
+      4         1, 2, 3, 31     0
+      5         1, 2, 3, 32     0
+      6             1, 2, 4    69
+      7          1, 2, 4, 9     2
+      8         1, 2, 4, 38     0
+      9         1, 2, 4, 40     1
+      ...
+      ```
+      <img src="images/ith1.png" alt="ith" width="500"/>
+
 
 2. **High ITH with Many Clones:**
    - Increase the number of genes or loci under consideration and their mutation rates.
@@ -320,7 +351,26 @@ plot(simulation, show = "genotypes", type = "line",
 ```
 
 ```R
+simulation
 
+Individual OncoSimul trajectory with call:
+ oncoSimulIndiv(fp = afavc, model = "McFL", mu = 1e-04, initSize = 4000, 
+    finalTime = 25, onlyCancer = FALSE, keepPhylog = FALSE, errorHitWallTime = FALSE, 
+    errorHitMaxTries = FALSE, seed = NULL)
+
+  NumClones TotalPopSize LargestClone MaxNumDrivers MaxDriversLast NumDriversLargestPop
+1         4    100763834    100760538             0              0                    0
+  TotalPresentDrivers FinalTime NumIter HittedWallTime HittedMaxTries   errorMF minDMratio
+1                   0      9.15   27430          FALSE          FALSE 0.1031664    590.149
+  minBMratio OccurringDrivers
+1   3333.333                 
+
+Final population composition:
+  Genotype         N
+1                 11
+2      DEF       231
+3      GLY 100760538
+4      VOP      3054
 ```
 
 ```R
