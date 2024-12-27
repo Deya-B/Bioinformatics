@@ -127,6 +127,31 @@ To define or compute ITH in a simulation:
       - Multiple genotypes will coexist with none dominating.
       - High clonal diversity due to frequent mutations.
 
+   - **Results**:
+   ```
+   Individual OncoSimul trajectory with call:
+    oncoSimulIndiv(fp = fe_wssm, model = "McFL", mu = 1e-04, initSize = 1e+05, 
+       finalTime = 200)
+   
+     NumClones TotalPopSize LargestClone MaxNumDrivers MaxDriversLast NumDriversLargestPop
+   1      1457       102729        23887             0              0                    0
+     TotalPresentDrivers FinalTime NumIter HittedWallTime HittedMaxTries     errorMF minDMratio
+   1                   0       200   47919          FALSE          FALSE 0.001713816   498.4901
+     minBMratio OccurringDrivers
+   1        500                 
+   
+   Final population composition:
+                Genotype     N
+   1                     23887
+   2                   1  1641
+   3                1, 2    61
+   4             1, 2, 3     5
+   5             1, 2, 4     0
+   6     1, 2, 4, 12, 15     0
+   7             1, 2, 5    23
+   [ -- omitted 1450 rows ]
+   ```
+
    - **Example 2**:
      ```R
      fe_high_ith <- allFitnessEffects(noIntGenes = rep(0.01, 50)) # Weak selection
