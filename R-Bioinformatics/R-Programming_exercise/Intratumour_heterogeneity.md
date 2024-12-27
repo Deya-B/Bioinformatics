@@ -359,8 +359,10 @@ plot(simulation, show = "genotypes", type = "line",
 ```
 
 ```R
+# Break down:
 simulation
-
+```
+```
 Individual OncoSimul trajectory with call:
  oncoSimulIndiv(fp = afavc, model = "McFL", mu = 1e-04, initSize = 4000, 
     finalTime = 25, onlyCancer = FALSE, keepPhylog = FALSE, errorHitWallTime = FALSE, 
