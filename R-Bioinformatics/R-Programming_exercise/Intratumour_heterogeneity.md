@@ -16,6 +16,8 @@ El objetivo aquí es dar una serie de recetas para:
 - quieres alta heterogeneidad tumoral con un número muy alto de clones: haz lo otro
 - quieres baja heterogeneidad pero tiempos hasta la sustitución muy largos: haz lo de más allá, etc
 
+---
+
 ### **Definition of Intratumor Heterogeneity (ITH)**
 
 Intratumor heterogeneity (ITH) refers to the genetic, epigenetic, and phenotypic diversity observed within tumor cell populations in a single patient. This diversity results from mutations, epigenetic changes, selection pressures, and other factors during tumor evolution. 
