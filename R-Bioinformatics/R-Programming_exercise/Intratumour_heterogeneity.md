@@ -57,11 +57,11 @@ To define or compute ITH in a simulation:
 
 ---
 
-### **Modeling High and Low ITH in OncoSimulR**
+### Modeling High and Low ITH in OncoSimulR
 
 1. **High ITH:**
    - **Parameters:**
-     - **Weak Selection, Strong Mutation (WSSM)**:
+     - **Weak Selection, Strong Mutation (WSSM)**: 
        - **Mutation rate (\(mu\))**: High values (e.g., \(10^{-4}\) or \(10^{-5}\)).
        - **Fitness landscape**: Neutral or shallow gradients between genotypes.
        - **Population size**: Large.
@@ -133,7 +133,7 @@ To define or compute ITH in a simulation:
 
 3. **Low ITH with Long Time to Substitution:**
    - **Parameters:**
-     - **Strong Selection, Weak Mutation (SSWM)**:
+     - **Strong Selection, Weak Mutation (SSWM)**: In this regime, mutations are rare (much smaller than the mutation rate times the population size) and selection is strong (much larger than 1/population size), so that the population consists of a single clone most of the time, and evolution proceeds by complete, successive clonal expansions of advantageous mutations.
        - **Mutation rate (\(mu\))**: Low values (\(10^{-8}\)).
        - **Fitness landscape**: High selection coefficients (dominant genotypes).
        - **Population size**: Small or medium.
@@ -383,17 +383,135 @@ Final population composition:
 4      VOP      3054
 ```
 
-```R
 
+#### SSWM 
+In this regime, mutations are rare (much smaller than the mutation rate times the population size) and selection is strong (much larger than 1/population size), so that the population consists of a single clone most of the time, and evolution proceeds by complete, successive clonal expansions of advantageous mutations.
+
+We can easily simulate variations around these scenarios with OncoSimulR, moving away from the SSWM by:
+- increasing the population size, or
+- changing the size of the fitness differences.
+
+The examples below play with population size and fitness differences. To make sure we use a similar fitness landscape, we use the same simulated fitness landscape, scaled differently, so that the differences in fitness between mutants are increased or decreased while keeping their ranking identical (and, thus, having the same set of accessible and inaccessible genotypes and paths over the landscape).
+
+If you run the code, you will see that as we increase population size we move further away from the SSWM: the population is no longer composed of a single clone most of the time.
+
+Before running the examples, and to show the effects quantitatively, we define a simple wrapper to compute a few statistics.
+```R
+## oncoSimul object  -> measures of clonal interference
+##    they are not averaged over time. One value for sampled time
+clonal_interf_per_time <- function(x) {
+    x <- x$pops.by.time
+    y <- x[, -1, drop = FALSE]
+    shannon <- apply(y, 1, OncoSimulR:::shannonI)
+    tot <- rowSums(y)
+    half_tot <- tot * 0.5
+    five_p_tot <- tot * 0.05
+    freq_most_freq <- apply(y/tot, 1, max)
+    single_more_half <- rowSums(y > half_tot)
+    ## whether more than 1 clone with more than 5% pop.
+    how_many_gt_5p <- rowSums(y > five_p_tot)
+    several_gt_5p <- (how_many_gt_5p > 1)
+    return(cbind(shannon, ## Diversity of clones
+                 freq_most_freq, ## Frequency of the most freq. clone
+                 single_more_half, ## Any clone with a frequency > 50%?
+                 several_gt_5p, ## Are there more than 1 clones with
+                                ## frequency > 5%?
+                 how_many_gt_5p ## How many clones are there with
+                                ## frequency > 5%
+                 ))
+}
+```
+
+```R
+set.seed(1)
+r7b <- rfitness(7, scale = c(1.2, 0, 1))
+
+## Large pop sizes: clonal interference
+(sr7b <- oncoSimulIndiv(allFitnessEffects(genotFitness = r7b),
+                       model = "McFL",
+                       mu = 1e-6,
+                       onlyCancer = FALSE,
+                       finalTime = 400,
+                       initSize = 1e7,
+                       keepEvery = 4,
+                       detectionSize = 1e10))
+
+plot(sr7b, show = "genotypes")
+
+colMeans(clonal_interf_per_time(sr7b))
+```
+
+```R
+## Small pop sizes: a single clone most of the time
+(sr7c <- oncoSimulIndiv(allFitnessEffects(genotFitness = r7b),
+                       model = "McFL",
+                       mu = 1e-6,
+                       onlyCancer = FALSE,
+                       finalTime = 60000,
+                       initSize = 1e3,
+                       keepEvery = 4,
+                       detectionSize = 1e10))
+
+plot(sr7c, show = "genotypes")
+
+colMeans(clonal_interf_per_time(sr7c))
+
+
+
+## Even smaller fitness differences, but large pop. sizes
+set.seed(1); r7b2 <- rfitness(7, scale = c(1.05, 0, 1))
+
+(sr7b2 <- oncoSimulIndiv(allFitnessEffects(genotFitness = r7b2),
+                       model = "McFL",
+                       mu = 1e-6,
+                       onlyCancer = FALSE,
+                       finalTime = 3500,
+                       initSize = 1e7,
+                       keepEvery = 4,
+                       detectionSize = 1e10))
+sr7b2
+plot(sr7b2, show = "genotypes")
+colMeans(clonal_interf_per_time(sr7b2))
+
+
+## Increase pop size further
+(sr7b3 <- oncoSimulIndiv(allFitnessEffects(genotFitness = r7b2),
+                       model = "McFL",
+                       mu = 1e-6,
+                       onlyCancer = FALSE,
+                       finalTime = 1500,
+                       initSize = 1e8,
+                       keepEvery = 4,
+                       detectionSize = 1e10))
+sr7b3
+plot(sr7b3, show = "genotypes")
+colMeans(clonal_interf_per_time(sr7b3))
 ```
 
 ```R
 
 ```
 
+
 ```R
 
 ```
+
+
+```R
+
+```
+
+
+```R
+
+```
+
+
+```R
+
+```
+
 
 ```R
 
