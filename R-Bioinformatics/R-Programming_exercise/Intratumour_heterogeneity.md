@@ -612,6 +612,112 @@ plot(sr7b3, show = "genotypes")
 colMeans(clonal_interf_per_time(sr7b3))
 ```
 
+## Clonal interference vs intratumour heterogeneity (ITH)
+Clonal interference and intratumour heterogeneity (ITH) are related concepts in evolutionary biology and cancer research, but they are not the same. Both involve the dynamics of genetic diversity within populations, but they arise from distinct processes and have different implications. Let’s examine these concepts in detail.
+
+---
+
+## **Clonal Interference**
+
+### **Definition**
+Clonal interference is an evolutionary phenomenon observed in populations with large effective sizes. It occurs when multiple beneficial mutations arise independently in different individuals or subpopulations (clones) and compete with one another for dominance. This competition slows down the fixation of beneficial mutations because no single mutation can rapidly sweep through the population due to the presence of other competing advantageous clones.
+
+### **Key Characteristics**
+1. **Occurs in asexual populations**:
+   - Common in microbial populations and in cancer cell populations, which reproduce clonally.
+   - Lacks genetic recombination, so beneficial mutations cannot be combined into a single "super-fit" genotype.
+
+2. **Competition among clones**:
+   - Different clones, each carrying distinct advantageous mutations, compete for dominance.
+   - Some clones may eventually outcompete others, leading to the loss of certain beneficial mutations.
+
+3. **Effects on evolution**:
+   - Slows down the rate of adaptation because beneficial mutations are not fixed sequentially.
+   - Results in transient genetic diversity, where multiple clones coexist temporarily before one becomes dominant.
+
+### **Relevance in Cancer**
+In cancer, clonal interference can occur within tumor cell populations. Different subclones (genotypes) may acquire mutations that provide growth or survival advantages, leading to competition between these subclones. However, clonal interference in cancer is not synonymous with intratumour heterogeneity, as it is only one of several mechanisms contributing to ITH.
+
+---
+
+## **Intratumour Heterogeneity (ITH)**
+
+### **Definition**
+Intratumour heterogeneity refers to the coexistence of genetically, epigenetically, and phenotypically diverse cell populations within a single tumor. This diversity arises due to ongoing mutation, epigenetic changes, and microenvironmental selection pressures during tumor development.
+
+### **Key Characteristics**
+1. **Diverse origins**:
+   - ITH encompasses all forms of variation within a tumor, including genetic mutations, copy number alterations, epigenetic modifications, and differential gene expression.
+   - It is driven by both neutral processes (e.g., random mutations) and selective pressures (e.g., competition for nutrients, immune evasion).
+
+2. **Spatial and temporal heterogeneity**:
+   - **Spatial ITH**: Different regions of the tumor may harbor distinct clones due to localized selection pressures.
+   - **Temporal ITH**: The tumor’s clonal composition changes over time as new mutations accumulate and selective pressures shift.
+
+3. **Facilitates tumor progression**:
+   - ITH allows tumors to adapt to changing environments, such as therapy or immune response.
+   - Diverse subpopulations can cooperate or compete, influencing tumor growth, metastasis, and resistance to treatment.
+
+### **Relevance in Cancer**
+ITH is a hallmark of cancer and a major barrier to effective treatment. It explains why tumors often evolve resistance to therapy: different subclones may respond differently to treatment, allowing resistant clones to proliferate.
+
+---
+
+## **Comparison of Clonal Interference and ITH**
+
+| **Feature**                | **Clonal Interference**                                                 | **Intratumour Heterogeneity (ITH)**                               |
+|----------------------------|------------------------------------------------------------------------|------------------------------------------------------------------|
+| **Definition**              | Competition among clones with beneficial mutations in a population.    | Genetic, epigenetic, and phenotypic diversity within a tumor.    |
+| **Mechanism**               | Arises from competition between beneficial mutations.                  | Results from mutation, selection, drift, and microenvironmental factors. |
+| **Scope**                   | Focuses on beneficial mutations and competition.                       | Encompasses all types of variation within a tumor.              |
+| **Diversity**               | Transient coexistence of competing clones.                             | Persistent diversity with spatial and temporal variation.        |
+| **Impact on Evolution**     | Slows down the rate of adaptation.                                     | Promotes adaptability and tumor progression.                    |
+| **Role in Cancer**          | Explains competition between tumor subclones.                         | Explains the complex and heterogeneous nature of tumors.         |
+
+---
+
+## **Detailed Explanation with an Example**
+
+Let’s use a cancer scenario to illustrate the difference:
+
+### **Clonal Interference Example**
+1. A tumor starts with a single clone (genotype A).
+2. Over time, two beneficial mutations arise independently in two different subclones:
+   - Subclone 1 (genotype A1): Gains a mutation that increases growth rate by 10%.
+   - Subclone 2 (genotype A2): Gains a mutation that increases resistance to hypoxia.
+3. These subclones compete for dominance:
+   - If Subclone 1 grows faster, it may outcompete Subclone 2, even though Subclone 2’s mutation could be advantageous under hypoxic conditions.
+   - Eventually, one subclone becomes dominant, and the other is lost, delaying the fixation of adaptive traits.
+
+### **ITH Example**
+1. The tumor starts with a single clone (genotype A).
+2. Over time, multiple mutations accumulate due to high genomic instability, leading to subclones A1, A2, A3, and A4, each with unique mutations.
+3. These subclones coexist because:
+   - Subclone A1 thrives in the hypoxic tumor core.
+   - Subclone A2 is resistant to chemotherapy.
+   - Subclone A3 is immunoevasive and evades T-cell detection.
+   - Subclone A4 remains in a dormant state but seeds metastases.
+4. The tumor exhibits **spatial ITH** (different clones dominate in different regions) and **temporal ITH** (some clones emerge after therapy).
+
+---
+
+## **Key Insights**
+
+1. **Clonal Interference is a Mechanism Within ITH**:
+   - Clonal interference is one way ITH arises, as competing clones contribute to the tumor’s genetic diversity. However, ITH encompasses more than just clonal interference—it includes neutral evolution, epigenetic changes, and microenvironmental effects.
+
+2. **Implications for Therapy**:
+   - **Clonal Interference**: Therapies targeting the dominant clone may be less effective because competing clones can eventually dominate.
+   - **ITH**: The presence of diverse subclones means that any single therapy is unlikely to eradicate the tumor completely, as resistant clones can repopulate the tumor.
+
+3. **Understanding the Dynamics**:
+   - Clonal interference is often transient, with one clone eventually dominating.
+   - ITH is more persistent and dynamic, reflecting the tumor’s adaptive potential.
+
+---
+
+### **Conclusion**
+Clonal interference is a specific evolutionary phenomenon describing competition between beneficial clones. Intratumour heterogeneity is a broader concept describing the diverse genetic and phenotypic landscape of tumors. Both play critical roles in understanding tumor evolution, adaptability, and resistance to therapy, but they operate at different levels and with different implications.
 ```R
 
 ```
