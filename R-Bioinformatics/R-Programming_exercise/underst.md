@@ -293,4 +293,120 @@ From the provided literature and general ITH modeling approaches:
 
 To model ITH effectively, it's crucial to integrate biological, environmental, and simulation-specific parameters, such as mutation rates, fitness landscapes, and spatial structure. Measuring heterogeneity using indices like Shannon or Simpson helps quantify ITH. Sampling strategies should be designed to capture the temporal and spatial complexity of tumors. Lastly, understanding ITH in the context of monotypic vs. non-monotypic populations helps explain evolutionary dynamics and therapeutic challenges.
 
-Would you like more specific implementation guidance based on these principles?
+
+---
+---
+To modify the `clonal_interf_per_time` function to measure heterogeneity instead of clonal interference, you can focus on incorporating diversity indices (such as Shannon or Simpson indices) and clonal distribution metrics to describe heterogeneity more comprehensively.
+
+Here’s how you can adapt the code to focus on measuring **intra-tumor heterogeneity (ITH):**
+
+### **Modified Code for Measuring Heterogeneity**
+```R
+## Modified function for measuring heterogeneity
+heterogeneity_per_time <- function(x) {
+  x <- x$pops.by.time  # Population sizes over time
+  y <- x[, -1, drop = FALSE]  # Exclude the first column (time)
+
+  # Calculate Shannon Diversity Index for each time point
+  shannon <- apply(y, 1, function(row) {
+    proportions <- row / sum(row)  # Relative frequencies
+    proportions <- proportions[proportions > 0]  # Remove zeros to avoid log(0)
+    -sum(proportions * log(proportions))  # Shannon entropy formula
+  })
+
+  # Calculate Simpson Diversity Index for each time point
+  simpson <- apply(y, 1, function(row) {
+    proportions <- row / sum(row)
+    1 - sum(proportions^2)  # Simpson's index formula
+  })
+
+  # Clonal evenness: Ratio of Shannon index to its maximum possible value
+  clonal_evenness <- shannon / log(rowSums(y > 0))
+
+  # Proportion of the most frequent clone
+  freq_most_freq <- apply(y / rowSums(y), 1, max)
+
+  # Number of clones present with a frequency > 5% (indicates dominant subclones)
+  five_p_tot <- rowSums(y) * 0.05
+  how_many_gt_5p <- rowSums(y > five_p_tot)
+
+  # Proportion of clones present (clonal richness)
+  clonal_richness <- rowSums(y > 0) / ncol(y)
+
+  # Combine all heterogeneity metrics into a single output
+  return(data.frame(
+    Shannon_Diversity = shannon,
+    Simpson_Diversity = simpson,
+    Clonal_Evenness = clonal_evenness,
+    Freq_Most_Freq = freq_most_freq,
+    Clones_GT_5P = how_many_gt_5p,
+    Clonal_Richness = clonal_richness
+  ))
+}
+```
+
+---
+
+### **Key Changes in the Modified Function**
+1. **Added Diversity Indices**:
+   - **Shannon Index** quantifies the entropy of the clonal population.
+   - **Simpson Index** measures the probability of selecting two individuals from the same clone.
+   
+2. **Clonal Evenness**:
+   - Ratio of the Shannon Index to its maximum value, which indicates the evenness of clonal distribution.
+
+3. **Clonal Richness**:
+   - Proportion of total clones present at each time point.
+
+4. **Dominant Subclone Detection**:
+   - Retained the metric that measures clones with a frequency >5% for identifying major subclones.
+
+---
+
+### **How to Interpret the Results**
+- **Shannon Diversity**:
+  - Higher values indicate greater heterogeneity (many equally frequent clones).
+  - Lower values indicate dominance by one or a few clones.
+
+- **Simpson Diversity**:
+  - Closer to 1 means higher diversity.
+  - Closer to 0 means lower diversity (dominance by a single clone).
+
+- **Clonal Evenness**:
+  - Values near 1 indicate even distribution of clones.
+  - Values near 0 indicate dominance by a small number of clones.
+
+- **Freq Most Freq**:
+  - High values indicate that one clone dominates the population.
+
+- **Clones GT 5%**:
+  - Number of clones with >5% population size. Useful for identifying dominant subpopulations.
+
+- **Clonal Richness**:
+  - Indicates the proportion of total clones present in the population. Higher values suggest more diversity.
+
+---
+
+### **Example Usage**
+You can use this modified function with `oncoSimulIndiv` objects to analyze heterogeneity at each time point:
+```R
+# Run an oncoSimulIndiv simulation
+simulation <- oncoSimulIndiv(afavc,
+                             model = "McFL",
+                             finalTime = 100,
+                             initSize = 5000,
+                             onlyCancer = FALSE)
+
+# Measure heterogeneity over time
+heterogeneity_results <- heterogeneity_per_time(simulation)
+
+# View the results
+print(heterogeneity_results)
+```
+
+---
+
+### **Extension**
+- Add **plots** to visualize heterogeneity over time (e.g., Shannon Index trend).
+- If spatial heterogeneity is of interest, adapt the function to accept spatial simulation data.
+- Modify thresholds (e.g., 5% dominance cutoff) to fit specific biological hypotheses.
