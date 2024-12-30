@@ -190,7 +190,9 @@ The **OncoSimulR** documentation is rich with examples:
 
 By experimenting with the above modifications, you can simulate a wide variety of ITH scenarios to explore tumor evolution under different conditions.
 
-
+---
+---
+---
 
 
 To address your request, I'll extract key information from the provided sources to focus on **intra-tumor heterogeneity (ITH)** modeling and interpretation. Below are responses based on the themes you outlined:
