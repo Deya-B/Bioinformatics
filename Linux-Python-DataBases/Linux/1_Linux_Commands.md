@@ -18,6 +18,8 @@
 [Table of Contents II](#contents2)<br>
 [Table of Contents III](#contents3)
 
+Find [here](https://linuxcommand.org/lc3_lts0030.php) a very helpful guide for learning the Linux command line.
+
 # Basic commands I <a name="basictitle"></a>
 ### `ls` (list): <a name="ls"></a>
 The ls command lists the contents of your current working directory.
