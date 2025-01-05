@@ -1,4 +1,7 @@
 # Expansions
+> [!NOTE]
+> More on expansions [here](https://linuxcommand.org/lc3_lts0080.php)
+
 ## Arithmetic expansion
 Expressions of the form `$((oper))` where oper is any operation with integer numbers, are expanded by the shell to their corresponding value. Examples:
 ```Nushell
