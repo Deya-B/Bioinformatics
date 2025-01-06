@@ -171,17 +171,7 @@ DR   MD5; dbfb2a63ffcc88671722e91e641adcaa.
 DR   CABRI; LMBP 2079.
 DR   CABRI; LMBP 2146.
 DR   CABRI; LMBP 2147.
-DR   CABRI; LMBP 2151.
-DR   CABRI; LMBP 2192.
-DR   CABRI; LMBP 2193.
-DR   CABRI; LMBP 2194.
-DR   CABRI; LMBP 2211.
-DR   CABRI; LMBP 2316.
-DR   CABRI; LMBP 2586.
-DR   CABRI; LMBP 2587.
-DR   CABRI; LMBP 2589.
-DR   CABRI; LMBP 2590.
-DR   CABRI; LMBP 3306.
+...
 DR   EuropePMC; PMC2739203; 19682364.
 DR   IMGT/LIGM; J00231.
 XX
@@ -237,21 +227,7 @@ SQ   Sequence 1089 BP; 240 A; 358 C; 271 G; 176 T; 44 other;
      tcccagatgg gtcctgtccc aggtgcacct gcaggagtcg ggcccaggac tggggaagcc       120
      tccagagctc aaaaccccac ttggtgacac aactcacaca tgcccacggt gcccagagcc       180
      caaatcttgt gacacacctc ccccgtgccc acggtgccca gagcccaaat cttgtgacac       240
-     acctccccca tgcccacggt gcccagagcc caaatcttgt gacacacctc ccccgtgccc       300
-     nnngtgccca gcacctgaac tcttgggagg accgtcagtc ttcctcttcc ccccaaaacc       360
-     caaggatacc cttatgattt cccggacccc tgaggtcacg tgcgtggtgg tggacgtgag       420
-     ccacgaagac ccnnnngtcc agttcaagtg gtacgtggac ggcgtggagg tgcataatgc       480
-     caagacaaag ctgcgggagg agcagtacaa cagcacgttc cgtgtggtca gcgtcctcac       540
-     cgtcctgcac caggactggc tgaacggcaa ggagtacaag tgcaaggtct ccaacaaagc       600
-     cctcccagcc cccatcgaga aaaccatctc caaagccaaa ggacagcccn nnnnnnnnnn       660
-     nnnnnnnnnn nnnnnnnnnn nnnnngagga gatgaccaag aaccaagtca gcctgacctg       720
-     cctggtcaaa ggcttctacc ccagcgacat cgccgtggag tgggagagca atgggcagcc       780
-     ggagaacaac tacaacacca cgcctcccat gctggactcc gacggctcct tcttcctcta       840
-     cagcaagctc accgtggaca agagcaggtg gcagcagggg aacatcttct catgctccgt       900
-     gatgcatgag gctctgcaca accgctacac gcagaagagc ctctccctgt ctccgggtaa       960
-     atgagtgcca tggccggcaa gcccccgctc cccgggctct cggggtcgcg cgaggatgct      1020
-     tggcacgtac cccgtgtaca tacttcccag gcacccagca tggaaataaa gcacccagcg      1080
-     ctgccctgg                                                              1089
+...
 //
 ```
 
@@ -358,9 +334,34 @@ ILNNPELACTLAKTAFDEAIAELDTLNEDSYKDSTLIMQLLRDNLTLWTSDSAGEECDAA
 EGAEN
 ```
 
+#### Response json()
+The response of the GET method, it’s actually serialized JSON content. <br>
+To get a dictionary, you could take the str that you retrieved from `.text` and deserialize it using `json.loads()`. <br>
+However, a simpler way to accomplish this task is to use `.json()`:
+
+```python
+response.json()
+type(response.json())
+<class 'dict'>
+```
+The type of the return value of `.json()` is a dictionary, so you can access values in the object by key.
+
+#### Response Headers
+The response headers can give you useful information, such as the content type of the response payload and a time limit on how long to cache the response. To view these headers, access `.headers`:
+```python
+import requests
+response = requests.get("https://api.github.com")
+response.headers
+
+{'Server': 'GitHub.com',
+...
+'X-GitHub-Request-Id': 'AE83:3F40:2151C46:438A840:65C38178'}
+```
+
+
+
 
 ## JSON
-
 ```python
 
 ```
@@ -369,7 +370,6 @@ EGAEN
 ```python
 
 ```
-
 
 ```python
 
