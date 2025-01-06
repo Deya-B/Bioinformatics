@@ -342,8 +342,9 @@ However, a simpler way to accomplish this task is to use `.json()`:
 ```python
 response.json()
 type(response.json())
-<class 'dict'>
 ```
+        <class 'dict'>
+        
 The type of the return value of `.json()` is a dictionary, so you can access values in the object by key.
 
 #### Response Headers
@@ -359,14 +360,53 @@ response.headers
 ```
 
 
-
-
 ## JSON
+`json.loads()` 
+```python
+import json
+
+# some JSON:
+json_data =  '{"name":"John", "age":30, "city":"New York"}'
+
+# Print JSON
+print(json_data)
+```
+        {"name":"John", "age":30, "city":"New York"}
+    
+```python
+print(type(json_data))
+```
+        <class 'str'>     # Note the type! is a sting!
+
+Before a JSON structure can be used as a native Python object, it must be “loaded” into one:
+
+JSON structures are similar to dictionaries, but are different datatypes! 
+```python
+import json
+
+# some JSON:
+json_data =  '{ "name":"John", "age":30, "city":"New York"}'
+dict_data = json.loads(json_data)
+
+# What is exactly the type?
+#print(json_data["age"]) # esto no funciona
+print(type(json_data))
+```
+        <class 'str'>
+```python
+print(dict_data["name"]) # pero esto si
+```
+        John
+```python
+print(type(dict_data))
+```
+        <class 'dict'>
+
+
 ```python
 
 ```
 
-
 ```python
 
 ```
@@ -374,4 +414,3 @@ response.headers
 ```python
 
 ```
-
