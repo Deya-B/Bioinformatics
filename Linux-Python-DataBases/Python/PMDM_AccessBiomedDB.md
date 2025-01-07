@@ -73,9 +73,13 @@ In this example, you’ve captured the return value of `get()`, which is an inst
 You can now use response to see a lot of information about the results of your GET request.
 
 > **Status Codes**:
+>
 > The first bit of information that you can gather from Response is the status code. A status code informs you of the status of the request.
 >
-> For example, a 200 OK status means that your request was successful, whereas a 404 NOT FOUND status means that the resource you were looking for wasn’t found. There are many other possible status codes as well to give you specific insights into what happened with your request.
+> For example:
+> - a 200 OK status means that your request was successful,
+> - whereas a 404 NOT FOUND status means that the resource you were looking for wasn’t found.
+> There are many other possible status codes as well to give you specific insights into what happened with your request.
 >
 > By accessing `.status_code`, you can see the status code that the server returned:
 >
@@ -93,7 +97,7 @@ You can now use response to see a lot of information about the results of your G
 >     raise Exception(f"Non-success status code: {response.status_code}")
 > ```
 > 
-> Let’s say you don’t want to check the response’s status code in an if statement. Instead, you want to use Request’s built-in capacities to raise an exception if the request was unsuccessful. You can do this using `.raise_for_status()`:
+> If you want to use Request’s built-in capacities to raise an exception if the request was **unsuccessful**. You can do this using `.raise_for_status()`:
 >
 > ```python
 > import requests
@@ -111,7 +115,8 @@ You can now use response to see a lot of information about the results of your G
 >        print("Success!")
 > ```
 >
-> If you invoke `.raise_for_status()`, then Requests will raise an HTTPError for status codes between 400 and 600. If the status code indicates a successful request, then the program will proceed without raising that exception.
+> If you invoke `.raise_for_status()`, then Requests will raise an HTTPError for status codes between 400 and 600. <br>
+> If the status code indicates a successful request, then the program will proceed without raising that exception.
 
 
 #### Content
@@ -134,8 +139,8 @@ print(response.text)
 ---
 Is possible to construct the URL through an `F-string` by adding the **parameters** in `{}`:
 
-f'https://www.ebi.ac.uk/ Tools/dbfetch/dbfetch?db= `{tipo}` &id=J00 `{dna_id}` &style=raw' <br>
-To add the different id's, such as: 231, 232, 233...
+`f'https://www.ebi.ac.uk/ Tools/dbfetch/dbfetch?db=ena_sequence&id=J00 {dna_id} &style=raw'` <br>
+In this way is possible add the different dna_id's, such as: 231, 232, 233...
 
 ---
 
@@ -151,100 +156,6 @@ ebi_url = f'https://www.ebi.ac.uk/Tools/dbfetch/dbfetch?db={tipo}&id=J00{dna_id}
 # USE the GET method on the URL to bring the contents
 response = requests.get(ebi_url)
 print(response.text)
-```
-```
-# [OUT]
-ID   J00231; SV 1; linear; mRNA; STD; HUM; 1089 BP.
-XX
-AC   J00231;
-XX
-DT   13-JUN-1985 (Rel. 06, Created)
-DT   17-APR-2005 (Rel. 83, Last updated, Version 9)
-XX
-DE   Human Ig gamma3 heavy chain disease OMM protein mRNA.
-XX
-KW   C-region; gamma heavy chain disease protein;
-KW   gamma3 heavy chain disease protein; heavy chain disease; hinge exon;
-KW   immunoglobulin gamma-chain; immunoglobulin heavy chain;
-KW   secreted immunoglobulin; V-region.
-XX
-OS   Homo sapiens (human)
-OC   Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi; Mammalia;
-OC   Eutheria; Euarchontoglires; Primates; Haplorrhini; Catarrhini; Hominidae;
-OC   Homo.
-XX
-RN   [1]
-RP   1-1089
-RX   DOI; 10.1073/pnas.79.10.3260.
-RX   PUBMED; 6808505.
-RA   Alexander A., Steinmetz M., Barritault D., Frangione B., Franklin E.C.,
-RA   Hood L., Buxbaum J.N.;
-RT   "gamma Heavy chain disease in man: cDNA sequence supports partial gene
-RT   deletion model";
-RL   Proc. Natl. Acad. Sci. U.S.A. 79(10):3260-3264(1982).
-XX
-DR   MD5; dbfb2a63ffcc88671722e91e641adcaa.
-DR   CABRI; LMBP 2079.
-DR   CABRI; LMBP 2146.
-DR   CABRI; LMBP 2147.
-...
-DR   EuropePMC; PMC2739203; 19682364.
-DR   IMGT/LIGM; J00231.
-XX
-CC   The protein isolated from patient OMM is a gamma heavy chain
-CC   disease (HCD) protein. It has a large 5' internal deletion
-CC   consisting of most of the variable region and the entire ch1
-CC   domain. [1] suggests that the protein abnormality is from a partial
-CC   gene deletion rather than from defective splicing.
-XX
-FH   Key             Location/Qualifiers
-FH
-FT   source          1..1089
-FT                   /organism="Homo sapiens"
-FT                   /map="14q32.33"
-FT                   /mol_type="mRNA"
-FT                   /db_xref="taxon:9606"
-FT   mRNA            <1..1089
-FT                   /note="gamma3 mRNA"
-FT   CDS             23..964
-FT                   /codon_start=1
-FT                   /gene="IGHG3"
-FT                   /note="OMM protein (Ig gamma3) heavy chain"
-FT                   /db_xref="GOA:P01860"
-FT                   /db_xref="HGNC:HGNC:5527"
-FT                   /db_xref="InterPro:IPR003006"
-FT                   /db_xref="InterPro:IPR003597"
-FT                   /db_xref="InterPro:IPR007110"
-FT                   /db_xref="InterPro:IPR013783"
-FT                   /db_xref="InterPro:IPR036179"
-FT                   /db_xref="PDB:4WWI"
-FT                   /db_xref="PDB:4ZNC"
-FT                   /db_xref="PDB:5M3V"
-FT                   /db_xref="PDB:5W38"
-FT                   /db_xref="PDB:6D58"
-FT                   /db_xref="PDB:6G1E"
-FT                   /db_xref="UniProtKB/Swiss-Prot:P01860"
-FT                   /protein_id="AAA52805.1"
-FT                   /translation="MKXLWFFLLLVAAPRWVLSQVHLQESGPGLGKPPELKTPLGDTTH
-FT                   TCPRCPEPKSCDTPPPCPRCPEPKSCDTPPPCPRCPEPKSCDTPPPCPXCPAPELLGGP
-FT                   SVFLFPPKPKDTLMISRTPEVTCVVVDVSHEDPXVQFKWYVDGVEVHNAKTKLREEQYN
-FT                   STFRVVSVLTVLHQDWLNGKEYKCKVSNKALPAPIEKTISKAKGQPXXXXXXXXXXXXE
-FT                   EMTKNQVSLTCLVKGFYPSDIAVEWESNGQPENNYNTTPPMLDSDGSFFLYSKLTVDKS
-FT                   RWQQGNIFSCSVMHEALHNRYTQKSLSLSPGK"
-FT   sig_peptide     26..79
-FT                   /gene="IGHG3"
-FT                   /note="OMM protein signal peptide"
-FT   mat_peptide     80..961
-FT                   /gene="IGHG3"
-FT                   /note="OMM protein mature peptide"
-XX
-SQ   Sequence 1089 BP; 240 A; 358 C; 271 G; 176 T; 44 other;
-     cctggacctc ctgtgcaaga acatgaaaca nctgtggttc ttccttctcc tggtggcagc        60
-     tcccagatgg gtcctgtccc aggtgcacct gcaggagtcg ggcccaggac tggggaagcc       120
-     tccagagctc aaaaccccac ttggtgacac aactcacaca tgcccacggt gcccagagcc       180
-     caaatcttgt gacacacctc ccccgtgccc acggtgccca gagcccaaat cttgtgacac       240
-...
-//
 ```
 
 ##### Example 2. To show *only the lines containing the organism and the molecule type* for the sequence.
@@ -262,14 +173,6 @@ for line in salida:
         print(line)
     if line.startswith("KW"):  # tipo de molecula
         print(line)
-```
-```
-# [OUT]
-KW   C-region; gamma heavy chain disease protein;
-KW   gamma3 heavy chain disease protein; heavy chain disease; hinge exon;
-KW   immunoglobulin gamma-chain; immunoglobulin heavy chain;
-KW   secreted immunoglobulin; V-region.
-OS   Homo sapiens (human)
 ```
 
 #### Passing parameters
@@ -325,30 +228,6 @@ with open(file) as f:
         print(requests.get(urlbase, params=params).text)
 ```
 
-```
-# [OUT]
->UNIPROT:1433X_MAIZE P29306 14-3-3-like protein (Fragment)
-ILNSPDRACNLAKQAFDEAISELDSLGEESYKDSTLIMQLLXDNLTLWTSDTNEDGGDEI
-K
-
->tr|S4TR86|S4TR86_9HEMI Cytochrome c oxidase subunit 1 (Fragment) OS=Graptocleptes sp. 00004431 OX=1276425 GN=COI PE=3 SV=1
-LGTPGTFIGNDQIYNVFVTAHAFIMIFFMVMPIMIGGFGNWLVPLMIGAPDMAFPRMNNM
-SFWLLPPSLTLLLISSIAEGGAGTGWTVYPPLSSNIAHSGAAVDLAIFSLHLAGVSSILG
-AVNFISTIINMRPXGMSPERIPMFVWSVGITALLLLLSLPVLAGAITMLLTDRNFNTSFF
-DPSGGGDPILYQHLFWFFGHPEVXILILPGFGLISHIIAMETGK
-
->tr|S4TR87|S4TR87_9CAUD dUTP diphosphatase OS=Salmonella phage FSL SP-058 OX=1173761 GN=SP058_00140 PE=3 SV=1
-MQVKLRVLPFNNPNMSVPARATEGSAGVDLRANTSEPFELKPGETKLIETGLAIHLDDVH
-VAAMILPRSGLGHKHGVVLGNLTGLIDSDYQGELMVSLWNRSTEPFTVNPGDRIAQMVIV
-PVMQPEFVVVDSFESTERGAGGFNSTGVK
-
->UNIPROT:1433T_RAT P68255 14-3-3 protein theta (14-3-3 protein tau)
-MEKTELIQKAKLAEQAERYDDMATCMKAVTEQGAELSNEERNLLSVAYKNVVGGRRSAWR
-VISSIEQKTDTSDKKLQLIKDYREKVESELRSICTTVLELLDKYLIANATNPESKVFYLK
-MKGDYFRYLAEVACGDDRKQTIENSQGAYQEAFDISKKEMQPTHPIRLGLALNFSVFYYE
-ILNNPELACTLAKTAFDEAIAELDTLNEDSYKDSTLIMQLLRDNLTLWTSDSAGEECDAA
-EGAEN
-```
 
 #### Response json()
 The response of the GET method, it’s actually serialized JSON content. <br>
@@ -377,10 +256,12 @@ response.headers
 
 
 ## JSON
-| JSON | code |
-|------|------|
-|To dict | **`json.loads(json_data)`** |
-| To string | **`json.dumps(dict_data)`** |
+
+| JSON operations | code | function |
+|------|------|------|
+|To dict | `dict = `**`json.loads(str)`** | Converts a string into a native dictionary |
+| To string | `str = `**`json.dumps(dict, indent = x)`** | Converts a dictionary into a string. <br> Optionally, formats output with indent.|
+|To file | **`json.dump(dict, file)`** | Writes a JSON object (dict) into a file |
 
 ```python
 import json
@@ -497,7 +378,10 @@ for person in json_file:
     print(f"{person["name"]} - {person["city"]}")
 ```
 
+### Serialization / deserialization
 Once a JSON structure have been converted to a native dictionary, it can be used and modified as usual.
+
+Converting Python object and writing into a JSON file:
 ```python
 import json
 
@@ -516,13 +400,56 @@ print(json_data_mad)
 
 # write the results into a new file
 open("people_madrid.json", "a").write(json_data_mad)
+    # or
+    with open("people_madrid.json", "w") as write:
+        json.dump(json_data_mad, write)
+```
+
+JSON is a format that encodes objects in a string. <br>
+**Serialization** is the process of encoding from a native data type to JSON format. Convert an object into that string usually to store it in a file... <br>
+- Say, you have an object:
+```python
+    data = {
+        'president': {
+            "name": """Mr. Presidente""",
+            "male": True,
+            'age': 60,
+            'wife': None,
+            'cars': ('BMW', "Audi")
+        }
+    }
+```
+- serializing into JSON will convert it into a string which can be stored or sent:
+```python
+    # serialize
+    json_data = json.dumps(data, indent=2)
+
+    print(json_data)
+    # {
+    #   "president": {
+    #     "name": "Mr. Presidente",
+    #     "male": true,
+    #     "age": 60,
+    #     "wife": null,
+    #     "cars": [
+    #       "BMW",
+    #       "Audi"
+    #     ]
+    #   }
+    # }
+```
+
+**JSON Deserialization** is the inverse process: convert from **string -> object**. <br>
+- The receiver can then deserialize the previous string to get back the original object:
+```python
+    # deserialize
+    restored_data = json.loads(json_data)
 ```
 
 
 ```python
 
 ```
-
 
 ```python
 
