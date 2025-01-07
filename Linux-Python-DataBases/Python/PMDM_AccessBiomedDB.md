@@ -538,6 +538,7 @@ if (response.status_code == 200):
 ```
 
 ### Examples:
+#### Basic GET request (/sequence/id/)
 ```python
 import requests, sys
 
@@ -553,6 +554,260 @@ if not r.ok:
 print(r.text)
 ```
 
+#### GET request(/info/software?) to get the software version of the API.
+```python
+import requests, sys
+
+server = "http://rest.ensembl.org"
+endpoint = "/info/software?"
+
+r = requests.get(f"{server}{endpoint}", headers={ "Content-Type" : "application/json"})
+
+if not r.ok:
+  r.raise_for_status()
+  sys.exit()
+
+print(r.json())
+
+# TIP: JSON structures are difficult to read if not are properly formatted. Use `pprint` module for that.
+import pprint
+pprint.pprint(r.json())
+```
+
+#### Processing responses and errors
+The response objects has a status_code attribute that can be used to check for any errors the API might have reported
+```python
+import requests, pprint
+
+response = requests.get("http://api.open-notify.org/astros.json")
+if (response.status_code == 200):
+    print("The request was a success!")
+    # Code here will only run if the request is successful
+    pprint.pprint(response.json())
+elif (response.status_code == 404):
+    print("Result not found!")
+    # Code here will react to failed requests
+```
+To see this in action, try removing the last letter from the URL endpoint, the API should return a 404 status code.
+
+#### Getting the sequence for ENSG00000157764
+```python
+import requests, sys
+
+server = "http://rest.ensembl.org"
+endpoint = "/sequence/id/"
+gene = "ENSG00000157764"
+
+r = requests.get(f"{server}{endpoint}{gene}", headers={ "Content-Type" : "text/plain"})
+
+print(r.text) 
+```
+
+#### Getting the lastest version info about gene ENSG00000157764
+```python
+import requests, sys
+import pprint
+
+server = "http://rest.ensembl.org"
+gene = "ENSG00000157764"
+get_gene_info_endpoint = f"/archive/id/{gene}"
+
+response = requests.get(f"{server}{get_gene_info_endpoint}", 
+            headers={ "Content-Type" : "application/json"})
+
+res_dic = response.json()
+result = json.dumps(res_dic, indent = 2)
+print(result)
+```
+
+#### Using parameters
+#### Getting info for several genes:
+ENSG00000157764 <br>
+ENSG00000248378
+```python
+import requests, sys
+import pprint
+
+server = "http://rest.ensembl.org"
+ext = "/archive/id/"
+genes = '{"id":["ENSG00000157764","ENSG00000248378"]}'
+headers={ "Content-Type" : "application/json"}
+
+response = requests.post(f"{server}{ext}", headers=headers, data=genes)
+
+if not r.ok:
+  r.raise_for_status()
+  sys.exit()
+
+# res_dic = response.json()
+# result = json.dumps(res_dic, indent = 2)
+# print(result) 
+pprint.pprint(response.json())
+
+```
+
+#### To get the gene tree for the gene ENSGT00390000003602 of a cow, including its DNA sequence:
+```python
+# GET genetree/id/:id
+
+import requests, sys
+import pprint
+
+server = "http://rest.ensembl.org"
+gene = "ENSGT00390000003602"
+endpoint_gene = f"/genetree/id/{gene}"
+
+headers={ "Content-Type" : "application/json"}
+parameters = {'prune_species': 'cow', 'sequence': 'cdna'}
+
+response = requests.get(f"{server}{endpoint_gene}", 
+           params=parameters, headers=headers)
+
+if not r.ok:
+  r.raise_for_status()
+  sys.exit()
+
+pprint.pprint(response.json())
+```
+
+#### Write a program to generate a list with the taxon ids of all the vertebrates included in the Ensembl database
+```python
+# GET info/species
+
+import requests, sys
+import pprint
+
+server = "http://rest.ensembl.org"
+endpoint = "/info/species"
+parameters = { "division" : "EnsemblVertebrates" }
+
+headers={ "Content-Type" : "application/json"}
+
+response = requests.get(f"{server}{endpoint}", params=parameters, headers=headers)
+
+if response.ok:
+  decoded = response.json()['species']
+
+  # Print each taxon_id
+  for s in decoded:
+    print(s['taxon_id'])
+
+pprint.pprint(response.json())
+
+```
+
+#### Write a program to list the common names of the specie with taxon_id = 10091
+```python
+# Exercise 2. Write a program to list the common names of the specie with taxon_id = 10091
+import requests, sys, pprint
+
+server = "https://rest.ensembl.org"
+ext = "/info/species?"
+taxon_id = 9598
+
+def search_taxon(l, taxon_id):
+
+  for i in l:
+      if int(i['taxon_id']) == taxon_id:
+        return i['common_name']
+
+  return None
+
+# Set parameters
+division_params = {'division': 'EnsemblVertebrates'}
+
+response = requests.get(server+ext, params = division_params, headers={"Content-Type" : "application/json"})
+
+if response.ok:
+    decoded_list = response.json()['species']
+
+    # Search for the appropiate taxon_id
+    result = search_taxon(decoded_list, taxon_id)
+    print(result)
+```
+
+#### How many species are included in the Ensemble database?
+```python
+# **Exercise 3**. How many species are included in the Ensemble database?
+import requests, sys, pprint
+
+server = "https://rest.ensembl.org"
+ext = "/info/species?"
+
+def search_taxon(l, taxon_id):
+
+  for i in l:
+      if int(i['taxon_id']) == taxon_id:
+        return i['common_name']
+
+  return None
+
+# Set parameters
+division_params = {'division': 'EnsemblVertebrates'}
+
+response = requests.get(server+ext, params = division_params, headers={"Content-Type" : "application/json"})
+
+if response.ok:
+    decoded_list = response.json()['species']
+
+    # The total species is the number of elements of the list
+    num_species = len(decoded_list)
+
+    # Search for the appropiate taxon_id
+    print(f"There are {num_species} species in the database")
+```
+
+#### Write a program to list the name of all the analyses involved in generating Ensembl data for humans, and save it to a file name 'analyses.txt'
+```python
+import requests, sys, pprint
+
+server = "https://rest.ensembl.org"
+ext = "/info/analysis/homo_sapiens?"
+
+r = requests.get(server+ext, headers={ "Content-Type" : "application/json"})
+
+if not r.ok:
+  r.raise_for_status()
+  sys.exit()
+
+decoded = r.json()
+
+with open ('analyses.txt', 'w') as analysis_file:
+  pprint.pprint(decoded)
+  analysis_file.write(repr(decoded))
+```
+
+#### Write a program to generate a file, named 'ENSG00000157764.txt', which contains the DNA sequence for this identifier, and prints the total number of bases, and the number for each type. 
+
+The output must be similar to:<br>
+File 'ENSG00000157764.txt' successfully written.<br>
+Total number of bases: 234234<br>
+Number of 'A' bases: 345<br>
+Number of 'C' bases: 345<br>
+Number of 'G' bases: 345<br>
+Number of 'T' bases: 345<br>
+
+```python
+import requests, sys
+
+server = "https://rest.ensembl.org"
+ext = "/sequence/id/ENSG00000157764?"
+file_name = "ENSG00000157764.txt"
+
+response = requests.get(server+ext, headers={ "Content-Type" : "text/plain"})
+
+if response.ok:
+  sequence = response.text
+
+  with open(f"{file_name}", 'w') as gene_line:
+      gene_line.write(sequence)
+  print(f"File '{file_name}' successfully written.")
+  print(f"Total number of bases: {len(sequence)}")
+  print(f"Number of 'A' bases: {sequence.count('A')}")
+  print(f"Number of 'C' bases: {sequence.count('C')}")
+  print(f"Number of 'G' bases: {sequence.count('G')}")
+  print(f"Number of 'T' bases: {sequence.count('T')}")
+```
 
 #### Ejercicio 1.
 Implementa una función write_dna_sequece que recupere de rest.ensembl.org y escriba en un fichero, cuyo nombre se reciba como parámetro, la secuencia ADN de un identificador dado. Adicionalmente, si se especifica un parámetro opcional a la función denominado 'analysis' y éste tiene el valor True, la función deben imprimir también por pantalla el número total de bases, así como el número de cada una de ellas. La salida debe ser similar a la siguiente:
@@ -570,15 +825,93 @@ cuya documentación se muestra más abajo. No es necesario el uso de parámetros
 
 ![image](https://github.com/user-attachments/assets/08402d87-1a96-45ec-b30b-d3827bde7847)
 ```python
+import requests
+def write_dna_sequence(DNA_id, file_name, analysis = False):
+    """Función que obtiene la secuencia de Ensembl y la escribe en un fichero.
+    Input Parameters
+    ----------------------
+    DNA_id: str
+    ID de la secuencia que se quiere guardar
+    file_name: str
+    nombre del fichero en el que se quiere guardar la secuencia
+    analysis: bool
+    Parámetro que imprime la cantidad total de bases y el número de
+    bases de cada nucleótido cuando True (por defecto).
+    """
+server = "rest.ensembl.org/"
+endpoint = f"sequence/id/{DNA_id}"
 
+response = requests.get(f"{server}{endpoint}", headers ={"Content-type":"application/text"})
+
+if response.ok:
+    dna_sequence = response.text
+    with open(file_out, "w") as f:
+        f.write(dna_sequence)
+    print(f"File {file_out} successfully written.")
+
+    if analysis:
+        print(f"Total number of bases: {len(dna_sequence)}")
+        for nucleotide in "ATCG":
+            print(f"Number of {nucleotide} bases:
+                {dna_sequence.count(nucleotide)}")
+else:
+    print("Se ha producido un error")
 ```
 
 
-
+#### Ejercicio 2. 
+El siguiente programa tiene como objetivo obtener la información de la versión más reciente de un gen específico. Desafortunadamente, no funciona como se espera. Señala y explica todos los errores, y escribe una versión corregida.
 ```python
+import requests, sys, json
+import pprint
 
+server = "http://rest.ensembl.org"
+gene = "ENSG00000157764"
+get_gene_info_endpoint = f"/overlap/id/{gene}?feature=gene"
+r = requests.get(f"{server}{get_gene_info_endpoint}")
+
+if r.ok:
+    r.raise_for_status()
+    sys.exit()
+
+pprint(r)
 ```
+Primero, la comprobación de la petición está invertida: 
 
+    if r.ok:
+        r.raise_for_status()
+        sys.exit()
+
+cuando la petición se ha realizado correctamente, queremos continuar con el programa, y cuando ha habido algún error, se quiere apagar el sistema. 
+
+    if not r.ok:
+      r.raise_for_status()
+      sys.exit()
+
+Además, como importamos el módulo pprint, al llamar a una función dentro de ese módulo se debe utilizar la estructura módulo.función, no solo la función.
+
+Asimismo, como queremos imprimir el contenido de la petición, esto se encuentra dentro de text.
+
+Finalmente, se está importando el módulo json y no se está utilizando. Esto no es un error en sí, solo un warning, pero se puede reemplazar pprint con json.loads(r.text) y un print normal. Así, el código corregido quedaría de la siguiente forma:
+```python
+import requests, sys, json
+import pprint
+
+server = "http://rest.ensembl.org"
+gene = "ENSG00000157764"
+get_gene_info_endpoint = f"/overlap/id/{gene}?feature=gene"
+r = requests.get(f"{server}{get_gene_info_endpoint}")
+
+if not r.ok: #r.ok == False
+    r.raise_for_status()
+    sys.exit()
+
+pprint.pprint(r.text)
+
+##Alternativa
+r_dict = json.loads(r.text)
+print(r_dict)
+```
 
 
 ```python
