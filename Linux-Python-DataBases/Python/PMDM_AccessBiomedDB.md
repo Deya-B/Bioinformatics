@@ -381,8 +381,8 @@ print(type(json_data))
 # [OUT]<class 'str'>    !!! Note that till here the type is just a STRING...
 ```
 
-*Before a JSON structure can be used as a native **Python object**, it must be “loaded” into one:*
-
+*Before a JSON structure can be used as a native **Python object**, <br>
+it must be “loaded” into one.* <br>
 JSON structures are similar to dictionaries:
 ```python
 import json
@@ -403,7 +403,8 @@ print(dict_data["name"]) # pero esto SI
 # [OUT]John
 ```
 
-Therefore, before accesing and working with a **JSON structure**, it must be **converted to a JSON dictionary** with the **json.loads()** function.
+Therefore, before accesing and working with a **JSON structure**, it must be <br>
+**converted to a JSON dictionary** with the **json.loads()** function.
 ```python
 import json
 
@@ -414,7 +415,9 @@ print(f'The age of {dict_data["name"]} is {dict_data["age"]}')
 # [OUT]The age of John is 30
 ```
 
-If you have a **Python object**, you can convert it into a **JSON string** by using the **json.dumps()** method.
+If you have a **Python object**, you can  <br>
+convert it into a **JSON string** <br>
+by using the **json.dumps()** method.
 ```python
 import json
 
@@ -463,7 +466,7 @@ print(type(dumpta))
 # [OUT]<class 'str'>
 ```
 
-To show only the names of the persons contained in the ['people.json'](./people.json) file, along the city where they live (for example, "John - New York")
+#### Exercise 1: Show only the names of the persons contained in the ['people.json'](./Exercises/people.json) file, along the city where they live (for example, "John - New York")
 ```python
 import json
 
