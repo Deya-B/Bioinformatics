@@ -31,7 +31,11 @@ There are 3 ways of querying an online database (abstraction level or ascending 
     - This could be done through Python requests library.
     - By using the **URLs** of the servers with methods like `GET` and `POST`.
     
-5. Specific **API usage**: Always the best option (if available). There are some systems that provide their server API to use them from Python. These are known as high level APIs or SDKs. These API REST are not available for all systems. They are very encapsulated, so they do not use URLs, GET or POST.
+5. Specific **API usage**:
+    - Always the **BEST option**, however, these API REST are not available for all systems.
+    - There are some systems that provide their server API to use them from Python.
+    - These are known as high level APIs or SDKs.
+    - They are very encapsulated, so they do not use URLs, GET or POST.
 
 
 ## Programmatic access to forms:
