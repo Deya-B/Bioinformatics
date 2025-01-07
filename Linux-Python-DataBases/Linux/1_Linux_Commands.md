@@ -795,7 +795,7 @@ cut adult.data -d "," -f 6 > f6.txt
 paste -d "," f2.txt f6.txt
 
 # Extract columns 6 and 4 from adult.data to a new file separated with "|":
-adult.data -d "," -f 4 > columna4.txt
+cut adult.data -d "," -f 4 > columna4.txt
 cut adult.data -d "," -f 6 > columna6.txt
 paste -d "|" columna6.txt columna4.txt > columns6and4.txt`
 ```
