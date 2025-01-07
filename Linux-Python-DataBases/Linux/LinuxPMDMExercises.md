@@ -27,7 +27,7 @@ ps -ef | grep $(whoami)
 
 #### List the 10 newest processes for the current user
 ```Nushell
-ps -ef | grep $(whoami) | sort -k5 | tail -10
+ps -ef | grep $(whoami) | sort -r -k5 | tail -10
 ```
 
 #### Display the manual pages for the grep command using at most 100 chars per line
