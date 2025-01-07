@@ -3,32 +3,42 @@
 ## Querying on-line databases
 There are 3 ways of querying an online database (abstraction level or ascending automation):
 
-1. Making a local copy of the database: Not recommended - Manual process, quickly outdated. This copy can be downloaded through `wget` command (wget url/base/de/datos/fichero.txt).
-
-2. Filling forms: Write a program to construct a query (or a related set of queries) to be sent by the program itself.
+1. Making a **local copy of the database**:
+    - Not recommended
+    - Manual process, quickly outdated.
+    - This copy can be downloaded through `wget` command (wget url/base/de/datos/fichero.txt).
+2. **Filling forms**: 
+    - Write a program to construct a query (or a related set of queries) to be sent by the program itself.
     - Only option when no API or endpoint is exposed
     - We could write a Python program to fill in the form to access the data in loop, changing the parameter values each search.
     - The URL sintax is
       ```
-      scheme:[//host]path[?query][#fragment]
+      scheme:[//host]path[?parameters]
       ```
       - `scheme`  HTTP o HTTPS (secure)
       - `host`  server that contains the database
       - `path`  pathname where the server program is located in the host 
-      - `?query` gives parameter names and values for a precise request (the format is `name=value&name2=value2`). What we want to do with python is codify the different parameters to automatically access different entries.
-      - For example in this type of form https://www.ebi.ac.uk/Tools/dbfetch/dbfetch?db=ena_sequence&id=J00231&style=raw instead of filling it many times, we would want to change the value of the arguments: id=J00231, id=J00232, id=J00233, db=afdb etc.
+      - `?parameters` parameter names and values for a precise request <br>
+        (the format is `name=value&name2=value2`).
+      - What we want to do with python is codify the different parameters to automatically access different entries. For example in this type of form  <br>
+        https://www.ebi.ac.uk/Tools/dbfetch/dbfetch?db=ena_sequence&id=J00231&style=raw  <br>
+        instead of filling it many times, we would want to change the value of the arguments:<br>
+        id=J00231, id=J00232, id=J00233, db=afdb etc.
 
         > Note: Path and query will require you to know well the server´s API
     
-4. Direct HTTP requests: we could do this through Python requests library. We use the URLs of the servers with methods like `GET` and `POST`.
+4. **Direct HTTP requests**: 
+    - This could be done through Python requests library.
+    - By using the **URLs** of the servers with methods like `GET` and `POST`.
+    
+5. Specific **API usage**: Always the best option (if available). There are some systems that provide their server API to use them from Python. These are known as high level APIs or SDKs. These API REST are not available for all systems. They are very encapsulated, so they do not use URLs, GET or POST.
 
-5. Specific API usage: Always the best option (if available). There are some systems that provide their server API to use them from Python. These are known as high level APIs or SDKs. These API REST are not available for all systems. They are very encapsulated, so they do not use URLs, GET or POST.
 
 ## Programmatic access to forms:
 A lot of libraries available in Python to automate the access and processing
 of URLs:
-- urllib: low-level access, more adequate for network programming
-- requests: very easy to use, a lot of documentation and examples
+- `urllib`: low-level access, more adequate for network programming
+- `requests`: very easy to use, a lot of documentation and examples
 
 ### `request` library - Basic usage
 Installation
@@ -40,8 +50,9 @@ pip install requests
 ```
 
 #### The GET Request
-One of the most common HTTP methods is GET. The GET method indicates that you’re trying to get or retrieve data from a specified resource. To make a GET request you can invoke `requests.get()`. 
-
+One of the most common HTTP methods is GET. <br>
+The GET method indicates that you’re trying to get or retrieve data from a specified resource.<br>
+To make a GET request you can invoke `requests.get()`. 
 ```python
 import requests
 requests.get('https://www.ebi.ac.uk/Tools/dbfetch/dbfetch?db=ena_sequence&id=J00231&style=raw')
@@ -470,12 +481,44 @@ print(type(dumpta))
 ```python
 import json
 
+# Read the file
 file = open ("people.json", "r").read()
+
+# Convert JSON to a native type
 json_file = json.loads(file)
 
+# Iterate over each person
 for person in json_file:
+    # Now person is a dictionary 
     print(f"{person["name"]} - {person["city"]}")
 ```
+
+Once a JSON structure have been converted to a native dictionary, it can be used and modified as usual.
+```python
+import json
+
+# a Python object (dict):
+file = open ("people.json", "r").read()
+
+# Convert into a JSON dictionary
+json_file = json.loads(file)
+
+# Modify the residence of people to Madrid
+for person in json_file:
+    person["city"] = "Madrid"
+
+json_data_mad = json.dumps(json_file)
+print(json_data_mad)
+
+# write the results into a new file
+open("people_madrid.json", "a").write(json_data_mad)
+```
+
+
+```python
+
+```
+
 
 ```python
 
