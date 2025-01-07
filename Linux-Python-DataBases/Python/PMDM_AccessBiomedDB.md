@@ -259,8 +259,8 @@ response.headers
 
 | JSON operations | code | function |
 |------|------|------|
-|To dict | `dict = `**`json.loads(str)`** | Converts a string into a native dictionary |
-| To string | `str = `**`json.dumps(dict, indent = x)`** | Converts a dictionary into a string. <br> Optionally, formats output with indent.|
+|To dict | `dict =`<br>**`json.loads(str)`** | Converts a string into a native dictionary |
+| To string | `str =`<br>**`json.dumps(dict, indent = x)`** | Converts a dictionary into a string. <br> Optionally, formats output with indent.|
 |To file | **`json.dump(dict, file)`** | Writes a JSON object (dict) into a file |
 
 ```python
