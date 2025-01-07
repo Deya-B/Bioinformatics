@@ -447,6 +447,9 @@ JSON is a format that encodes objects in a string. <br>
 ```
 
 
+
+## API REST usage
+
 ```python
 
 ```
@@ -454,3 +457,18 @@ JSON is a format that encodes objects in a string. <br>
 ```python
 
 ```
+
+```python
+
+```
+
+
+```python
+
+```
+
+
+```python
+
+```
+
