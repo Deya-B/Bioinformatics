@@ -141,7 +141,12 @@ sed -n '10,12{s/.com/.org/ ; p}' emails.txt
          
 #### What is the output of the last command if we remove the braces?
 If the command is changed to `seq 1 20 | sed -n '/[26]/s/1/5/;p'`<br>
-`!` Only the line 26 is changed
+> Output:
+> A sequence of numbers from 1 to 20 is generated, <br>
+> then with sed, only in the lines 12 and 16<br>
+> the first occurrence of 1 is replaced with 5<br>
+> yielding 52 and 56 instead.
+
 #### Write a sed command to display lines from 100 to 200 (inclusive) of file adult.data
 ```Nushell
 # Option 1: cat -n (shows the line number)
