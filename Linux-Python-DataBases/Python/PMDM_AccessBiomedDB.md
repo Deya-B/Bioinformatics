@@ -55,7 +55,7 @@ pip install requests
 
 #### The GET Request
 One of the most common HTTP methods is GET. <br>
-The GET method indicates that you’re trying to get or retrieve data from a specified resource.<br>
+The GET method indicates that you're trying to get or retrieve data from a specified resource.<br>
 To make a GET request you can invoke `requests.get()`. 
 ```python
 import requests
@@ -68,7 +68,7 @@ A `response` is a powerful object for inspecting the results of the request.
 import requests
 response = requests.get('https://www.ebi.ac.uk/Tools/dbfetch/dbfetch?db=ena_sequence&id=J00231&style=raw')
 ```
-In this example, you’ve captured the return value of `get()`, which is an instance of `Response`, and stored it in a variable called `response`.
+In this example, you've captured the return value of `get()`, which is an instance of `Response`, and stored it in a variable called `response`.
 
 You can now use response to see a lot of information about the results of your GET request.
 
@@ -78,7 +78,7 @@ You can now use response to see a lot of information about the results of your G
 >
 > For example:
 > - a 200 OK status means that your request was successful,
-> - whereas a 404 NOT FOUND status means that the resource you were looking for wasn’t found.
+> - whereas a 404 NOT FOUND status means that the resource you were looking for wasn't found.
 > There are many other possible status codes as well to give you specific insights into what happened with your request.
 >
 > By accessing `.status_code`, you can see the status code that the server returned:
@@ -97,7 +97,7 @@ You can now use response to see a lot of information about the results of your G
 >     raise Exception(f"Non-success status code: {response.status_code}")
 > ```
 > 
-> If you want to use Request’s built-in capacities to raise an exception if the request was **unsuccessful**. You can do this using `.raise_for_status()`:
+> If you want to use Request's built-in capacities to raise an exception if the request was **unsuccessful**. You can do this using `.raise_for_status()`:
 >
 > ```python
 > import requests
@@ -122,7 +122,7 @@ You can now use response to see a lot of information about the results of your G
 #### Content
 The response of a GET request often has some valuable information, known as a payload, in the message body. Using the attributes and methods of Response, you can view the payload in a variety of different formats.
 
-To see the response’s content in string you access `.text`:
+To see the response's content in string you access `.text`:
 ```
 response.text
 type(response.text)
@@ -144,7 +144,7 @@ In this way is possible add the different dna_id's, such as: 231, 232, 233...
 
 ---
 
-##### Example 1. To *get the ‘id’ parameter from the user* and show the result:
+##### Example 1. To *get the 'id' parameter from the user* and show the result:
 ```py
 import requests
 
@@ -230,7 +230,7 @@ with open(file) as f:
 
 
 #### Response json()
-The response of the GET method, it’s actually serialized JSON content. <br>
+The response of the GET method, it's actually serialized JSON content. <br>
 To get a dictionary, you could take the str that you retrieved from `.text` and deserialize it using `json.loads()`. <br>
 However, a simpler way to accomplish this task is to use `.json()`:
 
@@ -449,26 +449,138 @@ JSON is a format that encodes objects in a string. <br>
 
 
 ## API REST usage
+Anatomy of a REST request
+
+![image](https://github.com/user-attachments/assets/3f6072b9-0ad7-4f2a-9769-02645ab47594)
+
+#### REST Access uses HTTP methods:
+The original HTTP methods semantics are:
+- **GET** Asks to receive a representation of the identified resource
+- **POST** Intended for adding some information to the resource
+- **HEAD** (like GET but without receiving the body, only headers)
+- Other verbs include DELETE, PUT, CONNECT, TRACE, CONNECT (rarely used)
+
+#### GET vs POST
+|GET|POST|
+|---|---|
+|URLs for **GET method**<br> `http://rest.ensembl.org/archive/id`<br>`/ENSG00000157764` | An equivalent **POST method** uses `http://rest.ensembl.org/archive/id/`|
+|The parameters (payload) are part of the URL | The URL has **NO parameter info**. <br> These must be sent in the request body:<br> `response = requests.post(server, data = {"id" : ["ENSG00000157764", "ENSG00000248378"]})`|
+|An example of a GET mehthod is the [GET archive/id/:id](http://rest.ensembl.org/documentation/info/archive_id_get)| An example of a POST mehthod is the [POST archive/id](http://rest.ensembl.org/documentation/info/archive_id_post) |
+|Only one identifier at a time | Many identifiers can be submitted in one go <br> Will usually have a Maximum POST size |
+
+
+### GET programmatically
+For calling the following GET URL: <br>
+http://rest.ensembl.org/sequence/id/ENSG00000157764 <br>
+The documentation can be seen [here](http://rest.ensembl.org/documentation/info/sequence_id) <br>
+
+#### Code:
+`requests.get(endpoint, headers={ "Content-Type" : "text/plain"})`
+- Being `endpoint`:
+    - `endpoint = f"http://rest.ensembl.org/sequence/id/{gene}"` *defined earlier*
+    - or
+    - `server+ext` *replacing endpoint*
+        - `server = "https://rest.ensembl.org"` 
+        - `ext = "/sequence/id/ENSG00000157764?"`
+        - or
+        - `ext = f"/sequence/id/{id}"`  
+
+#### Example:
+```python
+import requests
+
+gene = "ENSG00000157764"
+endpoint = f"http://rest.ensembl.org/sequence/id/{gene}"
+
+r = requests.get(endpoint, headers={ "Content-Type" : "text/plain"})
+```
+
+### GET parameters
+Specified with **'params'**
+
+#### Code:
+`parameters = {'species': 'homo_sapiens'}` <br>
+`r = requests.get(endpoint, params = parameters, headers={"Content-Type" : "text/json"})`
+- Being `parameters`:
+    - a **dictionary** containing the keys and desired values for the search.
+
+#### Example:
+```python
+import requests
+
+gene = "ENSG00000157764"
+endpoint = f"http://rest.ensembl.org/sequence/id/{gene}"
+parameters = {'species': 'homo_sapiens'}
+
+r = requests.get(endpoint, params = parameters, headers={"Content-Type" : "text/json"})
+```
+
+### POST programmatically
+**Parameters**
+`response = requests.post(server, data = {'key':'value'})`
+
+
+### Processing the response
+The response object contains all the data sent from the server in response to your GET request, including headers and the data payload:
+```python
+response.content() # Return the raw bytes of the data payload
+response.text() # Return a string representation of the datapay load
+response.json() # This method is convenient when the API returns JSON
+```
+
+### Dealing with errors
+response.status_code contains the HTTP code returned by the API
+```python
+response = requests.get(server)
+if (response.status_code == 200):
+    print("The request was a success!")
+    # Code here will only run if the request is successful
+```
+
+### Examples:
+```python
+import requests, sys
+
+server = "https://rest.ensembl.org"
+ext = "/sequence/id/ENSG00000157764?"
+
+r = requests.get(server+ext, headers={ "Content-Type" : "text/plain"})
+
+if not r.ok:
+  r.raise_for_status()
+  sys.exit()
+
+print(r.text)
+```
+
+
+#### Ejercicio 1.
+Implementa una función write_dna_sequece que recupere de rest.ensembl.org y escriba en un fichero, cuyo nombre se reciba como parámetro, la secuencia ADN de un identificador dado. Adicionalmente, si se especifica un parámetro opcional a la función denominado 'analysis' y éste tiene el valor True, la función deben imprimir también por pantalla el número total de bases, así como el número de cada una de ellas. La salida debe ser similar a la siguiente:
+
+File 'dna_sequence.txt' successfully written. <br>
+Total number of bases: 205603<br>
+Number of 'A' bases: 60015<br>
+Number of 'C' bases: 37965<br>
+Number of 'G' bases: 40168<br>
+Number of 'T' bases: 67455<br>
+
+Para la implementación de la función, puedes utilizar el siguiente endpoint:
+- GET /sequence/id/:id recupera secuencias por identificador. <br>
+cuya documentación se muestra más abajo. No es necesario el uso de parámetros opcionales del endpoint.
+
+![image](https://github.com/user-attachments/assets/08402d87-1a96-45ec-b30b-d3827bde7847)
+```python
+
+```
+
+
 
 ```python
 
 ```
 
-```python
-
-```
-
-```python
-
-```
 
 
 ```python
 
 ```
-
-
-```python
-
-```
-
