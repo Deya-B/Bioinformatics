@@ -117,7 +117,7 @@ response = requests.get(url)
 print(response.text)
 ```
 ---
-Is possible to construct the URL though an `F-string` by adding the **parameters** in `{}`:
+Is possible to construct the URL through an `F-string` by adding the **parameters** in `{}`:
 
 f'https://www.ebi.ac.uk/ Tools/dbfetch/dbfetch?db= `{tipo}` &id=J00 `{dna_id}` &style=raw' <br>
 To add the different id's, such as: 231, 232, 233...
@@ -138,6 +138,7 @@ response = requests.get(ebi_url)
 print(response.text)
 ```
 ```
+# [OUT]
 ID   J00231; SV 1; linear; mRNA; STD; HUM; 1089 BP.
 XX
 AC   J00231;
@@ -238,11 +239,9 @@ import requests
 ebi_url = 'https://www.ebi.ac.uk/Tools/dbfetch/dbfetch?db=ena_sequence&id=J00231&style=raw'
 response = requests.get(ebi_url)
 
-# splitlines() attribute
+# Using the text attribute of GET + splitlines() method
 salida = response.text.splitlines()
-                       # Split a string into a list where each line is a list item
-                       # needed to create a list in order to iterate with it in the loop
-
+                       # Split a string into a list where each LINE is a list item
 for line in salida:
     if line.startswith("OS"):  # orgaminsm
         print(line)
@@ -250,6 +249,7 @@ for line in salida:
         print(line)
 ```
 ```
+# [OUT]
 KW   C-region; gamma heavy chain disease protein;
 KW   gamma3 heavy chain disease protein; heavy chain disease; hinge exon;
 KW   immunoglobulin gamma-chain; immunoglobulin heavy chain;
@@ -311,6 +311,7 @@ with open(file) as f:
 ```
 
 ```
+# [OUT]
 >UNIPROT:1433X_MAIZE P29306 14-3-3-like protein (Fragment)
 ILNSPDRACNLAKQAFDEAISELDSLGEESYKDSTLIMQLLXDNLTLWTSDTNEDGGDEI
 K
@@ -342,8 +343,8 @@ However, a simpler way to accomplish this task is to use `.json()`:
 ```python
 response.json()
 type(response.json())
+<class 'dict'>
 ```
-        <class 'dict'>
         
 The type of the return value of `.json()` is a dictionary, so you can access values in the object by key.
 
@@ -361,7 +362,11 @@ response.headers
 
 
 ## JSON
-`json.loads()` 
+| JSON | code |
+|------|------|
+|To dict | **`json.loads(json_data)`** |
+| To string | **`json.dumps(dict_data)`** |
+
 ```python
 import json
 
@@ -370,17 +375,15 @@ json_data =  '{"name":"John", "age":30, "city":"New York"}'
 
 # Print JSON
 print(json_data)
-```
-        {"name":"John", "age":30, "city":"New York"}
-    
-```python
+# [OUT]{"name":"John", "age":30, "city":"New York"}
+
 print(type(json_data))
+# [OUT]<class 'str'>    !!! Note that till here the type is just a STRING...
 ```
-        <class 'str'>     # Note the type! is a sting!
 
-Before a JSON structure can be used as a native Python object, it must be “loaded” into one:
+*Before a JSON structure can be used as a native **Python object**, it must be “loaded” into one:*
 
-JSON structures are similar to dictionaries, but are different datatypes! 
+JSON structures are similar to dictionaries:
 ```python
 import json
 
@@ -389,26 +392,86 @@ json_data =  '{ "name":"John", "age":30, "city":"New York"}'
 dict_data = json.loads(json_data)
 
 # What is exactly the type?
-#print(json_data["age"]) # esto no funciona
 print(type(json_data))
-```
-        <class 'str'>
-```python
-print(dict_data["name"]) # pero esto si
-```
-        John
-```python
+# [OUT]<class 'str'>
 print(type(dict_data))
+# [OUT]<class 'dict'>
+
+# If we run:
+print(json_data["age"]) # esto NO funciona
+print(dict_data["name"]) # pero esto SI
+# [OUT]John
 ```
-        <class 'dict'>
 
-
+Therefore, before accesing and working with a **JSON structure**, it must be **converted to a JSON dictionary** with the **json.loads()** function.
 ```python
+import json
 
+json_data =  '{ "name":"John", "age":30, "city":"New York"}'
+dict_data = json.loads(json_data)
+
+print(f'The age of {dict_data["name"]} is {dict_data["age"]}')
+# [OUT]The age of John is 30
 ```
 
+If you have a **Python object**, you can convert it into a **JSON string** by using the **json.dumps()** method.
 ```python
+import json
 
+# a Python object (dict):
+dict_data = {
+  "name": "John",
+  "age": 30,
+  "city": "New York",
+}
+
+# Convert into JSON string
+json_data = json.dumps(dict_data)
+
+# The result is now a JSON string
+print(json_data)
+# [OUT]{"name": "John", "age": 30, "city": "New York"}
+print(type(dict_data))
+# [OUT]<class 'dict'>
+print(type(json_data))
+# [OUT]<class 'str'>
+```
+
+If the structure is big, showing it in one line is not very clear. <br>
+Use the following parameter for a prettier format:
+```python
+import json
+data =  '{ "name":"John", "age":30, "city":"New York"}'
+
+# Print the JSON structure
+json_data = json.loads(data)
+print(json_data)
+# [OUT]{'name': 'John', 'age': 30, 'city': 'New York'}
+print(type(json_data))
+# [OUT]<class 'dict'>
+
+# A bit prettier
+print(json.dumps(json_data, indent = 2))
+# [OUT]
+#{
+#  "name": "John",
+#  "age": 30,
+#  "city": "New York"
+#}
+dumpta = json.dumps(json_data)
+print(type(dumpta))
+# [OUT]<class 'str'>
+```
+
+To show only the names of the persons contained in the ['people.json'](./people.json) file, along the city where they live (for example, "John - New York")
+```python
+import json
+
+file = open ("people.json", "r").read()
+json_file = json.loads(file)
+
+for person in json_file:
+    print(f"{person["name"]} - {person["city"]}")
 ```
 
 ```python
