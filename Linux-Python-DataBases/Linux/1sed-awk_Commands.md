@@ -31,6 +31,8 @@ sed '10,20s/dog/cat/g' input.txt  # From line 10 to 20, replace dog by cat
 
 By default sed writes to the standard output. This behavior can be changed with the -i option to edit the file “in place”: `sed -i 's/dog/cat/g' input.txt`
 
+> ! Another example [here](https://youtu.be/gyqUxAY0JYE?t=117).
+
 ### sed scripts
 A sed script is a set of commands separated by semicolons (;) or newlines.
 
