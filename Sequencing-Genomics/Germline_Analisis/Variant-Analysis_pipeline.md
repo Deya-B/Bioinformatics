@@ -103,8 +103,47 @@ samtools flagstat ./alignment/Normal_fixmate.bam
 samtools flagstat ./alignment/Tumour_fixmate.bam
 ```
 
+- Resultados `Normal_fixmate.bam`:
+
+		1400422 + 0 in total (QC-passed reads + QC-failed reads)
+		1400422 + 0 primary
+		0 + 0 secondary
+		0 + 0 supplementary
+		0 + 0 duplicates
+		0 + 0 primary duplicates
+		1381769 + 0 mapped (98.67% : N/A)
+		1381769 + 0 primary mapped (98.67% : N/A)
+		1400422 + 0 paired in sequencing
+		700211 + 0 read1
+		700211 + 0 read2
+		1363116 + 0 properly paired (97.34% : N/A)
+		1363116 + 0 with itself and mate mapped
+		18653 + 0 singletons (1.33% : N/A)
+		0 + 0 with mate mapped to a different chr
+		0 + 0 with mate mapped to a different chr (mapQ>=5)
+
+- Resultados `Tumour_fixmate.bam`:
+
+		2796588 + 0 in total (QC-passed reads + QC-failed reads)
+		2796588 + 0 primary
+		0 + 0 secondary
+		0 + 0 supplementary
+		0 + 0 duplicates
+		0 + 0 primary duplicates
+		2759260 + 0 mapped (98.67% : N/A)
+		2759260 + 0 primary mapped (98.67% : N/A)
+		2796588 + 0 paired in sequencing
+		1398294 + 0 read1
+		1398294 + 0 read2
+		2721918 + 0 properly paired (97.33% : N/A)
+		2721932 + 0 with itself and mate mapped
+		37328 + 0 singletons (1.33% : N/A)
+		0 + 0 with mate mapped to a different chr
+		0 + 0 with mate mapped to a different chr (mapQ>=5)
+
+
 #### 3. **Mark/Remove duplicates**: 
-Duplicates coming from the PCR, are marked/removed, so the Variant Caller will ignore them.
+It's important to clean up duplicates that appear from the PCR. Therefore these are marked/removed, so the Variant Caller will ignore them.
 - First we **sort** the .bam, using `_fixmate.bam` we generate a `_sorted.bam`. <br>
 By sorting we obtain an ordered mapping, this is important to do because the variant caller requires that the alignment is sorted by genomic positions.
 
@@ -136,14 +175,11 @@ In a nutshell, it is a data pre-processing step that detects systematic errors m
 
 BQSR documentation: https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR
 
-> Note that this base recalibration process (BQSR) should NOT be confused with variant recalibration (VQSR), which is a sophisticated filtering technique applied on the variant callset produced in a later step. The developers who named these methods wish to apologize sincerely to anyone, especially Spanish-speaking users, who get tripped up by the similarity of these names.
+> Note: La recalibración de bases no es lo mismo que la de variantes. La de variantes es un paso de filtrado posterior que es más refinado y se aplica sobre VCFs.
 
-Two main steps:
-- **BaseRecalibrator builds the model**: This first tool goes through all of the reads in the **input BAM file** and creates a table with data about the read group the read belongs to, quality score reported by the machine, machine cycle producing this base, and current base + previous base (dinucleotide).<br>
-The model computes how often bases mismatch the reference base, excluding loci known to vary in the population, according to the known variants resource (typically dbSNP).
-- **ApplyBQSR adjusts the scores**: This second tool goes through all the reads again, using the recalibration file to adjust each base's score, and outputs a new quality score.<br>
-Following recalibration, the read quality scores are much closer to their empirical scores than
-before. This means they can be used for variant calling. 
+Two main steps, on the first step errors are detected and on the next these are fixed and applied on the `.bam` files.
+
+Following recalibration, the read quality scores are much closer to their empirical scores than before. This means they can be used for variant calling. 
 
 
 ## Variant identification for somatic and germline small-scale (SNVs and Indels) variants
