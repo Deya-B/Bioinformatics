@@ -58,7 +58,8 @@ conda install bwa
 bwa index ./REFERENCE/hg19_chr17.fa		# FASTA reference genome
 ```
 
-> The remaining files should have been previously indexed (see the following lines as reference for indexing):
+> The remaining files should have been previously or will be later indexed.<br>
+> See the following lines as **reference for indexing**:
 > ```Nushell
 >	#Fasta
 >	bwa index reference.fasta
@@ -130,6 +131,8 @@ samtools index ./alignment/Tumour_refined.bam
 ```
 
 ## Base Quality Score Recalibration (BQSR)
+In a nutshell, it is a data pre-processing step that detects systematic errors made by the sequencing machine when it estimates the accuracy of each base call.
+
 BQSR documentation: https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR
 
 > Note that this base recalibration process (BQSR) should NOT be confused with variant recalibration (VQSR), which is a sophisticated filtering technique applied on the variant callset produced in a later step. The developers who named these methods wish to apologize sincerely to anyone, especially Spanish-speaking users, who get tripped up by the similarity of these names.
