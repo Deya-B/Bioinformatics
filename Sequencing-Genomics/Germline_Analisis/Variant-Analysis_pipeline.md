@@ -1,4 +1,5 @@
 # Analysis pipelines
+![GATKgermline](https://github.com/user-attachments/assets/052dccef-7838-42f3-8bfc-139f215e9fc2)
 
 ## Quality Control (QC)
 ### Quality assessment with FastQC
@@ -144,8 +145,8 @@ The model computes how often bases mismatch the reference base, excluding loci k
 Following recalibration, the read quality scores are much closer to their empirical scores than
 before. This means they can be used for variant calling. 
 
-## Variant identification for somatic and germline small-scale (SNVs and Indels) variants using GATK:
-### Variant calling for germline variants
+## Variant identification for somatic and germline small-scale (SNVs and Indels) variants
+### Variant calling for germline variants using GATK:
 1. Install GATK via conda:
 ```Nushell
 conda install bioconda::gatk4
@@ -172,7 +173,7 @@ To produce a reference-blocked GVCF, substitute the output filename and add:
 
 Haplotype Caller Overview [here](hhttps://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller)
 
-We used the following paths to the required files:
+We used the following paths to our sample's files:
 ```Nushell
 gatk HaplotypeCaller -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Normal_refined.bam -O ./vcfgermline/normal.vcf
 gatk HaplotypeCaller -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Tumour_refined.bam -O ./vcfgermline/tumour.vcf
@@ -180,7 +181,8 @@ gatk HaplotypeCaller -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Tumour_refined.
 
 We can have a look at the resulting files: normal.vcf, tumour.vcf
 ![image](https://github.com/user-attachments/assets/881eaef4-8c23-4c3a-b80f-77ffff57aee4)
-Con una almohadilla se muestra el significado de cada columna: cromosoma en el que está la variante, posición genómica, ID, alelo de referencia, alelo alternativo con la mutación encontrada, score de calidad, filtros, información adicional con la anotación, formato del siguiente campo y normal. Dentro del formato, se distinguen: GT indica el genotipo, AD el número de lecturas que soporta la variante (en formato referencia, variante) y DP el total de lecturas.
+* QUAL is the score assigned to a given call. The greater the QUAL, the more reliable is the call.
+* Not all records in a VCF are true calls, the FILTER column specifies those which passed the calling
 
 3. vcf file indexing:
 ```Nushell
@@ -195,6 +197,9 @@ grep -c "^chr17" ./vcfgermline/normal.vcf
 	71
 
 ### Variant calling for somatic variants: MuTect2
+![Mutect2](https://github.com/user-attachments/assets/689b70b8-fa5c-46d0-889c-28abfb11183b)
+*The TronFlow Mutect2 pipeline is part of a collection of computational workflows for tumor-normal pair somatic variant calling.*
+
 #### Tumour-only mode
 Enter the reference fasta, the _refined.bam of the tumour and the output file: tumourOnly.vcf (to indicate that this is the tumour only mode)
 ```Nushell
