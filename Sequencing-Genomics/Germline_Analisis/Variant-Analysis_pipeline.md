@@ -1,6 +1,6 @@
 # Analysis pipelines
 
-## QC and alignment refinement
+## Quality Control (QC)
 ### Quality assessment with FastQC
 FastQC software is a quality control tool for raw sequenced data.<br>
 **Input**: FastQ files<br>
@@ -33,61 +33,97 @@ samtools dict ./REFERENCE/hg19_chr17.fa -o ./REFERENCE/hg19_chr17.dict
 samtools faidx ./REFERENCE/hg19_chr17.fa
 ```
 
-4. Perform fastqc
+4. Perform fastqc <br>
+**Code**: `fastqc -o {outputfolder} {PATH_TO_RAW_DATA}/*.fastq`. <br>
+Transfering the code to our sample should correspond to:
 ``` Nushell
-fastqc -o {outputfolder} {PATH_TO_RAW_DATA}/*.fastq
 fastqc -o ./fastqc ./Raw_data/*.fastq
 ```
 `/*.fastq` serves so that from the file Raw_data, it takes all the fastq files that are there and processes them for fastqc. <br>
 Files will be created in the output folder (in this example: `-o ./fastqc`). 
 html files (reports) can be opened using web browser. 
 
-### Alignment
+#### Quality control, ¿que mirar?
+- Numero de **lecturas** esperado, pocas lecturas puede apuntar a que algo está mal
+- The **quality** of the **sequences** and **bases** that make up these sequences.
+	- FastQC expects high base qualities, but the sequencing technologies, such as Illumina, get a drop in bases quality at the end of the sequence.
+ 	- The **quality** of the **sequences**. Most sequences should have high quality scores. Low average sequence quality scores may derive from errors in sequencing instruments, contamination or wrong library preparation.
+- Podemos ver si hay **contaminación** en las muestras. Si hay una misma secuencia muchas veces, podría tratarse de una contaminacion.
+- **GC content**: FastQC compares the distribution of GC with a theoretical distribution based in a random sequence with similar length. Deviations may come from contamination (humans 40-60% GC), presence of repetitive sequences, or PCR imbalance.
+
+## Alignment with BWA:
 1. Indexing the reference fasta with bwa
 ```Nushell
 conda install bwa
-bwa index ./REFERENCE/hg19_chr17.fa
+bwa index ./REFERENCE/hg19_chr17.fa		# FASTA reference genome
 ```
 
-2. Alignment process (we align both the normal and tumour samples)
+> The remaining files should have been previously indexed (see the following lines as reference for indexing):
+> ```Nushell
+>	#Fasta
+>	bwa index reference.fasta
+>	samtools dict reference.fasta -o reference.dict
+>	samtools faidx reference.fasta
+>	
+>	#BAM
+>	samtools index bam.file
+>	
+>	#VCF
+>	tabix -p vcf vcf.file
+>```
+
+2. Alignment process (alignment of both the normal and tumour samples)
 ```Nushell
-# Alignment of R1 with R2 against the reference and create a new file with the result called Normal.sam in a file hanging from the working directory called /alignment.
+# For the normal sample
 bwa mem -R '@RG\tID:OVCA\tSM:normal' ./REFERENCE/hg19_chr17.fa ./Raw_data/WEx_Normal_R1.fastq ./Raw_data/WEx_Normal_R2.fastq > ./alignment/Normal.sam
-# Same for tumour
+
+# The same for the tumour sample
 bwa mem -R '@RG\tID:OVCA\tSM:tumour' ./REFERENCE/hg19_chr17.fa ./Raw_data/WEx_Tumour_R1.fastq ./Raw_data/WEx_Tumour_R2.fastq > ./alignment/Tumour.sam
 ```
-### Refinement of alignment
-1. Fixmate tool: https://www.htslib.org/doc/samtools-fixmate.html
+The previous code aligns R1 with R2 against the reference <br>
+Then creates a new file with the results (`Normal.sam` and `Tumour.sam`) in a file hanging from the working directory called `/alignment`.
 
-	BWA sometimes misses some information on SAM records. With samtools fixmate, we can fill in this information, at the same time that we compress to .bam:
+### Refinement of alignment
+#### 1. **Fixmate tool** 
+Documentation: https://www.htslib.org/doc/samtools-fixmate.html
+
+BWA sometimes misses some information on SAM records. <br>
+With `samtools fixmate` we can *fill in this information*, at the same time that we *compress* to **.bam**:
 ```Nushell
 samtools fixmate -O bam ./alignment/Normal.sam ./alignment/Normal_fixmate.bam
 samtools fixmate -O bam ./alignment/Tumour.sam ./alignment/Tumour_fixmate.bam
 ```
 
-2. Flagstat: to see some statistics of the generated .bam's
+#### 2. **Flagstat**: 
+To see some *statistics* of the generated .bam's
 ```Nushell
 samtools flagstat ./alignment/Normal_fixmate.bam
 samtools flagstat ./alignment/Tumour_fixmate.bam
 ```
 
-3. Mark/Remove duplicates: we mark/remove the duplicates (from the PCR), so the Variant Caller will ignore them:
+#### 3. **Mark/Remove duplicates**: 
+Duplicates coming from the PCR, are marked/removed, so the Variant Caller will ignore them.
+- First we **sort** the .bam, using `_fixmate.bam` we generate a `_sorted.bam`. <br>
+By sorting we obtain an ordered mapping, this is important to do because the variant caller requires that the alignment is sorted by genomic positions.
 
-1st we sort, using the _fixmate.bam we generate a _sorted.bam.
-Sort is important to do, in order to have an ordered mapping. Because the variant caller requires that the alignment is sorted by genomic positions.
-
+`samtools sort` documentation: https://www.htslib.org/doc/samtools-sort.html
 ```Nushell
 samtools sort -O bam -o ./alignment/Tumour_sorted.bam ./alignment/Tumour_fixmate.bam
 samtools sort -O bam -o ./alignment/Normal_sorted.bam ./alignment/Normal_fixmate.bam
 ```
 
-2nd removing duplicates: we use the _sorted.bam to generate a _refined.bam
+- Then **duplicates are removed**: by using the `_sorted.bam` a `_refined.bam` is generated
+
+`samtools rmdup` documentation: https://www.htslib.org/doc/samtools-rmdup.html
 ```Nushell
 samtools rmdup -S ./alignment/Normal_sorted.bam ./alignment/Normal_refined.bam
 samtools rmdup -S ./alignment/Tumour_sorted.bam ./alignment/Tumour_refined.bam
 ```
 
-4. Finally we index the refined bam's
+#### 4. **Indexing** the refined bam's 
+This will be needed for further steps and to visualize the alignment later.
+
+`samtools index` documentation: https://www.htslib.org/doc/samtools-index.html
 ```Nushell
 samtools index ./alignment/Normal_refined.bam
 samtools index ./alignment/Tumour_refined.bam
