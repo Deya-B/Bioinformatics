@@ -129,6 +129,18 @@ samtools index ./alignment/Normal_refined.bam
 samtools index ./alignment/Tumour_refined.bam
 ```
 
+## Base Quality Score Recalibration (BQSR)
+BQSR documentation: https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR
+
+> Note that this base recalibration process (BQSR) should NOT be confused with variant recalibration (VQSR), which is a sophisticated filtering technique applied on the variant callset produced in a later step. The developers who named these methods wish to apologize sincerely to anyone, especially Spanish-speaking users, who get tripped up by the similarity of these names.
+
+Two main steps:
+- **BaseRecalibrator builds the model**: This first tool goes through all of the reads in the **input BAM file** and creates a table with data about the read group the read belongs to, quality score reported by the machine, machine cycle producing this base, and current base + previous base (dinucleotide).<br>
+The model computes how often bases mismatch the reference base, excluding loci known to vary in the population, according to the known variants resource (typically dbSNP).
+- **ApplyBQSR adjusts the scores**: This second tool goes through all the reads again, using the recalibration file to adjust each base's score, and outputs a new quality score.<br>
+Following recalibration, the read quality scores are much closer to their empirical scores than
+before. This means they can be used for variant calling. 
+
 ## Variant identification for somatic and germline small-scale (SNVs and Indels) variants using GATK:
 ### Variant calling for germline variants
 1. Install GATK via conda:
