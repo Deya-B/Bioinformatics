@@ -145,6 +145,7 @@ The model computes how often bases mismatch the reference base, excluding loci k
 Following recalibration, the read quality scores are much closer to their empirical scores than
 before. This means they can be used for variant calling. 
 
+
 ## Variant identification for somatic and germline small-scale (SNVs and Indels) variants
 ### Variant calling for germline variants using GATK:
 1. Install GATK via conda:
@@ -152,7 +153,8 @@ before. This means they can be used for variant calling.
 conda install bioconda::gatk4
 ```
 
-2. Haplotype Caller: Variant calling algorithm based on the calculation of genotype likelihoods.
+2. **Haplotype Caller**: 
+Variant calling algorithm based on the calculation of genotype likelihoods.
 - **Input**: `.bam` file(s) from which to make variant calls
 - **Output**: Either a `VCF` or `GVCF` file with raw, unfiltered SNP and indel calls.<br>
 	Regular VCFs must be filtered either by variant recalibration (Best Practice) or hard-filtering before use in downstream analyses. If using the GVCF workflow, the output is a GVCF file that must first be run through GenotypeGVCFs and then filtering must be done before further analysis.
@@ -184,7 +186,7 @@ We can have a look at the resulting files: normal.vcf, tumour.vcf
 * QUAL is the score assigned to a given call. The greater the QUAL, the more reliable is the call.
 * Not all records in a VCF are true calls, the FILTER column specifies those which passed the calling
 
-3. vcf file indexing:
+3. **vcf** file **indexing**:
 ```Nushell
 tabix -p vcf ./vcfgermline/normal.vcf
 tabix -p vcf ./vcfgermline/tumour.vcf
@@ -194,13 +196,45 @@ tabix -p vcf ./vcfgermline/tumour.vcf
 ```Nushell
 grep -c "^chr17" ./vcfgermline/normal.vcf
 ```
-	71
+>	71
+
+### `VariantRecalibrator`
+Variant recalibrator builds a recalibration model to score variant quality and then filters
+by that quality. <br>
+It checks the probability that a variant is a true genetic variant versus a sequencing or data processing artifact. This allows to evaluate the probability that each call is real. <br>
+The result is a score called the VQSLOD that gets added to the INFO field of each
+variant. <br>
+This step is usually done for SNPs and INDELs separately.
+
+GATK documentation for [variant recalibrator](https://gatk.broadinstitute.org/hc/en-us/articles/360036510892-VariantRecalibrator).
+
+1. **Variant Recalibration**:
+```Nushell
+$ gatk VariantRecalibrator -R REFERENCE/hg19_chr17.fa -V ./vcfgermline/normal.vcf --resource:dbsnp,known=true,training=true,truth=true,prior=15.0Annotations/dbsnp_138.hg19_chr17.vcf.gz -an QD -an ReadPosRankSum -an FS -an SOR -mode BOTH -O ./vcfgermline/recal/normal.recal --tranches-file ./vcfgermline/recal/normal.tranches
+```
+
+2. **ApplyVQSR**: Va de la mano con el paso anterior. En la columna filter, anota si la variante pasa a filtro o no. Documentation for ApplyVQSR [aquí](https://gatk.broadinstitute.org/hc/en-us/articles/360037056912-ApplyVQSR)
+```Nushell
+$ gatk ApplyVQSR -R REFERENCE/hg19_chr17.fa -V ./vcfgermline/normal.vcf -O ./vcfgermline/recal/normal.recalibrated --truth-sensitivity-filter-level 99.0 --tranches-file ./vcfgermline/recal/normal.tranches --recal-file ./vcfgermline/recal/normal.recal -mode BOTH
+```
+
+3. **Variant filtering** (Through this process, variants are not filtered, but only marked in the FILTER column. If desired, they could be filtered using further bash commands)
+```Nushell
+$ awk -F '\t' '{if ($0 ~ /#/ || $7 == "PASS") print}' ./vcfgermline/recal/normal.recalibrated > ./vcfgermline/recal/normal.onlypass
+```
+
+4. Count them after filtering:
+```Nushell
+$ grep -c "^chr17" ./vcfgermline/recal/normal.onlypass
+```
+> 	47
+ 
 
 ### Variant calling for somatic variants: MuTect2
 ![Mutect2](https://github.com/user-attachments/assets/689b70b8-fa5c-46d0-889c-28abfb11183b)
 *The TronFlow Mutect2 pipeline is part of a collection of computational workflows for tumor-normal pair somatic variant calling.*
 
-The documentation can be found [here](https://tronflow-docs.readthedocs.io/en/latest/?badge=latest)
+The documentation can be found [here](https://gatk.broadinstitute.org/hc/en-us/articles/360037593851-Mutect2)
 
 #### Tumour-only mode
 Enter the `reference.fasta`, the `_refined.bam` of the tumour and the output file, for example: `tumourOnly.vcf` (to indicate that this is the tumour only mode).
@@ -222,37 +256,17 @@ After filtering we obtain the following somatic variants:
 grep -c "^chr17" ./vcfsomatic/tumourOnly.vcf
 grep -c "^chr17" ./vcfsomatic/tumour_matched_somatic.vcf
 ```
+The variant allele frequencies can be observed in the column FORMAT, under AF. These range from 0 to 1.
 
-### Variant Recalibrator
-Variant recalibrator builds a recalibration model to score variant quality and then filters
-by that quality. <br>
-It checks the probability that a variant is a true genetic variant versus a sequencing or data processing artifact. This allows to evaluate the probability that each call is real. <br>
-The result is a score called the VQSLOD that gets added to the INFO field of each
-variant. <br>
-This step is usually done for SNPs and INDELs separately.
 
-GATK documentation for [variant recalibrator](https://gatk.broadinstitute.org/hc/en-us/articles/360036510892-VariantRecalibrator).
+1. How many somatic and germline variants (post-filtering) do you get?
+    - somatic tumor-normal: 193
+    - somatic tumor-only: 461
+    - germline post-filtering (only PASS): 47
+2. Compare somatic and germline variant allele frequencies.
+Compare somatic and germline VCFs
+![germlinevssomatic](https://github.com/user-attachments/assets/2b7ef1b7-30e2-4252-aa2e-f17a485d8699)
 
-1. Variant Recalibration for the germline variants:
-```Nushell
-$ gatk VariantRecalibrator -R REFERENCE/hg19_chr17.fa -V ./vcfgermline/normal.vcf --resource:dbsnp,known=true,training=true,truth=true,prior=15.0Annotations/dbsnp_138.hg19_chr17.vcf.gz -an QD -an ReadPosRankSum -an FS -an SOR -mode BOTH -O ./vcfgermline/recal/normal.recal --tranches-file ./vcfgermline/recal/normal.tranches
-```
-
-2. ApplyVQSR: Va de la mano con el paso anterior. En la columna filter, anota si la variante pasa a filtro o no. Documentacion for ApplyVQSR [aquí](https://gatk.broadinstitute.org/hc/en-us/articles/360037056912-ApplyVQSR)
-```Nushell
-$ gatk ApplyVQSR -R REFERENCE/hg19_chr17.fa -V ./vcfgermline/normal.vcf -O ./vcfgermline/recal/normal.recalibrated --truth-sensitivity-filter-level 99.0 --tranches-file ./vcfgermline/recal/normal.tranches --recal-file ./vcfgermline/recal/normal.recal -mode BOTH
-```
-
-3. Variant filtering (Through this process, variants are not filtered, but only marked in the FILTER column. If desired, they could be filtered using further bash commands)
-```Nushell
-$ awk -F '\t' '{if ($0 ~ /#/ || $7 == "PASS") print}' ./vcfgermline/recal/normal.recalibrated > ./vcfgermline/recal/normal.onlypass
-```
-
-4. Count them after filtering:
-```Nushell
-$ grep -c "^chr17" ./vcfgermline/recal/normal.onlypass
-```
-	47
 
 #### Data format cheat sheet
 ![image](https://github.com/user-attachments/assets/0353d06c-274a-4897-a8d7-6f6b3b335b4a)
