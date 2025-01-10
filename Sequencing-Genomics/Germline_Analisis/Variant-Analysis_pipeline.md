@@ -259,6 +259,8 @@ $ gatk ApplyVQSR -R REFERENCE/hg19_chr17.fa -V ./vcfgermline/normal.vcf -O ./vcf
 $ awk -F '\t' '{if ($0 ~ /#/ || $7 == "PASS") print}' ./vcfgermline/recal/normal.recalibrated > ./vcfgermline/recal/normal.onlypass
 ```
 
+La calidad que se asigna a cada variante es variable, y en filter tenemos las variantes que pasan filtro marcadas con PASS y las que no con los motivos de porque no pasan.
+
 4. Count them after filtering:
 ```Nushell
 $ grep -c "^chr17" ./vcfgermline/recal/normal.onlypass
