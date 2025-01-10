@@ -7,10 +7,10 @@
 ```
 conda activate
 conda create -n OVCA_case
+conda activate OVCA_case
 ```
 2. Install fastqc via conda:
 ```
-conda activate OVCA_case
 conda install bioconda::fastqc
 ```
 > [!NOTE]
@@ -80,18 +80,40 @@ samtools index ./alignment/Normal_refined.bam
 samtools index ./alignment/Tumour_refined.bam
 ```
 
-## Variant identification for somatic and germline small-scale variants
-## Variant calling for germline SNVs and Indels using GATK
+## Variant identification for somatic and germline small-scale (SNVs and Indels) variants using GATK:
+### Variant calling for germline variants
 1. Install GATK via conda:
 ```
 conda install bioconda::gatk4
 ```
-2. Haplotype Caller
+2. Haplotype Caller: Variant calling algorithm based on the calculation of genotype likelihoods.
+- **Input**: `.bam` file(s) from which to make variant calls
+- **Output**: Either a `VCF` or `GVCF` file with raw, unfiltered SNP and indel calls.<br>
+	Regular VCFs must be filtered either by variant recalibration (Best Practice) or hard-filtering before use in downstream analyses. If using the GVCF workflow, the output is a GVCF file that must first be run through GenotypeGVCFs and then filtering must be done before further analysis.
+
+**Basic mode** (no GVCF)
+```Nushell
+gatk HaplotypeCaller \
+-R reference.fasta \		# Reference genome (FASTA)
+-I preprocessed_reads.bam \	# Input file (BAM)
+-O germline_variants.vcf  	# Output file (VCF)
 ```
+To produce a reference-blocked GVCF, substitute the output filename and add:
+```Nushell
+-O germline_variants.g.vcf \
+-ERC GVCF
+```
+
+Haplotype Caller Overview [here](hhttps://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller)
+
+We used the following paths to the required files:
+```Nushell
 gatk HaplotypeCaller -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Normal_refined.bam -O ./vcfgermline/normal.vcf
 gatk HaplotypeCaller -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Tumour_refined.bam -O ./vcfgermline/tumour.vcf
 ```
 We can have a look at the resulting files: normal.vcf, tumour.vcf
+![image](https://github.com/user-attachments/assets/881eaef4-8c23-4c3a-b80f-77ffff57aee4)
+Con una almohadilla se muestra el significado de cada columna: cromosoma en el que está la variante, posición genómica, ID, alelo de referencia, alelo alternativo con la mutación encontrada, score de calidad, filtros, información adicional con la anotación, formato del siguiente campo y normal. Dentro del formato, se distinguen: GT indica el genotipo, AD el número de lecturas que soporta la variante (en formato referencia, variante) y DP el total de lecturas.
 
 3. vcf file indexing:
 ```
@@ -104,13 +126,13 @@ grep -c "^chr17" ./vcfgermline/normal.vcf
 ```
 	71
 
-## Variant calling for somatic variants: MuTect2
-### Tumour-only mode
+### Variant calling for somatic variants: MuTect2
+#### Tumour-only mode
 Enter the reference fasta, the _refined.bam of the tumour and the output file: tumourOnly.vcf (to indicate that this is the tumour only mode)
 ```
 gatk Mutect2 -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Tumour_refined.bam -O ./vcfsomatic/tumourOnly.vcf
 ```
-### Tumour matched normal mode
+#### Tumour matched normal mode
 Enter the reference fasta, the _refined.bam of the tumour and the normal, then -normal normal (the name of the normal used during alignment: @RG\tID:OVCA\tSM:**normal**) and the output file: TumourNormal.vcf (to indicate that this is the tumour matched normal mode)
 ```
 gatk Mutect2 -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Tumour_refined.bam -I ./alignment/Normal_refined.bam -normal normal -O ./vcfsomatic/TumourNormal.vcf
@@ -121,16 +143,25 @@ grep -c "^chr17" ./vcfsomatic/tumourOnly.vcf
 grep -c "^chr17" ./vcfsomatic/TumourNormal.vcf
 ```
 
-## Variant Recalibrator
+### Variant Recalibrator
+Variant recalibrator builds a recalibration model to score variant quality and then filters
+by that quality. <br>
+It checks the probability that a variant is a true genetic variant versus a sequencing or data processing artifact. This allows to evaluate the probability that each call is real. <br>
+The result is a score called the VQSLOD that gets added to the INFO field of each
+variant. <br>
+This step is usually done for SNPs and INDELs separately.
+
+GATK documentation for [variant recalibrator](https://gatk.broadinstitute.org/hc/en-us/articles/360036510892-VariantRecalibrator).
+
 1. Variant Recalibration for the germline variants:
 ```
 $ gatk VariantRecalibrator -R REFERENCE/hg19_chr17.fa -V ./vcfgermline/normal.vcf --resource:dbsnp,known=true,training=true,truth=true,prior=15.0Annotations/dbsnp_138.hg19_chr17.vcf.gz -an QD -an ReadPosRankSum -an FS -an SOR -mode BOTH -O ./vcfgermline/recal/normal.recal --tranches-file ./vcfgermline/recal/normal.tranches
 ```
-2. ApplyVQSR: Va de la mano con el paso anterior. En la columna filter, anota si la variante pasa a filtro o no.
+2. ApplyVQSR: Va de la mano con el paso anterior. En la columna filter, anota si la variante pasa a filtro o no. Documentacion for ApplyVQSR [aquí](https://gatk.broadinstitute.org/hc/en-us/articles/360037056912-ApplyVQSR)
 ```
 $ gatk ApplyVQSR -R REFERENCE/hg19_chr17.fa -V ./vcfgermline/normal.vcf -O ./vcfgermline/recal/normal.recalibrated --truth-sensitivity-filter-level 99.0 --tranches-file ./vcfgermline/recal/normal.tranches --recal-file ./vcfgermline/recal/normal.recal -mode BOTH
 ```
-3. Variant filtering (marking variants in the FILTER column)
+3. Variant filtering (Through this process, variants are not filtered, but only marked in the FILTER column. If desired, they could be filtered using further bash commands)
 ```
 $ awk -F '\t' '{if ($0 ~ /#/ || $7 == "PASS") print}' ./vcfgermline/recal/normal.recalibrated > ./vcfgermline/recal/normal.onlypass
 ```
@@ -140,3 +171,5 @@ $ grep -c "^chr17" ./vcfgermline/recal/normal.onlypass
 ```
 	47
 
+#### Data format cheat sheet
+![image](https://github.com/user-attachments/assets/0353d06c-274a-4897-a8d7-6f6b3b335b4a)
