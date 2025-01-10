@@ -171,7 +171,7 @@ To produce a reference-blocked GVCF, substitute the output filename and add:
 -ERC GVCF
 ```
 
-Haplotype Caller Overview [here](hhttps://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller)
+Haplotype Caller Overview [here](https://gatk.broadinstitute.org/hc/en-us/articles/360037225632-HaplotypeCaller)
 
 We used the following paths to our sample's files:
 ```Nushell
@@ -200,22 +200,27 @@ grep -c "^chr17" ./vcfgermline/normal.vcf
 ![Mutect2](https://github.com/user-attachments/assets/689b70b8-fa5c-46d0-889c-28abfb11183b)
 *The TronFlow Mutect2 pipeline is part of a collection of computational workflows for tumor-normal pair somatic variant calling.*
 
+The documentation can be found [here](https://tronflow-docs.readthedocs.io/en/latest/?badge=latest)
+
 #### Tumour-only mode
-Enter the reference fasta, the _refined.bam of the tumour and the output file: tumourOnly.vcf (to indicate that this is the tumour only mode)
+Enter the `reference.fasta`, the `_refined.bam` of the tumour and the output file, for example: `tumourOnly.vcf` (to indicate that this is the tumour only mode).
 ```Nushell
 gatk Mutect2 -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Tumour_refined.bam -O ./vcfsomatic/tumourOnly.vcf
 ```
 
 #### Tumour matched normal mode
-Enter the reference fasta, the _refined.bam of the tumour and the normal, then -normal normal (the name of the normal used during alignment: @RG\tID:OVCA\tSM:**normal**) and the output file: TumourNormal.vcf (to indicate that this is the tumour matched normal mode)
+- Enter the `reference.fasta`, the `_refined.bam` of the tumour and the normal.
+- Then `-normal normal`, the name of the normal used during alignment (@RG\tID:OVCA\tSM:**normal**)
+- Then the *output file*: `tumour_matched_somatic.vcf` (to indicate that this is the tumour matched mode)
 ```Nushell
-gatk Mutect2 -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Tumour_refined.bam -I ./alignment/Normal_refined.bam -normal normal -O ./vcfsomatic/TumourNormal.vcf
+gatk Mutect2 -R ./REFERENCE/hg19_chr17.fa -I ./alignment/Tumour_refined.bam -I ./alignment/Normal_refined.bam -normal normal -O ./vcfsomatic/tumour_matched_somatic.vcf
 ```
 
-Count them:
+After filtering we obtain the following somatic variants: 
 ```Nushell
+# We can count them with grep
 grep -c "^chr17" ./vcfsomatic/tumourOnly.vcf
-grep -c "^chr17" ./vcfsomatic/TumourNormal.vcf
+grep -c "^chr17" ./vcfsomatic/tumour_matched_somatic.vcf
 ```
 
 ### Variant Recalibrator
