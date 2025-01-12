@@ -104,11 +104,12 @@ The 9 remaining symbols indicate the permissions, or access rights, and are take
 ```-rw-------``` A file that only the owner can read and write - no-one else can read or write and no-one has execution rights (e.g. your mailbox file).
 
 ### Access rights on directories <a name="dirI"></a>
-- r allows users to list files in the directory;
-- w means that users may create/delete/ from the directory or move files into it;
-- x means the right to access files in the directory. This implies that you may read files in the directory provided you have read permission on the individual files.
+Because directories are not used in the same way as regular files, the permissions work slightly (but only slightly) differently.  An attempt to list the files in a directory requires read permission for the directory, but not on the files within.  An attempt to add a file to a directory, delete a file from a directory, or to rename a file, all require write permission for the directory, but (perhaps surprisingly) not for the files within.  Execute permission doesn't apply to directories (a directory can't also be a program).  But that permission bit is reused for directories for other purposes.
+- `r` allows users to list files in the directory;
+- `w` means that users may create/delete/ from the directory or move files into it;
+- `x` means the right to access files in the directory. This implies that you may read files in the directory provided you have read permission on the individual files.
 
-### chmod: Changing access rights  <a name="chmod"></a>
+### `chmod`: Changing access rights  <a name="chmod"></a>
 ```chmod [who]operator[permissions] filename```
 - who means
   - u 🡒 User permissions
@@ -146,7 +147,7 @@ Linux, like most modern OS's is a multitasking operating system. This means that
 * ```jobs``` When a process is running, backgrounded or suspended, it will be entered onto a list along with a job number.
 * ```fg ${jobnumber}``` To restart (foreground) a suspended process, for example: ```fg $1``` Typing fg with no job number foregrounds the last suspended process.
 
-### Killing a process  <a name="kill"></a>
+### Killing a process <a name="kill"></a>
 **kill** (terminate or signal a process)
 It is sometimes necessary to kill a process (for example, when an executing program is in an infinite loop)
 To kill a job running in the foreground, type ^C (control c).
@@ -156,7 +157,7 @@ A message should be displayed informing the user that the job has been killed. I
 * ```kill -9 20077```
 * ```kill $1``` Kill job number 1
 
-## Other useful UNIX commands  <a name="other"></a>
+## Other useful UNIX commands <a name="other"></a>
 * ```df``` The df command reports on the space left on the file system. For example, to find out how much space is left on the file-server
 * ```du```The du command outputs the number of kilobytes used by each subdirectory. Useful if you have gone over quota and you want to find out which directory has the most files. In your home-directory, type ```du -s 
 
@@ -164,7 +165,7 @@ A message should be displayed informing the user that the job has been killed. I
 history (show command history list).
 ```history | grep -i find```
 
-### ssh  <a name="shh"></a>
+### `ssh` <a name="shh"></a>
 To execute a command on a remote Linux server and have the result displayed locally.
 ```
 ssh -X remote_host_ip
@@ -185,7 +186,7 @@ you will open other xterminal.
 To exit back into your local session, simply type:
 ```$ exit```
 
-### nohup  <a name="nohub"></a>
+### `nohup`  <a name="nohub"></a>
 Most of the time you login into remote server via ssh. If you start a shell script or command and you exit (abort remote connection), the process / command will get killed. Sometimes a job or command takes a long time. If you are not sure when the job will finish, then it is better to leave it running in the background. But, if you log out of the system, the job will be stopped and terminated by your shell.
 
 To keep it use the nohup command line-utility: allows to run command/process or shell scripts that can continue running in the background after you log out from a shell. The syntax is as follows:
