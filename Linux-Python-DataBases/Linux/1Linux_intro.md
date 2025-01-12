@@ -104,10 +104,13 @@ The 9 remaining symbols indicate the permissions, or access rights, and are take
 ```-rw-------``` A file that only the owner can read and write - no-one else can read or write and no-one has execution rights (e.g. your mailbox file).
 
 ### Access rights on directories <a name="dirI"></a>
-Because directories are not used in the same way as regular files, the permissions work slightly (but only slightly) differently.  An attempt to list the files in a directory requires read permission for the directory, but not on the files within.  An attempt to add a file to a directory, delete a file from a directory, or to rename a file, all require write permission for the directory, but (perhaps surprisingly) not for the files within.  Execute permission doesn't apply to directories (a directory can't also be a program).  But that permission bit is reused for directories for other purposes.
+Because directories are not used in the same way as regular files, the permissions work slightly (but only slightly) differently.  An attempt to list the files in a directory requires read permission for the directory, but not on the files within.  An attempt to add a file to a directory, delete a file from a directory, or to rename a file, all require write permission for the directory, but (perhaps surprisingly) not for the files within. 
 - `r` allows users to list files in the directory;
 - `w` means that users may create/delete/ from the directory or move files into it;
-- `x` means the right to access files in the directory. This implies that you may read files in the directory provided you have read permission on the individual files.
+- `x` means the right to access files in the directory.
+   - This implies that you may read files in the directory provided you have read permission on the individual files. Execute is needed on a directory to access the inode information of the files within.  You need this to search a directory to read the *inodes* of the files within.  For this reason the execute permission on a directory is often called **search permission** instead.
+   - Execute permission is needed on a directory to be able to `cd` into it (that is, to make some directory your current working directory).
+
 
 ### `chmod`: Changing access rights  <a name="chmod"></a>
 ```chmod [who]operator[permissions] filename```
