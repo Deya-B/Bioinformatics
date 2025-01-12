@@ -382,12 +382,12 @@ The nucleotides are: A
 A dictionary is a collection which is ordered, changeable, and does NOT allow duplicates. 
 - Dictionaries are written with curly brackets. 
 - Dictionary items are presented in key:value pairs, and can be referred to by using the key name.
-
-
 ```py
 dic = {}
 year = {'January': 31, 'February': 28}
 ```
+- By indexing the key is possible to add or change elements' values. If the key doesn't exist, is created, if was there then is updated/modified.
+- To delete elements from a dictionary `del(dict['key']))` is used.
 
 ### Iterate on Dictionaries
 When you iterate over a dictionary, the element of iteration is the key. <br>
@@ -407,7 +407,16 @@ February
 
 
 ```py
+year = {'January': 31, 'February': 28}
 
+year['March'] = 31
+year['Azul'] = "Trouble"
+print(year)
+#[OUT] {'January': 31, 'February': 28, 'March': 31, 'Azul': 'Trouble'}
+
+del(year['Azul'])
+print(year)
+#[OUT] {'January': 31, 'February': 28, 'March': 31}
 ```
 
 ```py
