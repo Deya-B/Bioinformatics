@@ -1,17 +1,108 @@
-## Python for Bioinformatics:
+# Python for Bioinformatics:
 > While using *VS Code or Codium* to **comment** and **uncomment** a block of code you can:
 > 1. Select the block of code
 > 2. Press `Ctrl+K c` to comment
 > 3. Press `Ctrl+K u` to uncomment
 
-### Some useful string's methods:
+
+## Strings
 #### Create a string:
 ```py
 dna = "ACCGTCTAATTTAC"
+print(type(dna)) # Check what is it
+
+#[OUT] <class 'str'>
 ```
 
+### Combine strings/sequences or Concatenate
+#### No spaces:
+```py
+dna1 = "ACCGTCTAATTTACGCGC"
+dna2 = "ACCATCAAAA"
+
+combined = dna1+dna2
+print(combined)
+
+#[OUT] ACCGTCTAATTTACGCGCACCATCAAAA
+```
+
+#### Creating spaces:
+```py
+name = "Istar"
+surname = "Toledo"
+
+combine = name + " " + surname
+print(combine)
+
+#[OUT] Istar Toledo
+```
+
+#### Using string formatting:
+```py
+name = "Istar"
+surname = "Toledo"
+
+fullname = "%s %s" % (name, surname)
+print(fullname)
+
+#[OUT] Istar Toledo
+```
+
+#### Using **f-strings**:
+These are very usefull to combine text with variables.
+```py
+print(f"{name} {surname}")
+print(f"El valor de la variable es {variable}")
+```
+
+### Indexing and Slicing
+This is used to access substrings / characters / nucleotides of a string by specifying an **index** or a range of indexes (start and end) and in some cases a step value.
+
+In the world of programming, indexing starts at 0, and Python also follows 0-indexing what makes Python different is that Python also follows negative indexing which starts from -1. -1 denotes the last index, -2, denotes the second last index, -3 denotes the third last index, and so on.
+
+![image](https://github.com/user-attachments/assets/bce3e643-b4e4-468a-a6d9-efff0c2c1cad)
+
+#### Sintax
+`string [start:end:step]`
+
+```py
+dna = "ACCGTCTAATTTACGCGC"
+print(dna[3])         # To print out position 4
+#[OUT] G
+```
+
+#### Slicing
+To access a fragment of the string.
+```py
+print(dna[0:3])       # To print out a STRING from position 1 to 3 [index 2]
+#[OUT] ACC
+
+print(dna[0:10:2])    # To print from position 1 to 10, in steps of 2
+#[OUT] ACTTA
+```
+Because from ACCGTCTAATTTACGCGC
+
+#### Short-hand indexing
+This is done by omitting either the first and/or last index.
+- `string[:end]` A slice of the sequence from the beginning to the index just before `end pos`
+- `string[start:]` A slice of the sequence from `start pos` till the end of the sequence
+- `string[:]` Returns the entire string/sequence
+- `string[::-1]` Returns a reversed copy of the string/sequence
+
+```py
+dna = "ACCGTCTAATTTAC"
+
+```
+
+```py
+
+
+```
+
+### Some useful string's methods
 #### Convert string to **lower** or **upper case**: 
 ```py
+dna = "ACCGTCTAATTTAC"
 dna.lower()
 dna.upper()
 ```
