@@ -171,9 +171,9 @@ history (show command history list).
 
 ### `ssh` <a name="shh"></a>
 To execute a command on a remote Linux server and have the result displayed locally.
-```
-ssh -X remote_host_ip
-```
+
+```ssh -X remote_host_ip```
+
 Once you have connected to the server, you will probably be asked to verify your identity by providing a password. The -X option to ssh enables X11 and allow you to use your terminal as a graphical terminal (for example you could edit a program in the server side with gedit editor).
 
 To get the remote_remote_host_ip you can run on the remote host the command ifconfig
