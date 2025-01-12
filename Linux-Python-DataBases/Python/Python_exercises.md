@@ -4,6 +4,72 @@
 > 2. Press `Ctrl+K c` to comment
 > 3. Press `Ctrl+K u` to uncomment
 
+## Python Operators
+### Arithmetic operators
+```py
+num1 = 4
+num2 = 2
+
+calculation = num1 + num2
+#[OUT] 6
+
+calculation = num1 * num2
+#[OUT] 8
+
+calculation = num1 / num2
+#[OUT] 2.0
+
+calculation = num1 // num2    # Floor division (rounds up the result to an integer)
+#[OUT] 2
+
+calculation = num1 ** num2    # Power
+#[OUT] 16
+
+calculation = num1 % num2    # Module (is the remainder of the division of
+                             # num1 by num2)
+#[OUT] 0
+```
+
+> Hint! The module can be used to find odds and even numbers.
+>
+> By doing `number % 2 = ...`
+> 
+> This can be used the following way:
+>```py
+> num = int(input("Please enter a number: "))    # IMPORTANT: cast input to integer (int)
+> if num % 2 == 0:
+>     print(f"The number {num} is even!")
+> else:
+>     print(f"The number {num} is NOT even!")
+>```
+
+### Comparison operators
+Comparison operators are used to compare two values:
+|Operator|Name|Example|
+|----|----|----|
+|==|Equal|x == y|
+|!= |Not equal|x != y|
+|>|Greater than|x > y|
+|<|Less than|x < y|
+|>=	| Greater than or equal to|x >= y|
+|<=|Less than or equal to|x <= y|
+
+### Logical or Boolean operators: `not`,`and`,`or`
+Booleans represent one of two values: `True` or `False`.
+
+|Operator|Name|Example|
+|----|----|----|
+|and | Returns True if both statements are true|x < 5 and x < 10|
+| or | Returns True if one of the statements is true|x < 5 or x < 4|
+| not | Reverse the result, returns False if the result is true	| not(x < 5 and x < 10) <br> `>>> not True`<br> Returns:`False`|
+
+
+### Python Membership Operators
+|Operator|Name|Example|
+|----|----|----|
+|in| 	Returns True if a sequence with the specified value is present in the object	| x in y|
+|not in|	Returns True if a sequence with the specified value is not present in the object	| x not in y|
+
 
 ## Strings
 #### Create a string:
@@ -12,6 +78,13 @@ dna = "ACCGTCTAATTTAC"
 print(type(dna)) # Check what is it
 
 #[OUT] <class 'str'>
+```
+
+### Operations with strings
+```py
+string = "hola"
+print(string*4)
+#[OUT] holaholaholahola
 ```
 
 ### Combine strings/sequences or Concatenate
@@ -71,6 +144,14 @@ print(dna[3])         # To print out position 4
 #[OUT] G
 ```
 
+#### Short-hand indexing
+This is done by omitting either the first and/or last index.
+- `string[:end]` A slice of the sequence from the beginning to the index just before `end pos`
+- `string[start:]` A slice of the sequence from `start pos` till the end of the sequence
+- `string[:]` Returns the entire string/sequence
+- `string[::-1]` Returns a reversed copy of the string/sequence
+
+
 #### Slicing
 To access a fragment of the string.
 ```py
@@ -80,26 +161,35 @@ print(dna[0:3])       # To print out a STRING from position 1 to 3 [index 2]
 print(dna[0:10:2])    # To print from position 1 to 10, in steps of 2
 #[OUT] ACTTA
 ```
-Because from ACCGTCTAATTTACGCGC
+- Because from ACCGTCTAATTTACGCGC we get the slice from index 0 to 9 (positions 1-10): **ACCGTCTAAT**
+- and from that slice we get the bases skipping 1 all every time: **A**C**C**G**T**C**T**A**A**T
 
-#### Short-hand indexing
-This is done by omitting either the first and/or last index.
-- `string[:end]` A slice of the sequence from the beginning to the index just before `end pos`
-- `string[start:]` A slice of the sequence from `start pos` till the end of the sequence
-- `string[:]` Returns the entire string/sequence
-- `string[::-1]` Returns a reversed copy of the string/sequence
-
+#### Reverse slicing
 ```py
-dna = "ACCGTCTAATTTAC"
+dna = "ACGTGACGTG"
 
+print(dna[-2::-1])
+#[OUT] TGCAGTGCA -> It starts at position -2 and it 
+#                   moves from the end to the beginning (step = -1)
+
+print(dna[2::-1])
+#[OUT] GCA -> It starts at position 2 and it 
+#             moves from the end to the beginning (step = -1)
 ```
 
-```py
 
+### Methods for string manipulation
+|Method|Action|
+|----|----|
+|string.find("A")| Find the first position where "a" occurs in the string|
+|string.count("s") | Counts how many "s" characters are in the string |
+|string.lower() | Conver to lower case|
+|string.upper() |Conver to upper case |
+|string.strip() | Strips characters from both sides of the string <br> Very useful to **remove line breaks** at the beginning and end of the sequences |
+|string.join(list)| Joins all members of a list into a single string object|
+|string.replace("s", "t")| Replaces all "s" in the string with "t"|
+| | |
 
-```
-
-### Some useful string's methods
 #### Convert string to **lower** or **upper case**: 
 ```py
 dna = "ACCGTCTAATTTAC"
@@ -145,6 +235,22 @@ print(GC_perc)
 dna.replace("A", "G")
 ```
 
+#### 
+```py
+
+```
+
+#### 
+```py
+
+
+```
+
+#### 
+```py
+
+```
+
 ### Some useful string's functions:
 #### Get the length:
 `len(string)`
@@ -155,8 +261,27 @@ length_of_sequence = len(dna) # to make the result into a variable
 ```
 
 
+
+## Lists
+#### Create a list
+```py
+codons = ["ACC","GTC","TAA"]
+print(type(codons)) # Check what is it
+
+#[OUT] <class 'list'>
+```
+
+#### Iterate on a list
+
+
+
 ### Easy exercises:
 #### 
+```py
+
+
+```
+
 ```py
 
 
