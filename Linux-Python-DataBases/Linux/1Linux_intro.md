@@ -127,6 +127,7 @@ Because directories are not used in the same way as regular files, the permissio
   - r 🡒 Read permission
   - w 🡒 write (and delete) permission
   - x 🡒 execute (and access directory) permission
+    
 ```chmod go-rwx rm.txt``` To remove read write and execute permissions on the file rm.txt for the group and others
 
 ```chmod a+rw rm.txt``` To give read and write permissions to all on the file rm.txt 
