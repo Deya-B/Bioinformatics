@@ -188,7 +188,7 @@ Translating a string into a numerical expression is relatively straightforward u
 The syntax of let is ```let expression```
 where expression is an arithmetic expression to be evaluated. 
 
-As you can see in the next example let , it is a little picky about spaces,
+As you can see in the next example let it is a little picky about spaces:
 ```sh
 $ UNO=1
 $ let UNO=$UNO+1
