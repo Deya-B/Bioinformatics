@@ -188,7 +188,7 @@ print(dna[2::-1])
 |string.strip() | Strips characters from both sides of the string <br> Very useful to **remove line breaks** at the beginning and end of the sequences |
 |string.join(list)| Joins all members of a list into a single string object|
 |string.replace("s", "t")| Replaces all "s" in the string with "t"|
-| | |
+
 
 #### Convert string to **lower** or **upper case**: 
 ```py
@@ -235,22 +235,6 @@ print(GC_perc)
 dna.replace("A", "G")
 ```
 
-#### 
-```py
-
-```
-
-#### 
-```py
-
-
-```
-
-#### 
-```py
-
-```
-
 ### Some useful string's functions:
 #### Get the length:
 `len(string)`
@@ -261,9 +245,13 @@ length_of_sequence = len(dna) # to make the result into a variable
 ```
 
 
-
 ## Lists
-#### Create a list
+Lists are mutable sequences of any kind of element.
+### Create a list
+An empty list:<br>
+`list = []`
+
+A list of codons:
 ```py
 codons = ["ACC","GTC","TAA"]
 print(type(codons)) # Check what is it
@@ -271,9 +259,170 @@ print(type(codons)) # Check what is it
 #[OUT] <class 'list'>
 ```
 
-#### Iterate on a list
+### Methods to work with lists
+|Method|Action|
+|----|----|
+|list.append("x")| Adds "x" at the end of the list |
+|list.extend("ATT")| If extend is used with a `string` the elements are broken down to a list: `['A', 'T', 'T']`|
+|list1.extend(list2)| If extend is used with another list, a new list with list1+list2 elements is created |
+|list.count("element")| Counts how many times the given "element" apears in list|
+|list.index("element")| Returns the position of the first time it finds "element"|
+|list.pop(i)| Removes the element in position `i` from list and returns its value |
+|list.insert(i, x)| Inserts `x` in the index `i` from the list|
+|list.sort()| Sorts the list in alphabetic or numerical order |
+|list.reverse()| Reverses the list items |
+
+Methods like **`insert`, `reverse` or `sort`** that **modify the list** have no return value printed – they return the default None. This is a design principle for all mutable data structures in Python.
+
+#### Other useful list manipulation methods
+|Method|Action|
+|----|----|
+|string.split(' ')| From string to list |
+|''.join(list)| From list to string |
+
+Appending a string:
+```py
+codons_list = ["ACC","GTC","TAA"]
+
+codons_list.append("ACG")
+print(codons_list)
+
+#[OUT] ['ACC', 'GTC', 'TAA', 'ACG']
+```
+
+Appending a list:
+```py
+more_codons = ["ATT","GCG"]
+
+codons_list.append(more_codons)
+print(codons_list)
+
+#[OUT] ['ACC', 'GTC', 'TAA', ['ATT', 'GCG']]
+```
+
+To add a LISTS to another list we better use `.extend(list)`:
+```py
+codons_list.extend(more_codons)
+print(codons_list)
+
+#[OUT] ['ACC', 'GTC', 'TAA', 'ATT', 'GCG']
+```
+
+However, if `.extend("string")` is used with a string, the string is broken down into separate elements into a list:
+```
+list = []
+list.extend("ATT")
+
+print(list)
+#[OUT] ['A', 'T', 'T']
+```
+
+Insert item:
+```py
+codons_list = ["ACC","GTC","TAA"]
+codons_list.insert(2, "ATT")
+print(codons_list)
+```
+
+Pop item: 
+```py
+codons_list = ["ACC","GTC","TAA"]
+print(codons_list)
+#[OUT] ['ACC', 'GTC', 'TAA']
+
+print(codons_list.pop(1))
+#[OUT] GTC
+print(codons_list)
+#[OUT] ['ACC', 'TAA']
+```
+
+#### From string to list:
+```py
+string = "AC CGTC TAA"
+newlist = string.split(' ')
+
+print(newlist)
+#[OUT] ['AC', 'CGTC', 'TAA']
+```
+
+#### From list to string (joins it into a string, and without spaces):
+```py
+tostring = ''.join(newlist)
+
+print(tostring)
+#[OUT] ACCGTCTAA
+```
+
+### Iterate on a list
+```py
+codons_list = ["ACC","GTC","TAA"]
+
+for codon in codons_list:
+    print(f"The codons are: {codon}")
+    for nucleotide in codon:
+        print(f"The nucleotides are: {nucleotide}")
+```
+```
+#[OUT] 
+The codons are: ACC
+The nucleotides are: A
+The nucleotides are: C
+The nucleotides are: C
+The codons are: GTC
+The nucleotides are: G
+The nucleotides are: T
+The nucleotides are: C
+The codons are: TAA
+The nucleotides are: T
+The nucleotides are: A
+The nucleotides are: A
+```
+
+## Dictionaries 
+A dictionary is a collection which is ordered, changeable, and does NOT allow duplicates. 
+- Dictionaries are written with curly brackets. 
+- Dictionary items are presented in key:value pairs, and can be referred to by using the key name.
 
 
+```py
+dic = {}
+year = {'January': 31, 'February': 28}
+```
+
+### Iterate on Dictionaries
+When you iterate over a dictionary, the element of iteration is the key. <br>
+To access the value you need to index the dict(year) with the key(month) `year[month]`:
+```py
+for month in year:
+    print(month)
+    print(year[month])
+```
+```
+#[OUT] 
+January
+31
+February
+28
+```
+
+
+```py
+
+```
+
+```py
+
+```
+#### 
+```py
+
+
+```
+
+#### 
+```py
+
+```
 
 ### Easy exercises:
 #### 
