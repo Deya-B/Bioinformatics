@@ -108,19 +108,21 @@ Change: 2017-09-19 17:49:01.854327886 +0200
 ```
 
 ## Other Special Variables
-- $0 - The name of the Bash script.
-- $1 - $9 - The first 9 arguments to the Bash script. (As mentioned above.)
-- $# - How many arguments were passed to the Bash script.
-- $@ - All the arguments supplied to the Bash script.
-- $? - The exit status of the most recently run process. When the exit is true $? gets a zero value, otherwise $? will be greater than 0
-- $$ - The process ID of the current script.
+- `$0` - The name of the Bash script.
+- `$1-$9` - The first 9 arguments to the Bash script. (As mentioned above.)
+- `$#` - How many arguments were passed to the Bash script.
+- `$@` - All the arguments supplied to the Bash script.
+- `$?` - The exit status of the most recently run process.
+  When the exit is true `$?` gets a zero value,
+  otherwise `$?` will be greater than 0
+- `$$` - The process ID of the current script.
 
 The following variables are preseted by the system:
-- $USER - The user name of the user running the script.
-- $HOSTNAME - The host-name of the machine the script is running on.
-- $SECONDS - The number of seconds since the script was started.
-- $RANDOM - Returns a different random number each time is it referred to.
-- $LINENO - Returns the current line number in the Bash script.
+- `$USER` - The user name of the user running the script.
+- `$HOSTNAME` - The host-name of the machine the script is running on.
+- `$SECONDS` - The number of seconds since the script was started.
+- `$RANDOM` - Returns a different random number each time is it referred to.
+- `$LINENO` - Returns the current line number in the Bash script.
 
 ## Exporting Variables
 Remember how in the previous section we talked about scripts being run in their own process. 
