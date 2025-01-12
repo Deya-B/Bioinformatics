@@ -1,6 +1,99 @@
-## Python codes for Bioinformatics:
+## Python for Bioinformatics:
+> While using *VS Code or Codium* to **comment** and **uncomment** a block of code you can:
+> 1. Select the block of code
+> 2. Press `Ctrl+K c` to comment
+> 3. Press `Ctrl+K u` to uncomment
 
-#### 1. Create a code to compare two DNA sequences and calculate the percentage of resemblance:
+### Some useful string's methods:
+#### Create a string:
+```py
+dna = "ACCGTCTAATTTAC"
+```
+
+#### Convert string to **lower** or **upper case**: 
+```py
+dna.lower()
+dna.upper()
+```
+
+#### Find **characters/substring** in string:
+```py
+"T" in dna
+# Returns TRUE
+```
+
+The `find` method:
+```
+dna.find("T")
+# Returns 4, because in ACCGTCTAATTTAC, the first appearance of T is in index
+# position number 4  >  01234|
+```
+
+#### Count number of **characters/substring**:
+```py
+dna.count("T")
+# Returns 5, because there are 5 T's in ACCGTCTAATTTAC
+dna.count("C")
+dna.count("G")
+dna.count("A")
+
+GC_count = dna.count("GC")
+```
+#### Exercise: Get GC content
+```py
+dna = "ACCGTCTAATTTACGCGC"
+
+GC_count = dna.count("GC")
+GC_perc = (GC_count/len(dna))*100
+print(GC_perc)
+```
+
+#### Replace **characters/substrings**:
+`string.replace("1", "2")` with this method we take string and replace 1 by 2
+```py
+dna.replace("A", "G")
+```
+
+### Some useful string's functions:
+#### Get the length:
+`len(string)`
+
+```py
+len(dna)
+length_of_sequence = len(dna) # to make the result into a variable
+```
+
+
+### Easy exercises:
+#### 
+```py
+
+
+```
+
+```py
+
+```
+ 
+
+
+### Easy to medium level exercises:
+#### 1. FOR loop:
+
+```py
+
+```
+
+
+```py
+
+```
+```py
+
+```
+
+### Advanced exercises
+#### 1.1 Create a code to compare two DNA sequences and calculate the percentage of resemblance:
 ```py
 seq1 = "ACCGTCT"
 seq2 = "ACCATCA"
@@ -67,7 +160,7 @@ if len(seq1) > len(seq2):
 >    if otherseq[baseseq2] == base:
 >```
 
-#### 2. Turn the previous into two functions and the seq1 and seq2 are given by the user:
+#### 1.2. Turn the previous into two functions and the seq1 and seq2 are given by the user:
 Function to calculate the longest sequence:
 ```py
 def longestseq (sequence1, sequence2):
@@ -149,7 +242,7 @@ Results:
     Calculation: 70.00%
 ```
 
-#### 2. Turn the previous into a function inside the DNA class:
+#### 2. Create a DNA Class
 ```py
 
 ```
