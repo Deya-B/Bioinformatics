@@ -419,51 +419,26 @@ print(year)
 #[OUT] {'January': 31, 'February': 28, 'March': 31}
 ```
 
-```py
-
-```
-#### 
-```py
-
-
-```
-
-#### 
-```py
-
-```
-
-### Easy exercises:
-#### 
-```py
-
-
-```
-
-```py
-
-
-```
-
-```py
-
-```
- 
-
-
 ### Easy to medium level exercises:
-#### 1. FOR loop:
-
+#### Write a function that writes on a file a random DNA sequence of length given as parameter:
 ```py
+from random import choice
 
-```
+def write_sequence (sequence, file):
+    file = open(file, "w")  # "w" for write mode
+    file.write(sequence)
+    file.close()            # Important to close the file
 
+def generate_seq (length):
+    bases = ["A", "C", "G", "T"]
+    randomseq = ""
+    for i in range(length):
+        randomseq += choice(bases)
+    return randomseq
 
-```py
-
-```
-```py
-
+length = int(input("Enter the length of the sequence: "))
+sequence = generate_seq(length)
+write_sequence(sequence, "example.txt")
 ```
 
 ### Advanced exercises
@@ -616,7 +591,4 @@ Results:
     Calculation: 70.00%
 ```
 
-#### 2. Create a DNA Class
-```py
 
-```
