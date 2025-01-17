@@ -1,0 +1,26 @@
+* Grupo 5: Deyanira, Guillermo, David, Rubén
+- Proyecto número 5
+- Intro es buena
+  - Se han leído bien la picture guide
+- Are names of functions in slide capitalized correctly? Check
+- Slides no page number
+- Lo que dicen de SSWM/WSSM/etc no usa las definiciones habituales. Why?
+- Tocan diversos asuntos: como SSWM/WSSM, etc, ITH
+- Dicen "4 genotipos" pero son 4 genes, no 4 genotipos. O sea 16 genotipos; de hecho eso se ve en las figuras.
+- I don't see the point of a lot: genotipos con fitness mayor son más abundantes. Makes sense, right?
+- Y no hay réplicas de escenarios.
+- Hay bastante trabajo en el que se explora para ver patrones
+  - pero es un poco a lo bruto, ciégamente ?
+  - Hecho para conseguir el propósito pero de nuevo "the purpose of computing is insight, not numbers"
+- Se pasan de tiempo pero hay atenuante
+- Curiosos los modelos que usan para tunelación y con "const" para tamaño de población. Interesante.
+
+** Preguntas
+- La diapo inicial enfatiza el papel tumor microenvironment: ¿es OncoSimulR apropiado para eso?
+- Por qué 7 genes?
+- Pero hay definiciones de SSWM en función del producto de los s y mu por N:
+  - s * N >> 1
+  - etc
+  - Por qué no usar esas?
+- Por qué empezar con few genotypes?
+- Dicen genotipos a veces pero son genes
