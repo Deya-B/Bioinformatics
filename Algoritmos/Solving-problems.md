@@ -11,20 +11,20 @@ To sort the given functions according to their growth rate from **slowest** to *
    - $\frac{2}{n} = O(1/n)$ (shrinks as $n$ increases)
 
 3. **Logarithmic and Sublinear Growth**:  
-   - $ \sqrt{n} = O(n^{0.5}) $
-   - $ n \log \log n $ (grows slightly faster than $ n $)
-   - $ n \log n $ (grows faster than $ n \log \log n $)
+   - $\sqrt{n} = O(n^{0.5})$
+   - $n \log \log n$ (grows slightly faster than $n$)
+   - $n \log n$ (grows faster than $n \log \log n$)
 
 4. **Polynomial Growth**:  
-   - $ n = O(n) $  
-   - $ 2n = O(n) $ (same growth as $ n $, just a constant multiplier)  
-   - $ n^{1.5} = O(n^{1.5}) $  
-   - $ n^2 = O(n^2) $  
-   - $ n^2 \log n $ (slightly faster than $ n^2 $)  
-   - $ n^3 = O(n^3) $
+   - $n = O(n)$  
+   - $2n = O(n)$ (same growth as $n$, just a constant multiplier)  
+   - $n^{1.5} = O(n^{1.5})$  
+   - $n^2 = O(n^2)$  
+   - $n^2 \log n$ (slightly faster than $n^2$)  
+   - $n^3 = O(n^3)$
 
 5. **Exponential Growth** (fastest growth):  
-   - $ \frac{2^n}{2} = O(2^n) $ (dominates all polynomial functions)
+   - $\frac{2^n}{2} = O(2^n)$ (dominates all polynomial functions)
 
 ### Step 2: Sorting by Growth Order
 From slowest to fastest:
