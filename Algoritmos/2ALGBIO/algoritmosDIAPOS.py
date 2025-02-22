@@ -344,7 +344,7 @@
 
 
 
-##################  ##################
+############################ TRIANGULO PASCAL ############################
 # Write a Python function `pascal_row(k)` that returns the `k`-th row of Pascal's triangle. 
 # Assume the single `1` to be the 0-th row.  
 # Hint: Make it a recursive function that computes first the previous row `k-1` 
@@ -395,7 +395,53 @@
 #     print(pascal_row(k))
 
 
-################## GREEDY ALGORITHM ##################
+######################### PROGRAMACIÓŃ DINAMICA ##########################
+###################### LONGEST COMMON SUBSEQUENCE ########################
+
+# import numpy as np
+
+# t = "biscuit"
+# s = "suitcase"
+
+# def lcs_matrix(s, t):
+#     """
+#     """
+
+#     matrix = np.zeros((len(s)+1, len(t)+1), dtype = int) # +1 is used to initialize
+#                                                          # the matrix in 0's
+#     for i in range(1, len(s)+1):
+#         for j in range(1, len(t)+1):
+#             if s[i-1] == t[j-1]:                    # If the characters match
+#                 matrix[i][j] = matrix[i-1][j-1] + 1 # take diagonal and add 1
+#             else:                                   
+#                 matrix[i][j] = max(matrix[i-1][j], matrix[i][j-1]) # Take the max
+#                                         # between the results at the top or left
+#     return matrix
+
+
+# def longestCommonSubsequence(s, t):
+#     """
+#     """
+
+#     matrix = lcs_matrix(s, t)
+#     i, j = len(s), len(t)
+#     subsequence = []
+    
+#     while i > 0 and j > 0: # Hasta que llegemos a la primera fila/columna
+#         if s[i-1] == t[j-1]:
+#             subsequence.append(s[i-1])
+#             i -= 1
+#             j -= 1
+#         elif matrix[i-1][j] > matrix[i][j-1]:  # Mover hacia arriba
+#             i -= 1
+#         else:  # Mover hacia la izquierda
+#             j -= 1
+    
+#     return ''.join(reversed(subsequence))  # Se invierte la lista porque se llenó al revés
+
+
+############################ GREEDY ALGORITHM ############################
+############################ KNAPSACK PROBLEM ############################
 # A greedy strategy (natural under the circumstances!) is to order the items by 
 # descending relative values $\frac{v_i}{w_i}$ and add them to the knapsack until 
 # the allowed total weight $W$ is surpassed. Remember that you cannot take cannot 
@@ -406,53 +452,124 @@
 # and values in `l_values` that can be carried away in a knapsack which can hold 
 # at most a weight `max_weight`. 
 
-def greedy_value(l_weights, l_values, max_weight):
-    """
-    """
-    #### PREGUNTAS:
-    ## 1. Lo tenemos q hacer en base al valor relativo, no??
-    ## 2. En cada caso mirar la mejor solucion, para ese momenton no?
+# def greedy_value(l_weights, l_values, max_weight):
+#     """
+#     """
 
-    # Calculamos el valor relativo de cada item
-    rel_val = []
-    for v, w in zip(l_values, l_weights):
-        rel_val.append(v/w)
-    # Añadimos los valores relativos y ordenamos las listas por valor relativo
-    values = (zip(l_values, l_weights, rel_val))
-    sorted_vals = sorted(values, key=lambda x:x[2], reverse=True) # sort using the 2nd index(0,1,2)
-    print(sorted_vals)
+#     # Calculamos el valor relativo de cada item
+#     rel_val = []
+#     for v, w in zip(l_values, l_weights):
+#         rel_val.append(v/w)
     
-    # Tenemos v_i, w_i, rv_i por cada item
-    # Para el mayor valor relativo, si el weight entra en la saca meter,
-    # para el sig valor, si el weight entra meter, sino probar el sig
-    # para el sig valor, si el weight entra meter, sino probar el sig más peq
+#     # Añadimos los valores relativos y ordenamos las listas por valor relativo
+#     values = (zip(l_values, l_weights, rel_val))
 
-    totalW_added = 0
-    totalV_added = 0
-    for v, w, _ in sorted_vals:
-        if (w + totalW_added) < max_weight:
-            totalW_added += w
-            totalV_added += v
-    return ("Total weight:", totalW_added, "Total value:", totalV_added)
+    
+#     ## Los sig es una manera de ordenar los valores, pero para este ej no hace falta
+#     # sorted_vals = sorted(values, key=lambda x:x[2], reverse=True) # sort using the 2nd index(0,1,2)
+#     # print(sorted_vals)
+    
 
+#     # Tenemos v_i, w_i, rv_i por cada item
+#     # Para el mayor valor relativo, si el weight entra en la saca meter,
+#     # para el sig valor, si el weight entra meter, sino probar el sig
+#     # para el sig valor, si el weight entra meter, sino probar el sig más peq
 
-# Testing values
-l_values  = [15, 10, 11]
-l_weights = [5, 4, 4]
-max_weight = 8
+#     totalW_added = 0
+#     totalV_added = 0
+#     for v, w, _ in values:
+#         if (w + totalW_added) < max_weight:
+#             totalW_added += w
+#             totalV_added += v
+#     return ("Total weight:", totalW_added, "Total value:", totalV_added)
 
-print(greedy_value(l_weights, l_values, max_weight))
-
-## More testing
-# l_values  = [15, 8, 5]
-# l_weights = [10, 1, 2]
-# max_weight = 12
+# ## Testing values
+# l_values  = [15, 10, 11]
+# l_weights = [5, 4, 4]
+# max_weight = 8
 
 # print(greedy_value(l_weights, l_values, max_weight))
 
+
+########################## PROGRAMACIÓN DINÁMICA #########################
+############################ KNAPSACK PROBLEM ############################
+# write a Python function `optimal_value(l_weights, l_values, max_weight)` 
+# that returns the value of the maximal loot made up of elements with weights 
+# in `l_weights` and values in `l_values` that can be carried away in a 
+# knapsack which can hold at most a weight `max_weight`. 
+
+import numpy as np
+
+def optimal_value(l_weights, l_values, max_weight):
+    """ 
+    Builds the dynamic programming matrix to solve the Knapsack problem 
+    and reconstructs the optimal set of items.
+
+    Args:
+        l_weights (list[int]): List of item weights.
+        l_values (list[int]): Corresponding list of item values.
+        max_weight (int): Maximum weight capacity of the knapsack.
+
+    Returns:
+        tuple:
+            - value_matrix (np.ndarray): Matrix storing computed max values.
+            - max_value (int): Maximum obtainable value.
+            - selected_items (list[int]): List of selected item indices.
+                Returns:
+    """
+    
+    # Error handling:
+    if len(l_weights) != len(l_values):
+        raise ValueError("Mismatch: weight and value lists must have the same length.")
+    
+    if not l_weights or max_weight == 0:
+        return np.zeros((1, max_weight + 1), dtype=int), 0, []
+
+    else:
+        # El tamaño de la matriz es:
+        # el numero de elementos que tenemos +1 (para añadir la fila de 0's)
+        # por el peso total +1 (para añadir la columna de 0's)
+        num_items = len(l_weights)
+        value_matrix = np.zeros((num_items + 1, max_weight + 1), dtype=int)
+        
+        # Build the matrix
+        for i in range(1, num_items + 1):
+            for w in range(max_weight + 1):
+                if l_weights[i - 1] <= w: # Si el peso del elemento entra en el saco:
+                    value_matrix[i][w] = max(value_matrix[i - 1][w], 
+                                            l_values[i - 1] + value_matrix[i - 1][w - l_weights[i - 1]])
+                                        # Coger el max entre el valor de la posicion i-1,w
+                                        # y el valor del elemento + el valor en la posición i-1, w = w - l_weights[i-1]
+                else:
+                    value_matrix[i][w] = value_matrix[i - 1][w]
+            
+        # The maximum value is at value_matrix[num_items][max_weight]
+        max_value = value_matrix[num_items][max_weight]
+
+        # Backtracking to find selected items
+        selected_items = []
+        w = max_weight
+        for i in range(num_items, 0, -1): # To iterate backgwards from the last item to the first
+            if value_matrix[i][w] != value_matrix[i - 1][w]:  # If the value changed compared to that on top, the item was included
+                selected_items.append(i - 1)  # Store item index
+                w -= l_weights[i - 1]  # Reduce weight capacity
+
+        selected_items.reverse()  # Reverse for correct order
+
+        return value_matrix, max_value, selected_items
+
+
+# Test Example
+l_weights = [4, 4, 5]
+l_values  = [10, 11, 15]
+max_weight = 8
+
+value_matrix, max_value, selected_items = optimal_value(l_weights, l_values, max_weight)
+
+print("Optimal Value:", max_value)
+print("Selected Items (indices):", selected_items)
+print("Selected Items (weights, values):", [(l_weights[i], l_values[i]) for i in selected_items])
+
+
 ##################  ##################
 
-
-
-
-##################  ##################
