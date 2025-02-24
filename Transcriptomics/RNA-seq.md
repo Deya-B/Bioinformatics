@@ -60,7 +60,7 @@ GSM8662648	Caco-2 cells, Air-Liquid, VIP treatment, replicate 4
 
 By clicking in Download > `Metadata` the SraRunTable.csv is obtained.
 
-Ver como hicimos estos pasos de limpieza de la tanbla de metadatos en Chipseq.
+!!! Ver como hicimos estos pasos de limpieza de la tanbla de metadatos en Chipseq.
 
 ## Chapter One: Overview
 
