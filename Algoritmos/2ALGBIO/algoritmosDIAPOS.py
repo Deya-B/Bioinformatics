@@ -29,18 +29,18 @@
 
 
 # ###### DISCOS Hanoi ######
-# def hanoi (n_disks, a=1, b=2, c=3):
-#     assert n_disks > 0, "n_disks at least 1"
+def hanoi (n_disks, a=1, b=2, c=3):
+    assert n_disks > 0, "n_disks at least 1"
 
-#     if n_disks == 1:
-#         print("1.move disk from %d to %d" % (a, b))
-#     else:
-#         hanoi(n_disks -1, a, c, b) ### El codigo va de aquí a arriba cambiando a, c, b hasta que 
-#                                     ## el n_disks se alcanza el 1... entonces se ejecuta el 1.move
-#         print("2.move disk from %d to %d" % (a, b)) # Una vez se ejecuta pasa a esta linea y se ejecuta
-#         hanoi(n_disks -1, c, b, a)  ## Después se ejecuta éste y va dando vueltas en esto
+    if n_disks == 1:
+        print("1.move disk from %d to %d" % (a, b))
+    else:
+        hanoi(n_disks -1, a, c, b) ### El codigo va de aquí a arriba cambiando a, c, b hasta que 
+                                    ## el n_disks se alcanza el 1... entonces se ejecuta el 1.move
+        print("2.move disk from %d to %d" % (a, b)) # Una vez se ejecuta pasa a esta linea y se ejecuta
+        hanoi(n_disks -1, c, b, a)  ## Después se ejecuta éste y va dando vueltas en esto
         
-# hanoi(4) # Whatch out how costly is this problem, even for small disk numbers!!
+hanoi(4) # Whatch out how costly is this problem, even for small disk numbers!!
 
 
 # ###### lINEAR SEARCH ######
