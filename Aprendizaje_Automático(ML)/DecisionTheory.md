@@ -4,7 +4,7 @@ Decision theory helps formalize how to make optimal decisions under uncertainty,
 
 ---
 
-### 2. Components of Decision Theory
+### Components of Decision Theory
 
 - **Actions** \(a \in A\): Possible decisions we can make.
 - **States of nature** \(\theta \in \Theta\): The true conditions, usually unknown.
@@ -12,7 +12,7 @@ Decision theory helps formalize how to make optimal decisions under uncertainty,
 - **Risk function** \(R(a, \theta)\): Expected loss over data drawn from a distribution depending on \(\theta\).
   
 
-### 3. Decision Rules
+### Decision Rules
 A **decision rule** is a function \(\delta\) that maps observed data \(x\) to an action:  
 \[
 \delta(x) = a
@@ -24,7 +24,7 @@ R(\theta, \delta) = \mathbb{E}_{x \sim p(x|\theta)}[L(\delta(x), \theta)]
 \]
 
 
-### 4. Bayesian Decision Theory
+### Bayesian Decision Theory
 
 In the Bayesian framework:
 - We assume a prior distribution over \(\theta\): \(p(\theta)\)
@@ -36,7 +36,7 @@ r(\delta) = \mathbb{E}_{\theta}[R(\theta, \delta)] = \int R(\theta, \delta) p(\t
 The **Bayes decision rule** \(\delta^*\) minimizes this Bayes risk.
 
 
-### 5. Posterior Predictive Decision Making
+### Posterior Predictive Decision Making
 Often we use the **posterior** over \(\theta\) given data \(x\) to choose the best action:
 \[
 \delta^*(x) = \arg\min_{a} \mathbb{E}_{\theta \sim p(\theta | x)} [L(a, \theta)]
@@ -45,13 +45,13 @@ Often we use the **posterior** over \(\theta\) given data \(x\) to choose the be
 This is the essence of **Bayesian decision theory**: act to minimize expected loss based on the posterior distribution.
 
 
-### 6. Common Loss Functions
+### Common Loss Functions
 
 - **0-1 loss**: Used in classification, loss is 0 for correct classification, 1 otherwise.
 - **Squared loss**: Common in regression; penalizes large errors more.
 - **Absolute loss**: Linear penalty; more robust to outliers.
 
-### 7. Applications in Machine Learning
+### Applications in Machine Learning
 - **Classification**: Choose label with highest posterior probability (MAP estimate under 0-1 loss).
 - **Regression**: Predict the posterior mean (minimizes squared loss), or median (for absolute loss).
 - **Model selection**: Decision theory helps choose models that balance accuracy and complexity (via expected utility or risk).
