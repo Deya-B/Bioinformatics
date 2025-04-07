@@ -1,16 +1,36 @@
-# RNA-Seq Analysis
+---
+title: "RNA-Seq Analysis"
+title-block-banner: true
+format: html
+published-title: 
+date-format: short
+editor: visual
+author:
+    - Deyanira Borroto Alburquerque
+bibliography: references.bibtex
+---
 
-**Author:** *Deyanira Borroto Alburquerque*
+Criterios de evaluación para el ejercicio de RNA-Seq. Cada item contará un máximo de 1 punto: 
+1. Link to pipeline (no a la history) 
+2. Escribirlo en inglés 
+3. Descripción pasos y resultados del pre-QC 
+4. Descripción pasos y resultados del preprocesamiento 
+5. Descripción pasos y resultados del post-QC 
+6. Descripción alineamiento 
+7. Descripción método y resultados expresión diferencial 
+8. Plots de normalización interpretados 
+9. Análisis funcional y conclusiones biológicas 
+10. Formato y estilo del documento
 
 ### Abstract
 
 ***This RNA-Seq analysis is based on 17 samples (4–5 independent biological replicates of LLI-NT, LLI-VIP, ALI-NT, and ALIVIP differentiated Caco-2 cells).***\
 ***"The goal of the project is to investigate the impact of liquid-liquid interface (LLI) and air-liquid interface (ALI) with addition of vasointestinal peptide (VIP) on intestinal barrier properties and mucus production of Caco-2 cell cultures. Caco-2 cells were cultured in transwell plates under LLI and ALI condition and VIP were added to basolateral compartment. LLI-NT, LLI-VIP, ALI-NT and ALI-VIP were collected and analysis using RNAseq." (https://trace.ncbi.nlm.nih.gov/Traces/index.html?view=study&acc=SRP489490)***
 
-
 **Keywords:** RNA-Seq; Next-generation sequencing; Data analysis; Differentially expressed genes
 
 ### Introduction
+
 The challenge that presents here is that simulating the intestinal mucosa for in vitro assays of a mucus layer is difficult. In fact, the widely used intestinal cell-line Caco-2, under normal culture conditions lack a mucus layer. It is important to represent adequately the intestinal mucosal barrier since this plays an important role in healthy microbe–host interactions, it regulates the passage of nutrients and prevents invasion by pathogens.
 
 Here we will investigate the impact that the different culture conditions have on the total transcriptome, related to mucus production and epithelial barrier properties.
@@ -70,10 +90,10 @@ GSM8662648  Caco-2 cells, Air-Liquid, VIP treatment, replicate 4
 
 The *Caco-2* cells were grown under four different low-glucose culture conditions:
 
-- liquid–liquid interface non-treated (LLI-NT), 
-- liquid–liquid interface with addition of vasointestinal peptide (VIP) in the basolateral compartment (LLI-VIP),
-- air–liquid interface non-treated in which media was removed from the apical compartment (ALI-NT), and 
-- air–liquid interface with VIP added to the basolateral compartment (ALI-VIP)
+-   liquid–liquid interface non-treated (LLI-NT),
+-   liquid–liquid interface with addition of vasointestinal peptide (VIP) in the basolateral compartment (LLI-VIP),
+-   air–liquid interface non-treated in which media was removed from the apical compartment (ALI-NT), and
+-   air–liquid interface with VIP added to the basolateral compartment (ALI-VIP)
 
 > Gastrointestinal peptides, such as VIP, are known as critical regulators for the gut barrier, that would likely enhance mucus production
 
@@ -82,6 +102,5 @@ RNA was analyzed for 4–5 independent biological replicates of LLI-NT, LLI-VIP,
 By clicking in Download \> `Metadata` the SraRunTable.csv is obtained.
 
 #### Performing the pipeline
-
 
 ### Results
