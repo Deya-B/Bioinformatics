@@ -206,7 +206,7 @@ head -n 100 adult.data | grep -in "Married" # Same showing line number
 head -n 100 adult.data | grep -c "Married"  # Count number of appearances
 ```
 
-- The grep patterns [(see regular expressions)](https://github.com/Deya-B/Linux_Python_DB/blob/main/Linux/Regular_expressions.md)
+- The grep patterns [(see regular expressions)](https://github.com/Deya-B/Bioinformatics-notes/blob/main/Linux-Python-DataBases/Linux/1Expansions_RegEx.md)
 
 The grep command allows to searching in more than one file. If I wanted to search for the string file in my files tempfile.txt and .txt I would do this:
 ```Nushell
