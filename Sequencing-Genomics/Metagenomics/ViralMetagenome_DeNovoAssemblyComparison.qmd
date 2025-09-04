@@ -1,0 +1,350 @@
+---
+title: "Viral Metagenome De Novo Assembly Comparison"
+author: "Deyanira Borroto Alburquerque"
+format:
+  pdf:
+    toc: true
+    toc-depth: 4   
+    number-sections: true
+    colourlinks: true
+    mainfont: "Liberation Serif"  
+    sansfont: "Liberation Sans"   
+    monofont: "Liberation Mono"   
+    highlight-style: pygments         
+    keep-tex: true                 
+    pdf-engine: xelatex
+---
+
+\newpage
+
+# Pipeline - De Novo Assembly
+
+## Environment creation and installations
+
+``` bash 
+conda create -n vir python=3.11 -y
+
+conda activate vir
+
+conda install gdown                       # Downloads
+conda install -c bioconda fastqc -y       # Quality Control Steps
+conda install -c bioconda trimmomatic -y  # Quality Filtering Steps
+conda install -c bioconda -c default -c conda-forge bowtie2 -y # Decontamination Steps
+conda install -c bioconda spades -y       # De Novo Assembly
+conda install -c bioconda quast -y        # Comparison of assembly strategies' tool
+```
+
+## Pre-processing
+
+The viral metagenome *virome_5.tar.gz* was downloaded from Google Drive and decompressed, then was checked for integrity:
+
+``` bash 
+gdown 1lzKVp_bkAkLcS5b2Sk5eeAYzzZU5s8R7
+tar -xzf virome_5/virome_5.tar.gz
+
+cat virome_5/md5.txt
+md5sum virome_5/*.fastq.gz
+```
+
+Output:
+``` 
+f2d981c64ad877d52aa1afb4b6442d75  virome_5_R1.fastq.gz
+23fd9cb468b7d1323ae749488087e2cb  virome_5_R2.fastq.gz
+
+f2d981c64ad877d52aa1afb4b6442d75  virome_5/virome_5_R1.fastq.gz
+23fd9cb468b7d1323ae749488087e2cb  virome_5/virome_5_R2.fastq.gz
+``` 
+
+Both match, so we can proceed.\
+
+\newpage
+
+**Number of raw reads:**
+
+``` bash 
+zcat virome_5/virome_5_R1.fastq.gz | wc -l | awk '{print $1/4}'
+zcat virome_5/virome_5_R2.fastq.gz | wc -l | awk '{print $1/4}'
+```
+
+Output:
+``` 
+103188
+103188
+``` 
+
+### Raw reads quality control (QC)
+
+``` bash 
+mkdir virome_Quality
+fastqc virome_5/virome_5_R1.fastq.gz -o virome_Quality/
+fastqc virome_5/virome_5_R2.fastq.gz -o virome_Quality/
+```
+
+The quality files generated were examined and was observed that the quality at the end of both R1 and R2 was suboptimal, and the GC content distribution had also failed the QC check. We need to tream these reads to improve quality. Lets observe the results of per base sequence quality:
+
+|                              |                                |
+|------------------------------------|------------------------------------|
+| ![](./images/QCR1.png)  Raw Reads R1 | ![](./images/QCR2.png) Raw Reads R2|
+
+Considering both R1 and R2 sequences we should filter in the next step with a minimum length of 150 in order to have good quality results and still preserve an adequate number of reads.
+
+\newpage
+
+### Quality filtering
+
+``` bash 
+trimmomatic PE -phred33 virome_5/virome_5_R1.fastq.gz virome_5/virome_5_R2.fastq.gz \
+  virome_5/virome_5_R1_qf_paired.fq.gz virome_5/virome_5_R1_qf_unpaired.fastq.gz \
+  virome_5/virome_5_R2_qf_paired.fq.gz virome_5/virome_5_R2_qf_unpaired.fastq.gz \
+  SLIDINGWINDOW:4:20 MINLEN:150 LEADING:20 TRAILING:20 AVGQUAL:20
+```
+
+```
+Trimmomatic output:
+--------------------------------------
+Multiple cores found: Using 4 threads 
+Input Read Pairs: 103188 
+Both Surviving: 79285 (76.84%) 
+Forward Only Surviving: 16074 (15.58%) 
+Reverse Only Surviving: 6528 (6.33%) 
+Dropped: 1301 (1.26%) 
+TrimmomaticPE: Completed successfully
+```
+
+**Number of trimmed reads:**
+
+``` bash 
+zcat Trimmomatic/virome_5_R1_qf_paired.fq.gz | wc -l | awk '{print $1/4}'
+zcat Trimmomatic/virome_5_R2_qf_paired.fq.gz | wc -l | awk '{print $1/4}'
+```
+
+Output:
+``` 
+79285
+79285
+``` 
+
+We can see that the reads were reduced from 103188 to 79285. Approximately 77% of reads from both ends passed the filters, which is a rather good retention. Approximately 22% finished as single lectures and ~1% of reads were lost.
+
+Now let's perform a **QC on the quality filtered results**:
+
+``` bash 
+mkdir virome_5_QF_Quality
+fastqc Trimmomatic/virome_5_R1_qf_paired.fq.gz -o virome_Quality
+fastqc Trimmomatic/virome_5_R2_qf_paired.fq.gz -o virome_Quality
+```
+
+|            |            |
+|----------------------------|----------------------------|
+| ![](./images/TrimQCR1.png) Trimmed Reads R1 | ![](./images/TrimQCR2.png) Trimmed Reads R2 |
+
+There is a great improvement in quality compare to our previous QC on the raw reads.
+
+### Decontamination
+Consists on the removal of reads aligning to the human and phiX174 genomes.
+
+#### Human reads decontamination
+
+``` bash 
+# Downloading the human coding sequences (CDS)
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian \
+/Homo_sapiens/latest_assembly_versions/GCF_000001405.40_GRCh38.p14/ \
+GCF_000001405.40_GRCh38.p14_cds_from_genomic.fna.gz
+
+# Building Bowtie2 index:
+gunzip GCF_000001405.40_GRCh38.p14_cds_from_genomic.fna.gz
+bowtie2-build GCF_000001405.40_GRCh38.p14_cds_from_genomic.fna.gz human_cds
+
+# Aligning reads against human CDS: 
+bowtie2 -x human_cds \
+-1 Trimmomatic/virome_5_R1_qf_paired.fq.gz \
+-2 Trimmomatic/virome_5_R2_qf_paired.fq.gz \
+--un-conc Trimmomatic/virome_5_qf_paired_nohuman_R%.fastq -S tmp.sam
+```
+
+```
+bowtie2 output:
+-----------------------------------------------------------------------
+79285 reads; of these:
+  79285 (100.00%) were paired; of these:
+    79187 (99.88%) aligned concordantly 0 times
+    13 (0.02%) aligned concordantly exactly 1 time
+    85 (0.11%) aligned concordantly >1 times
+    ----
+    79187 pairs aligned concordantly 0 times; of these:
+      42 (0.05%) aligned discordantly 1 time
+    ----
+    79145 pairs aligned 0 times concordantly or discordantly; of these:
+      158290 mates make up the pairs; of these:
+        155251 (98.08%) aligned 0 times
+        24 (0.02%) aligned exactly 1 time
+        3015 (1.90%) aligned >1 times
+2.09% overall alignment rate
+```
+
+**Number of reads post human decontamination:**
+
+``` bash 
+wc -l Trimmomatic/virome_5_qf_paired_nohuman_R1.fastq | awk '{print $1/4}'
+wc -l Trimmomatic/virome_5_qf_paired_nohuman_R2.fastq | awk '{print $1/4}'
+```
+
+Output:
+``` 
+79187
+79187
+```
+
+De 79285 lecturas, hemos reducido a 79187.
+
+#### phiX174 reads decontamination
+
+``` bash 
+# Download from NCBI and decompress
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/viral/Sinsheimervirus_phiX174/\
+latest_assembly_versions/GCF_000819615.1_ViralProj14015/\
+GCF_000819615.1_ViralProj14015_genomic.fna.gz
+
+gunzip GCF_000819615.1_ViralProj14015_genomic.fna.gz
+
+# Building Bowtie2 index
+bowtie2-build GCF_000819615.1_ViralProj14015_genomic.fna phix
+```
+
+``` bash 
+# Aligning human decontaminated reads against PhiX174 index
+bowtie2 -x phix \
+-1 Trimmomatic/virome_5_qf_paired_nohuman_R1.fastq \
+-2 Trimmomatic/virome_5_qf_paired_nohuman_R2.fastq \
+--un-conc Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R%.fastq -S tmp.sam
+```
+
+```
+79187 reads; of these:
+  79187 (100.00%) were paired; of these:
+    79187 (100.00%) aligned concordantly 0 times
+    0 (0.00%) aligned concordantly exactly 1 time
+    0 (0.00%) aligned concordantly >1 times
+    ----
+    79187 pairs aligned concordantly 0 times; of these:
+      103 (0.13%) aligned discordantly 1 time
+    ----
+    79084 pairs aligned 0 times concordantly or discordantly; of these:
+      158168 mates make up the pairs; of these:
+        158168 (100.00%) aligned 0 times
+        0 (0.00%) aligned exactly 1 time
+        0 (0.00%) aligned >1 times
+0.13% overall alignment rate
+```
+
+**Number of reads post phiX174 decontamination:**
+
+``` bash 
+wc -l Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R1.fastq | awk '{print $1/4}'
+wc -l Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R2.fastq | awk '{print $1/4}'
+```
+
+Output:
+``` 
+79187
+79187
+``` 
+
+No contaminants from phiX174 were found since we have the same number of reads as before (79187).
+
+## De Novo assembly with Spades
+
+The **pipeline option** `--careful` tries to reduce the number of mismatches and short indels (recommended for assembly of small genomes). But it is not supported by --isolate or --meta.
+
+Spades has many available **assembly modes**, I will be using and comparing the following:
+
+* Default protocol with `--careful` -> since we already demostrated in class that the default with careful was better for viruses than the `--isolate` mode.
+* `--sc` with `--careful` -> Single-cell data, assumes highly uneven coverage and presence of amplification artifacts
+* `--metaviral` -> designed to recover viral genomes (especially extrachromosomal) from metagenomic data
+
+The **advanced option** `-t` <int> will be used to enter the number of threads.
+
+``` bash 
+spades.py -t 4 --careful \
+          -1 Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R1.fastq \
+          -2 Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R2.fastq \
+          -o virome_1_default
+```
+
+``` bash 
+spades.py -t 4 --sc --careful \
+          -1 Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R1.fastq \
+          -2 Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R2.fastq \
+          -o virome_1_sc
+```
+
+``` bash 
+spades.py -t 4 --metaviral \
+          -1 Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R1.fastq \
+          -2 Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R2.fastq \
+          -o virome_1_metaviral
+```
+
+Now, with the results of all contigs/scaffolds from the different assembly methods the next step is to compare them.
+
+\newpage
+
+# Comparisson
+By using the `Quast` tool a comparison of assembly strategies can be done:
+
+1. First we create a file with symbolic links to all contigs/scaffolds from the different assemblies:
+
+``` bash 
+mkdir quast
+# Default
+ln -rs ./virome_1_default/contigs.fasta ./quast/contigs_default.fasta
+ln -rs ./virome_1_default/scaffolds.fasta ./quast/scaffolds_default.fasta
+# sc
+ln -rs ./virome_1_sc/contigs.fasta ./quast/contigs_sc.fasta
+ln -rs ./virome_1_sc/scaffolds.fasta ./quast/scaffolds_sc.fasta
+# metaviral
+ln -rs ./virome_1_metaviral/contigs.fasta ./quast/contigs_metaviral.fasta
+ln -rs ./virome_1_metaviral/scaffolds.fasta ./quast/scaffolds_metaviral.fasta
+```
+
+2. Then we run quast:
+``` bash 
+cd quast
+quast.py contigs* scaffolds*
+conda deactivate
+```
+
+```
+Running Basic statistics processor...
+  Contig files: 
+    1  contigs_default
+    2  contigs_metaviral
+    3  contigs_sc
+    4  scaffolds_default
+    5  scaffolds_metaviral
+    6  scaffolds_sc
+  Calculating N50 and L50...
+  
+Finished: 2025-04-17 08:57:44
+Elapsed time: 0:00:03.816398
+NOTICEs: 2; WARNINGs: 0; non-fatal ERRORs: 0
+
+Thank you for using QUAST!
+```
+
+## Results
+
+The following statistics were obtained from Quast:
+
+![](./images/stats.png) 
+
+The assembly method which performed worst is the contigs of single cell (contigs_sc). Between all others the best N50 (113 kb) and L50 (2) results are obtained by the metaviral methods. Meaning that there are fewer contigs which indicates more contiguous assemblies. However if we take a look at the total lenght scaffolds_sc showed the best results which a higher number of bases. If we are interested in having a larger amount of sample, this should be our choice. On the other hand, as we can see in the following graph, in order to assemble a unique genome scaffolds_default method reaches the desired length earlier with less amount of contigs, whilst it seems that the metaviral method (orange) do not reach an adequate length:
+
+![](./images/graph.png)
+
+In conclusion, we could use the **metaviral** assembly which is capturing fewer sequences (probably just the most dominant or "clean" viral genomes), if in our study we require a complete and high-confidence viral genome. However, we could risk missing information of some viral genomes or segments.
+
+On the other hand, if what we want is length and therefore sequence recovery, then **scaffolds_sc** or **scaffolds_default** would be a better choice.
+
+Depending on the requirements of the experiment, in this case quality against quantity of viral recovery, we would have to adapt the assembly method selection.
+

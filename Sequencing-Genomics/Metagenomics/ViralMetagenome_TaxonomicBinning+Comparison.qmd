@@ -1,0 +1,413 @@
+---
+title: "Viral Metagenome Taxonomic Binning and Comparison"
+author: "Deyanira Borroto Alburquerque"
+format:
+  pdf:
+    toc: true
+    toc-depth: 2          
+    number-sections: true
+    colourlinks: true
+    mainfont: "Liberation Serif"  
+    sansfont: "Liberation Sans" 
+    monofont: "Liberation Mono"
+    monofontoptions: "Scale=0.8"
+    highlight-style: pygments         
+    keep-tex: true                 
+    pdf-engine: xelatex
+    fontsize: 12pt
+---
+
+\newpage
+
+# Pipeline Taxonomy
+
+## Environment creation and installations
+
+``` bash
+conda activate vir
+
+conda install gdown                   # Downloads
+conda install -c bioconda diamond -y  # Taxonomy
+conda install -c bioconda megan -y    # Taxonomy analyzer
+conda install -c bioconda kraken2     # k-mer based classifier
+```
+
+## Pre-processing
+
+The reads to be used here are the viral metagenome *virome_5.tar.gz* (preprocessed from Task3), in addition to the *virome_8.tar.gz* which was downloaded from Google Drive and preprocessed:
+
+``` bash
+# Bring the virome_5 into new folder
+ln -s ../Unit3/Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R1.fastq \
+                                                    virome_5_qf_R1.fq
+ln -s ../Unit3/Trimmomatic/virome_5_qf_paired_nohuman_noPhiX_R1.fastq \
+                                                    virome_5_qf_R2.fq
+
+# Download virome_8
+gdown 1lzKVp_bkAkLcS5b2Sk5eeAYzzZU5s8R7
+tar -xzf virome_8.tar.gz
+
+# Checking integrity
+cat md5.txt
+md5sum *.fastq.gz
+```
+
+Integrity Outcome:
+
+```         
+e67d92fa9bd07aeaa9a32dc6f1cd00ff  virome_8_R1.fastq.gz
+e523373162cd2f80182b13973592d020  virome_8_R2.fastq.gz
+e67d92fa9bd07aeaa9a32dc6f1cd00ff  virome_8_R1.fastq.gz
+e523373162cd2f80182b13973592d020  virome_8_R2.fastq.gz
+```
+
+> both match, so we can proceed.
+
+### Filtering and decontamination of virome 8:
+
+``` bash
+# Raw reads quality control (QC)
+mkdir virome8_Quality
+fastqc virome_8_R1.fastq.gz -o virome8_Quality/
+fastqc virome_8_R2.fastq.gz -o virome8_Quality/
+    # Observing these results, filtering at length 150 seems the best option
+
+# Quality filtering
+trimmomatic PE -phred33 virome_8_R1.fastq.gz virome_8_R2.fastq.gz \
+  virome_8_R1_qf_paired.fq.gz virome_8_R1_qf_unpaired.fastq.gz \
+  virome_8_R2_qf_paired.fq.gz virome_8_R2_qf_unpaired.fastq.gz \
+  SLIDINGWINDOW:4:20 MINLEN:150 LEADING:20 TRAILING:20 AVGQUAL:20
+  
+# QC on the quality filtered results
+fastqc virome_8_R1_qf_paired.fq.gz -o virome8_Quality
+fastqc virome_8_R2_qf_paired.fq.gz -o virome8_Quality
+```
+
+> The resulting quality is at the right level to proceed, indicating that an adequate reduction was performed lets proceed with decontamination.
+
+``` bash
+# Human and phiX174 reads Decontamination
+## Create symbolic links from the human CDS and phiX174 index created in Task3
+cd /home/metag/MetagPRACTICALSPartII/Unit4
+for f in /home/metag/MetagPRACTICALSPartII/Unit3/human_cds_index/*.bt2;
+do
+ln -s $f .
+done
+
+cd /home/metag/MetagPRACTICALSPartII/Unit4
+for f in /home/metag/MetagPRACTICALSPartII/Unit3/phix*.bt2;
+do
+ln -s $f .
+done
+
+# Aligning reads against human CDS
+bowtie2 -x human_cds \
+-1 virome_8_R1_qf_paired.fq.gz \
+-2 virome_8_R2_qf_paired.fq.gz \
+--un-conc virome_8_qf_paired_nohuman_R%.fastq -S tmp.sam
+
+# Aligning human decontaminated reads against PhiX174 index
+bowtie2 -x phix \
+-1 virome_8_qf_paired_nohuman_R1.fastq \
+-2 virome_8_qf_paired_nohuman_R2.fastq \
+--un-conc virome_8_qf_paired_nohuman_noPhiX_R%.fastq -S tmp.sam
+```
+
+Now lets perform a **breakdown of results obtained from filtering and decontamination:**
+
+``` bash
+# Sample prefix
+SAMPLE="virome_8"
+
+# RAW reads
+raw_R1=$(zcat ${SAMPLE}_R1.fastq.gz | wc -l)
+raw_R2=$(zcat ${SAMPLE}_R2.fastq.gz | wc -l)
+raw_R1_reads=$(awk "BEGIN {print $raw_R1/4}")
+raw_R2_reads=$(awk "BEGIN {print $raw_R2/4}")
+
+# Filtered reads
+trim_R1=$(zcat ${SAMPLE}_R1_qf_paired.fq.gz | wc -l)
+trim_R2=$(zcat ${SAMPLE}_R2_qf_paired.fq.gz | wc -l)
+trim_R1_reads=$(awk "BEGIN {print $trim_R1/4}")
+trim_R2_reads=$(awk "BEGIN {print $trim_R2/4}")
+
+# Decontaminated reads
+dec_R1=$(wc -l < ${SAMPLE}_qf_paired_nohuman_noPhiX_R1.fastq)
+dec_R2=$(wc -l < ${SAMPLE}_qf_paired_nohuman_noPhiX_R2.fastq)
+dec_R1_reads=$(awk "BEGIN {print $dec_R1/4}")
+dec_R2_reads=$(awk "BEGIN {print $dec_R2/4}")
+
+# Print table
+echo -e "Breakdown of results obtained from trimming and decontamination:"
+echo -e "Read\tRaw_reads\tFiltered\t\tDecontaminated"
+echo -e "R1\t$raw_R1_reads\t\t$trim_R1_reads\t\t$dec_R1_reads"
+echo -e "R2\t$raw_R2_reads\t\t$trim_R2_reads\t\t$dec_R2_reads"
+```
+
+```         
+Breakdown of results obtained from trimming and decontamination:
+Read    Raw_reads       Filtered        Decontaminated
+R1      104546          80241           80128
+R2      104546          80241           80128
+```
+
+These results show an adequate filtering and decontamination, it is possible to proceed with taxonomy.
+
+## Taxonomy using Diamond and MEGAN
+
+1.  **Running BLAST/DIAMOND**: Align virome sequences against a reference database of annotated protein sequences (NCBI-nr).
+
+``` bash
+# Download viral protein database files from NCBI
+wget https://ftp.ncbi.nlm.nih.gov/refseq/release/viral/viral.1.protein.faa.gz
+gunzip viral.1.protein.faa.gz
+
+# Set up the reference database for Diamond
+diamond makedb --in viral.1.protein.faa -d viralproteins
+    # viralproteins.dmnd is created
+    
+# Merging paired end files
+cat virome_5_qf_R1.fq virome_5_qf_R2.fq > virome_5.fq
+
+cat virome_8_qf_paired_nohuman_noPhiX_R1.fastq \
+     virome_8_qf_paired_nohuman_noPhiX_R2.fastq > virome_8.fq
+     
+# Running diamond on both viromes to align reads using blastx-like command
+diamond blastx -d viralproteins.dmnd -q virome_5.fq -o virome_5_vs_viralprotein.m8
+  # DIAMOND output
+  # Total time = 38.178s
+  # Reported 2395068 pairwise alignments, 2395068 HSPs.
+  # 150140 queries aligned.
+
+diamond blastx -d viralproteins.dmnd -q virome_8.fq -o virome_8_vs_viralprotein.m8
+  # DIAMOND output
+  # Total time = 50.326s
+  # Reported 2162806 pairwise alignments, 2162806 HSPs.
+  # 131392 queries aligned.
+```
+
+2. Now MEGAN taxonomic information file is downloaded and then the program is opened in order to perform parse BLAST/DIAMOND tabular outputs with **MEGAN6**:
+
+``` bash
+# Download the mapping file with taxonomic information
+gdown https://drive.google.com/uc?id=1330Lx36_mMvylVTUHnDI8iIlSCg0WnA6
+
+# Run program
+MEGAN
+```
+
+# Comparison of viromes at family level
+With MEGAN a taxonomic and functional binning of the sequences will be performed based on the resulting alignments:
+ 
+1.  Inside MEGAN, the output files for virome 5 are uploaded by entering *File* -\> *Import From Blast* and providing the routes to the "BLAST": *virome_5_vs_viralprotein.m8* and to the "READS": *virome_5.fq*.
+2.  Click `Next` and "LoadMeganMapDB" mapping file, then by clicking `Apply` the binning of reads starts and then are saved.
+3.  These steps are followed for the second virome (virome 8) also.
+4.  All windows are closed and by entering in *File* -\> *Compare* both *.rma6* files are chosen to be imported with "Ignore all unassigned reads" disabled and "Use Normalized Counts option" selected, to adjust for the differences in sequencing depth.
+5.  After some adjustments such as: "Rank" set to Family, add "Show Number of Summarized" and selecting the desired visualization, the comparison tree image was generated.
+6.  A chart is created from "Show Bubble Chart" menu and doing some color, font and other layout adjustments.
+
+## Results
+
+The comparison results from MEGAN are the following:
+
+![](./ComparisonTree.png){fig-alt="tree"} 
+
+![Comparison Tree](./ComparisonPlot-legend.png){fig-alt="legend" width="300"}
+
+
+![Plot showing the comparison](./ComparisonPlot.png){fig-alt="plot"}
+
+It is possible to appreciate that there are some dominant Families with counts >10k: the *Poxviridae* in Virome 5, the *Tolecusatellitidae, Geminiviridae* and *Myoviridae* for Virome 8 and the *Siphoviridae* in the case of both.
+
+In order to evaluate the taxonomy binning performed by MEGAN let's compare these results to the previous results from the simulated viral genomes:
+
+1.  Extracting the families from the simulations:
+
+```bash
+# Extracting families from virome 5 and 8
+cut -f9 virome_5_abundance.tsv | sort | uniq > virome_5_families.txt
+cut -f9 virome_8_abundance.tsv | sort | uniq > virome_8_families.txt
+```
+
+  Results for Simulation Families:
+  
+| **Virome 5 Simulation** | **Virome 8 Simulation** |
+|--------------------|--------------------|
+| Anelloviridae      | Chuviridae         |
+| Demerecviridae     | Geminiviridae      |
+| Geminiviridae      | Microviridae       |
+| Herelleviridae     | Partitiviridae     |
+| Papillomaviridae   | Solemoviridae      |
+| Peduoviridae       | Straboviridae      |
+| Polyomaviridae     | Tolecusatellitidae |
+| Poxviridae         | Tombusviridae      |
+| Sinhaliviridae     |                    |
+| Solemoviridae      |                    |
+
+2.  Extracting the taxonomic families from MEGAN:
+
+-   Opening the *virome5.rma6* \> Selecting "Rank" by Family \> File \> Export \> Text (CSV) Format... \> taxonRank_to_count, assigned, tab \> OK 
+- The same steps are performed for virome 8
+- The resulting files with assigned taxonomic families are extracted and further worked as follows:
+
+```bash
+# Extracting clean families
+grep '^Family:' virome5_export.txt | cut -d'"' -f2 | sort | uniq \
+                                    > virome_5_Families_megan.txt
+grep '^Family:' virome8_export.txt | cut -d'"' -f2 | sort | uniq \
+                                    > virome_8_Families_megan.txt
+```
+
+\newpage
+
+  Results for MEGAN Families:
+  
+| **Virome 5 MEGAN** | **Virome 8 MEGAN** |
+|--------------------|--------------------|
+| Anelloviridae      | Chuviridae         |
+| Demerecviridae     | Geminiviridae      |
+| Geminiviridae      | Herelleviridae     |
+| Herelleviridae     | Microviridae       |
+| Microviridae       | Myoviridae         |
+| Myoviridae         | Partitiviridae     |
+| Papillomaviridae   | Podoviridae        |
+| Polyomaviridae     | Poxviridae         |
+| Poxviridae         | Siphoviridae       |
+| Sinhaliviridae     | Solemoviridae      |
+| Siphoviridae       | Tolecusatellitidae |
+| Solemoviridae      | Tombusviridae      |
+
+3. Now we can perform a qualitative comparison of taxonomic family overlap across simulated viromes and MEGAN-binning:
+
+*Simulation virome 5 vs virome 8*:
+
+```bash
+echo "In both Viromes:"
+echo "Count: $(comm -12 virome_5_families.txt \
+                                 virome_8_families.txt | wc -l)"
+comm -12 virome_5_families.txt virome_8_families.txt > bothSim.txt
+
+echo ""
+echo "In Virome 5 but not Virome 8:"
+echo "Count: $(comm -23 virome_5_families.txt \
+                                  virome_8_families.txt | wc -l)"
+comm -23 virome_5_families.txt virome_8_families.txt > 5Sim.txt
+
+echo ""
+echo "In Virome 8 but not Virome 5:"
+echo "Count: $(comm -13 virome_5_families.txt \
+                                  virome_8_families.txt | wc -l)"
+comm -13 virome_5_families.txt virome_8_families.txt > 8Sim.txt
+```
+
+\newpage
+
+*MEGAN virome 5 vs virome 8*:
+
+```bash
+echo "In both Viromes:"
+echo "Count: $(comm -12 virome_5_Families_megan.txt \
+                                 virome_8_Families_megan.txt | wc -l)"
+comm -12 virome_5_Families_megan.txt virome_8_Families_megan.txt > bothMEGAN.txt
+
+echo ""
+echo "In Virome 5 but not Virome 8:"
+echo "Count: $(comm -23 virome_5_Families_megan.txt \
+                                 virome_8_Families_megan.txt | wc -l)"
+comm -23 virome_5_Families_megan.txt virome_8_Families_megan.txt > 5MEGAN.txt
+
+echo ""
+echo "In Virome 8 but not Virome 5:"
+echo "Count: $(comm -13 virome_5_Families_megan.txt \
+                                 virome_8_Families_megan.txt | wc -l)"
+comm -13 virome_5_Families_megan.txt virome_8_Families_megan.txt > 8MEGAN.txt
+```
+
+**Comparison**:
+
+| In both (Simulation) | In both (MEGAN) |
+|---|---|
+| Count: 2 | Count: 7 |
+| Geminiviridae | Geminiviridae |
+| Solemoviridae | Herelleviridae |
+|  | Microviridae |
+|  | Myoviridae |
+|  | Poxviridae |
+|  | Siphoviridae |
+|  | Solemoviridae |
+|  |  |
+
+\newpage
+
+| Only Virome 5 (Simulation) | Only Virome 5 (MEGAN) | Only Virome 8  (Simulation) | Only Virome 8 (MEGAN) |
+|---|---|---|---|
+| Count: 8 | Count: 5 | Count: 6 | Count: 5 |
+| Anelloviridae | Anelloviridae | Chuviridae | Chuviridae |
+| Demerecviridae | Demerecviridae | Microviridae | Partitiviridae |
+| Herelleviridae | Papillomaviridae | Partitiviridae | Podoviridae |
+| Papillomaviridae | Polyomaviridae | Straboviridae | Tolecusatellitidae |
+| Peduoviridae | Sinhaliviridae | Tolecusatellitidae | Tombusviridae |
+| Polyomaviridae |  | Tombusviridae |  |
+| Poxviridae |  |  |  |
+| Sinhaliviridae |  |  |  |
+
+**Summary**:
+
+```bash
+echo "Shared Families by MEGAN compare to Simulated:"
+echo "True Positives (shared in both): \
+$(comm -12 bothSim.txt bothMEGAN.txt | wc -l)"
+echo "False Negatives (shared in Simulated only):  \
+$(comm -23 bothSim.txt bothMEGAN.txt | wc -l)"
+echo "False Positives (shared in MEGAN only):  \
+$(comm -13 bothSim.txt bothMEGAN.txt | wc -l)"
+
+echo "Families ONLY Virome 5 by MEGAN compare to Simulated:"
+echo "True Positives (shared in both): \
+$(comm -12 5Sim.txt 5MEGAN.txt | wc -l)"
+echo "False Negatives (shared in Simulated only): \
+$(comm -23 5Sim.txt 5MEGAN.txt | wc -l)"
+echo "False Positives (shared in MEGAN only): \
+$(comm -13 5Sim.txt 5MEGAN.txt | wc -l)"
+
+echo "Families ONLY Virome 8 by MEGAN compare to Simulated:"
+echo "True Positives (shared in both): \
+$(comm -12 8Sim.txt 8MEGAN.txt | wc -l)"
+echo "False Negatives (shared in Simulated only): \
+$(comm -23 8Sim.txt 8MEGAN.txt | wc -l)"
+echo "False Positives (shared in MEGAN only): \
+$(comm -13 8Sim.txt 8MEGAN.txt | wc -l)"
+```
+
+\newpage
+
+```
+Shared Families by MEGAN compare to Simulated: 
+True Positives (shared in both): 2
+False Negatives (shared in Simulated only): 0
+False Positives (shared in MEGAN only): 5
+
+Families ONLY Virome 5 by MEGAN compare to Simulated: 
+True Positives (shared in both): 5
+False Negatives (shared in Simulated only): 3
+False Positives (shared in MEGAN only): 0
+
+Families ONLY Virome 8 by MEGAN compare to Simulated: 
+True Positives (shared in both): 4
+False Negatives (shared in Simulated only): 2
+False Positives (shared in MEGAN only): 1
+```
+
+We can see that we obtained for the families present in both, Virome 5 and 8, a ratio of 2/7 hits, and the remaining (5/7) are new families assigned in MEGAN.\
+With regards to the families present in Virome 5 only, we can see that 5/8 are shared in both, whilst 3/8 are present only in the simulated virome.\
+Lastly, the shared families observed in Virome 8 only account for 4/7 and the smaller proportion is present only in one or the other.\
+The main diferences reside in the shared families, this is probably due to the new designated families by MEGAN. 
+
+If these results are compared with the dominant species observed in MEGAN is possible to say that we obtained very good results overall for the following reasons:
+
+* The *Poxviridae* is dominant in Virome 5 in MEGAN, and indeed in the simulation is only present in Virome 5,
+* the *Tolecusatellitidae* is only present in Virome 8 in MEGAN, and also in the simulation,
+* *Geminiviridae* is predominantly present in Virome 8 although represented in both, as in the simulation,
+* and the *Siphoviridae* Family which was found in high counts for both Virome 5 and 8 by MEGAN could be due to new splits in this family, and the of a different classification between the simulation and MEGAN.
+
+
