@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Deyanira Borroto Alburquerque">
+
+<title>RNA-Seq Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="RNAseq_files/libs/clipboard/clipboard.min.js"></script>
+<script src="RNAseq_files/libs/quarto-html/quarto.js"></script>
+<script src="RNAseq_files/libs/quarto-html/popper.min.js"></script>
+<script src="RNAseq_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="RNAseq_files/libs/quarto-html/anchor.min.js"></script>
+<link href="RNAseq_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="RNAseq_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="RNAseq_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="RNAseq_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="RNAseq_files/libs/bootstrap/bootstrap-8a79a254b8e706d3c925cde0a310d4f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="RNAseq.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">RNA-Seq Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Deyanira Borroto Alburquerque </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="abstract" class="level1">
+<h1>Abstract</h1>
+<p>The RNA sequencing (RNA-seq) protocol is initiated with the conversion of RNA (from mRNA or rRNA) into cDNA. These are fragmented and ligated to adapters and indexes. The resulting cDNA fragments are then “read” by high-throughput sequencing.</p>
+<p>This protocol has the aim of analyzing an RNA sequencing dataset in order to identify diferentially expressed and corregulated genes and attemp to infer biological meaning. For this purpose a dataset from an <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11535345/">experiment</a> in which RNA was extracted from the <em>C17.2</em> neural stem cell (NSC) line was used. This study has the aim of investigating the impact of Toe1 on the development of NSC.</p>
+<p>The pipeline followed can be accessed for viewing and importing by visiting the following <a href="https://usegalaxy.org/published/workflow?id=173ecc0c88090d0e">URL</a>: <code>https://usegalaxy.org/published/workflow?id=173ecc0c88090d0e</code>. Can be also viewed in <a href="#appxH">Appendix H</a>.</p>
+<p>RNA-seq results were satisfactory with many differentially expressed genes identified and interesting functional analysis with relevant biological meaning.<br>
+</p>
+<p><strong>Keywords: RNA-Seq; Next-generation sequencing; Data analysis; Differentially expressed genes</strong></p>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This RNA-seq analysis pipeline was performed using the <a href="https://usegalaxy.org/">Galaxy</a> platform and will go through prealignment cleanup, alignment and mapping using the Ensembl gene annotation. This is followed by analysis where statistical tests are run to identify enrichment and diferentially expressed genes (DEGs). For each of these steps quality controls will be performed and examined.</p>
+<p>The dataset used consists of <em>C17.2</em> cell line derived from isolated NSCs from brains of neonatal mouse and subsequently cultured to diferentiate in controlled conditions. Then single-guide RNA (sgRNA) were designed for Toe1 gene and GFP as negative control, and introduced to the NSCs via lentiviral infection, which allowed the creationg of a knockout (KO) from Toe1 gene <span class="citation" data-cites="Toe1">Deng et al. (<a href="#ref-Toe1" role="doc-biblioref">2024</a>)</span>.</p>
+</section>
+<section id="methods-rnaseq-data-analysis-workflow" class="level1">
+<h1>Methods: RNAseq Data Analysis Workflow</h1>
+<section id="getting-experiment-metadata" class="level2">
+<h2 class="anchored" data-anchor-id="getting-experiment-metadata">Getting Experiment Metadata</h2>
+<p>There were a total of 3 replicates from the control group (WT) and 3 replicates from the Toe1 knockout (KO-Toe1) group. Total RNA was extracted and sequenced from each group using Illumina HiSeq/MiSeq platform.</p>
+<p>The sequencing data generated which was deposited in the Gene Expression Omnibus (GEO) with the accession code <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE254609">GSE254609</a> was accessed.</p>
+<p>The <code>Metadata</code> (<em>SraRunTable.csv</em>) and SRR Accession list (<em>RunAccesionList.txt</em>) are obtained from the SRA Run Selector <a href="https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA1071133&amp;o=acc_s%3Aa">page</a>. These files are downloaded and uploaded to Galaxy.</p>
+<p>The following is the table with the information from the runs:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Run</th>
+<th>BioSample</th>
+<th>cell_line</th>
+<th>Experiment</th>
+<th>genotype</th>
+<th>Library Name</th>
+<th>LibraryLayout</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SRR27787864</td>
+<td>SAMN39674447</td>
+<td>differentiated C17.2</td>
+<td>SRX23452620</td>
+<td>WT</td>
+<td>GSM8047009</td>
+<td>PAIRED</td>
+</tr>
+<tr class="even">
+<td>SRR27787865</td>
+<td>SAMN39674448</td>
+<td>differentiated C17.2</td>
+<td>SRX23452619</td>
+<td>WT</td>
+<td>GSM8047008</td>
+<td>PAIRED</td>
+</tr>
+<tr class="odd">
+<td>SRR27787860</td>
+<td>SAMN39674443</td>
+<td>differentiated C17.2</td>
+<td>SRX23452624</td>
+<td>Toe1_KO</td>
+<td>GSM8047013</td>
+<td>PAIRED</td>
+</tr>
+<tr class="even">
+<td>SRR27787861</td>
+<td>SAMN39674444</td>
+<td>differentiated C17.2</td>
+<td>SRX23452623</td>
+<td>Toe1_KO</td>
+<td>GSM8047012</td>
+<td>PAIRED</td>
+</tr>
+<tr class="odd">
+<td>SRR27787862</td>
+<td>SAMN39674445</td>
+<td>differentiated C17.2</td>
+<td>SRX23452622</td>
+<td>Toe1_KO</td>
+<td>GSM8047011</td>
+<td>PAIRED</td>
+</tr>
+<tr class="even">
+<td>SRR27787863</td>
+<td>SAMN39674446</td>
+<td>differentiated C17.2</td>
+<td>SRX23452621</td>
+<td>WT</td>
+<td>GSM8047010</td>
+<td>PAIRED</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="pre" class="level2">
+<h2 class="anchored" data-anchor-id="pre">Prealignment Quality Control and Cleanup</h2>
+<p>The sequencing data was obtained with the tool <code>Faster Download and Extract Reads in FASTQ format</code> using the “List of SRA accession” (<em>RunAccesionList.txt</em>).</p>
+<section id="qc-on-raw-reads" class="level3">
+<h3 class="anchored" data-anchor-id="qc-on-raw-reads">QC on raw reads</h3>
+<p>The quality control (QC) on raw reads was performed with the <code>FastQC</code> tool. This was helpful to take a broad overview of the raw data. Upon exploring the output there were a few failed sections and some warnings but they were all within normal limits for raw reads. It was possible to see the adapter sequences which need to be removed.</p>
+</section>
+<section id="preprocessing-and-qc" class="level3">
+<h3 class="anchored" data-anchor-id="preprocessing-and-qc">Preprocessing and QC</h3>
+<p><code>Trim Galore</code> was used to preprocess the reads. This is done to improve quality and mapeability by removing low quality reads and adapter contaminants. This was followed by a second round of QC and was observed that the overall quality improved. The results from this preprocessing can be used for the following steps.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Raw reads QC</th>
+<th>Preprocessed reads QC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img src=".\images/rawQC.png" class="img-fluid"></td>
+<td><img src=".\images/PreprocQC.png" class="img-fluid"></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>Along all sections, the detailed information for each step can be obtained from the <em>Appendices</em> (kept as a “<em>Memoria</em> report”). See <a href="#appxA">Appendix A</a> for more details on this section about “Prealignment QC and Cleanup”.</p>
+</blockquote>
+</section>
+</section>
+<section id="alignment-and-quantification" class="level2">
+<h2 class="anchored" data-anchor-id="alignment-and-quantification">Alignment and Quantification</h2>
+<section id="ref" class="level3">
+<h3 class="anchored" data-anchor-id="ref">Getting the Reference Files</h3>
+<ol type="1">
+<li>The “gene reference” and “gene definitions” were obtained from <a href="https://www.ensembl.org/info/data/ftp/index.html">Ensembl Genome Browser</a>.</li>
+<li>The “transcript to gene mapping” file was also obtained from Ensembl, through <a href="https://www.ensembl.org/biomart/martview/bfa9b36304991fb7a3c622faa76de702">BioMart</a></li>
+<li>Then the “index file” was also created in Galaxy from the gene definitions file.</li>
+</ol>
+<blockquote class="blockquote">
+<p>See <a href="#appxB">Appendix B</a> for more details on this section about “Getting Reference Files”.</p>
+</blockquote>
+</section>
+<section id="align" class="level3">
+<h3 class="anchored" data-anchor-id="align">Mapping and Alignment</h3>
+<p><code>Salmon Quant</code> was used for mapping the alignment and performing quantification. Salmon does a pseudoalignment to the transcriptome and generates gene and transcript level quantifications. Three files are obtained: the aligned sequences (BAM), the gene quantification and the transcript quantification. However the BAM aligned sequences generated by Salmon can not be visualized in IGV since it maps readings against the transcript index not to the genome.</p>
+<p><code>HISAT2</code> was therefore used. This tool aligns readings to the genome, and produces the BAM files with genomic coordinates. This is useful for visualization in IGV and obtaining complementary information.</p>
+<blockquote class="blockquote">
+<p>See <a href="#appxC">Appendix C</a> for more details about “Mapping and Alignment” steps and parameters.</p>
+</blockquote>
+<section id="postalign" class="level4">
+<h4 class="anchored" data-anchor-id="postalign">Post Alignment QC</h4>
+<p>The BAMs from the alignment were visualized on IGV. The following is a general view at the position of the Toe1 gene where we can observe a good coverage. The dataset at the top belongs to the WT and the one below is the Toe1_KO.</p>
+<p>Its possible to observe the coverage of the library by observing the coverage graphs. The graph underneeth the coverage represents the junctions, where the links between reads spanning between one or more exons are displayed. This shows that the alignment program dealt well with splicings.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/GenViewAlignment.png" class="img-fluid figure-img"></p>
+<figcaption>General View of the alignment.’HISAT2 on data 140’ corresponds to a dataset of the WT (run SRR27787863) and ‘HISAT2 on data 134’ corresponds to the Toe1_KO (run SRR27787860)</figcaption>
+</figure>
+</div>
+<p>In the following image we can see and compare the coverages, after all tracks were selected and “Group Autoscale” was performed. No obvious differences, overexpressed or underexpressed, areas are noted.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/coverage.png" class="img-fluid figure-img"></p>
+<figcaption>Coverage comparisson. The three datasets in ranges of lilac correspond to the three runs of the WT and the three in yellow correspond to the Toe1_KO.</figcaption>
+</figure>
+</div>
+<p>In order to properly normalise coverage, to analyze it better, a bigWig was created through the <code>bamCoverage</code> tool in Galaxy. The tracks were opened in IGV and overlayed. The following are the results:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/overlayCov.png" class="img-fluid figure-img"></p>
+<figcaption>Coverage overlay of WT (lilac) and Toe1_KO (yellow).</figcaption>
+</figure>
+</div>
+<p>Here we can appreciate a pattern of underexpression in the Toe1_KO datasets compared to the WT datasets. Some areas of lower coverage for the mid part of the first exon, and also exons 5,6 and 7, have markedly lower coverage, and therefore expression.</p>
+<blockquote class="blockquote">
+<p>See <a href="#appxE">Appendix E</a> for more details on this section about “Post Alignment QC and Filtering”.</p>
+</blockquote>
+</section>
+</section>
+</section>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<section id="diffExp" class="level2">
+<h2 class="anchored" data-anchor-id="diffExp">Differential Expression</h2>
+<p>To perform the differential expression the <code>limma</code> tool was used in Galaxy. This tool analyzes to contrast expression profiles between conditions. To do this it uses a count matrix extracted from the gene quantification previously obtained from Salmon.</p>
+<p>The transformation method used was the <strong>“voom”</strong> which transforms raw counts into something that fits linear modeling assumptions and creates a model for each gene. Filtering was done to remove lowly expressed genes. Differentially expressed genes (DEG) testing to perform contrasts was done according to genotypes (Toe1 and WT). Normalisation with trimmed mean of M-values (TMM) was also performed, this adjusts for library size and composition biases. <em>P</em> values, adjusted <em>P</em> values and log2 fold changes are calculated for each gene. The adjusted <em>P</em> values are calculated with the Benjamini-Hochberg false discovery rate (FDR) method to adjust for multiple hypothesis testing.</p>
+<p>The results from <code>limma</code> are multiple, including an analysis output report, normalised and filtered counts, and the diferentially expressed (DE) genes table.</p>
+<blockquote class="blockquote">
+<p>See <a href="#appxF">Appendix F</a> for more details on this section about “DE using <code>limma</code>”.</p>
+</blockquote>
+<section id="differential-expression-validation" class="level3">
+<h3 class="anchored" data-anchor-id="differential-expression-validation">Differential Expression Validation</h3>
+<p>The <em>Limma Analysis Output</em> was explored first, since it serves as a QC and validation of the limma preprocessing and differential expression (DE) analysis.</p>
+<p><strong>Summary of experimental data:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">SampleID</th>
+<th style="text-align: center;">genotype (Primary Factor)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">SRR27787860</td>
+<td style="text-align: center;">Toe1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">SRR27787861</td>
+<td style="text-align: center;">Toe1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">SRR27787862</td>
+<td style="text-align: center;">Toe1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">SRR27787863</td>
+<td style="text-align: center;">WT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">SRR27787864</td>
+<td style="text-align: center;">WT</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">SRR27787865</td>
+<td style="text-align: center;">WT</td>
+</tr>
+</tbody>
+</table>
+<p>It was possible to observe that <strong>normalisation</strong> with TMM correctly scaled the data sets without causing any distortion on them. As we can see in the following plots the samples remain the same after normalisation:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/norm.png" class="img-fluid figure-img"></p>
+<figcaption>Normalisation results.</figcaption>
+</figure>
+</div>
+<p>The <strong>Multidimensional Scaling (MDS)</strong> plot, shown below, exhibits the distances between samples based on log2FC ratio of gene expression. The WT samples are clustered to the right, indicating that they have similar expression profiles. Whilst the Toe1_KO samples are towards the left side of the plot although they show some more dispersion on the second dimension, which may be normal due to variations between replicates. This plot was used to validate the data is behaving as expected before interpreting DE results.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/MDSPlot.png" class="img-fluid figure-img" width="410"></p>
+<figcaption>Distance between samples.</figcaption>
+</figure>
+</div>
+<p>The <strong>voom transformation</strong> was also successful in stabilizing the mean-variance relationship within the data as observed in both “voom: Mean-Variance Trend” and “Final Model: Mean-Variance Trend (SA Plot)” plots. The first showed high variance initially (at lower expression values) and lower variance at higher values. The second had a low variance with no major outliers and most values close to the reference line.</p>
+<p>Lastly, there are the <em>differential expression counts</em> and different <strong>contrast plots</strong> to visualize them:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Up</th>
+<th style="text-align: center;">Flat</th>
+<th style="text-align: center;">Down</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><em>Toe1-WT</em></td>
+<td style="text-align: center;">345</td>
+<td style="text-align: center;">13516</td>
+<td style="text-align: center;">51</td>
+</tr>
+</tbody>
+</table>
+<p>345 genes are significantly upregulated (more expressed) in Toe1 compared to WT.<br>
+51 genes are significantly downregulated in Toe1 compared to WT.<br>
+13,516 genes were not significantly changed (“flat”).</p>
+<ul>
+<li>In the MD contrast plot, below, it is possible to observe the log-fold changes (logFC) against the average expression for each gene. The outliers which are coloured in red highlight significantly DE genes which are upregulated in Toe1_KO, whilst the coloured blue highlight the genes downregulated in Toe1_KO.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/MDcorrel.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Contrast Toe1-WT MD plot.</figcaption>
+</figure>
+</div>
+<ul>
+<li>The contrast volcano plot shows a combination of log2FC and statistical significance (p-value). It is possible to see the genes that are both statistically significant and with large magnitude of change. We can see to the left those downregulated and to the right the upregulated. Those which are labeled are the most differentially expressed.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/volcanoCorrel.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Contrast Toe1-WT volcano plot.</figcaption>
+</figure>
+</div>
+<ul>
+<li>The heatmap plot of this constrast adds up to the previous, showing a clear distribution of the upregulated and downregulated top 10 genes per sample. High expression is shown in red and low expression in blue. There is high expresion in 8/10 for the Toe1 datasets.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/HeatmapCorrel.png" class="img-fluid figure-img" width="500"></p>
+<figcaption>Contrast Toe1-WT heatmap plot.</figcaption>
+</figure>
+</div>
+<p>With all the previous it is possible to confirm that the results from limma can be trusted and used and there are a number of uprelugated and downregulated genes that need further examination.</p>
+</section>
+<section id="differential-expression-results" class="level3">
+<h3 class="anchored" data-anchor-id="differential-expression-results">Differential Expression Results</h3>
+<p>The DEGs table was filtered and those genes that were with values below an adjusted <em>P</em> Value of 0.05 and a logFC over 2 or below -2 were removed. Then, this reduction was applied on the normalized count table from limma to extract those more significant genes. The resulting table was further reduced for visualization purposes in <strong>R</strong> where the top 150 most variable genes were selected. The following heatmap representing the most remarkable differentially expressed genes was generated:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/heatmap.png" class="img-fluid figure-img"></p>
+<figcaption>Most diferentially expressed genes.</figcaption>
+</figure>
+</div>
+<p>In the previous image is possible to observe in detail the gene expression of the most differentially expressed genes obtained from the analysis. For the Toe1_KO samples (SRR27787860, SRR27787861 and SRR27787862) a generalized upregulation is noted (lighter colour on the left side), with a few downregulated in a middle portion (Mest and Megf10) and at the lower part of the heatmap (being the most downregulated GM37206).</p>
+<blockquote class="blockquote">
+<p>See <a href="#appxG">Appendix G</a> for more details on this section about “Differential Expression Results”.</p>
+</blockquote>
+</section>
+</section>
+<section id="functional-enrichment-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="functional-enrichment-analysis">Functional Enrichment Analysis</h2>
+<p>This method, also called Gene Ontology (GO) enrichment analysis, is used to evaluate the biological relevance of the genes resulting from the differential expression analysis. Many tools are available to perform this. Here the <code>gProfiler GOst</code> tool was used on a filtered list of DE genes that are significanlty changed and the following plot was generated:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/FA1.png" class="img-fluid figure-img"></p>
+<figcaption>Functional Enrichment Analysis Results.</figcaption>
+</figure>
+</div>
+<p>A broad view of this functional analysis shows that more than half of the total of genes are affecting biological processes (GO:BP), and the rest are divided between specific molecular activities (GO:MF), cellular locations (GO:CC) and regulatory networks (TF), with a few of them affecting pathways (KEGG).</p>
+<p>The knockout of Toe1 gene is affecting biological processes the most. But to see if these are those of our interest, in order to have more interaction with what processes are involved, the <code>gProfiler GOst</code> tool was run in it’s <a href="https://biit.cs.ut.ee/gprofiler/gost">website</a>. The interest here is to see how Toe1 affects Neural Stem Cell (NSC) behavior and development. Therefore, since we have many results in the “Detailed Results” the filtering will be performed by searching for terms like: stem cell differentiation, neurogenesis, cell proliferation, extracellular matrix (whichi is involved in cell differentiation), the TNF signaling pathway (involved in normal inflammatory and immune responses), and other functions related to the proliferation and differentiation of NSCs.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/highlightedFA.png" class="img-fluid figure-img"></p>
+<figcaption>Highlighted Functional Enrichment Analysis. The light circles represent less significant terms.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/FAtable.png" class="img-fluid figure-img"></p>
+<figcaption>Significant Functions Table.</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p>See <a href="#appxG">Appendix G</a> for more details on this section about “Functional Enrichment Analysis”.</p>
+</blockquote>
+</section>
+</section>
+<section id="conclusions" class="level1">
+<h1>Conclusions</h1>
+<p>The RNA-seq results indicated that Toe1 primarily affects biological processes such as neurogenesis, immune system, developmental, cell proliferation and immune response processes. But metabolical processes such as protein binding, ion binding and extracellular matrix, are also rather affected. These disruptions can lead to the transmission of downstream signals that affect various functions of bioactive molecules that play key roles in cell survival and proliferation.<br>
+Some transcription factors affected are also relevant. Including the NF-1A, important in nervous system development; NF-kappaB, in survivall and proliferation of NSCs; WT1 and ZIC3 (NSCs proliferation and differentiation respectively).</p>
+<section id="appxA" class="level2">
+<h2 class="anchored" data-anchor-id="appxA">Appendix A: Prealignment QC and Cleanup</h2>
+<p>Go back <a href="#pre">up</a>.</p>
+<p>These steps are all performed in the Galaxy platform:</p>
+<ol type="1">
+<li><p>The tool: <code>Faster Download and Extract Reads in FASTQ format</code> was used &gt; select “List of SRA accession”, one per line &gt; The RunAccesionList is automatically selected &gt; Run Tool.<br>
+<strong>With this the Pair-End sequencing data that will contain the reads in Fastq format was obtained</strong>.</p></li>
+<li><p>The <code>FastQC</code> tool was used to perform quality control (QC) on raw reads &gt; select Dataset Collection: pair-end data &gt; no contaminant or adapter lists were available, therefore we ran with default parameters.<br>
+<strong>The tool produces a report with all the metrics.</strong></p></li>
+</ol>
+<blockquote class="blockquote">
+<p>This document was examined and kept handy to compare it with the FastQC that we will do after processing the raw reads.</p>
+</blockquote>
+<ol start="4" type="1">
+<li><p><strong>Preprocess of reads:</strong> was performed with the tool <code>Trim Galore</code> for “Paired Collection” with default options.</p></li>
+<li><p>A second round of <strong>FastQC</strong> is then performed now on the preprocessed reads to assess quality improvements or possible changes.</p></li>
+<li><p>Step 4 (adjusting parameters) and step 5 would be repeated if the quality is not optimal.</p></li>
+</ol>
+</section>
+<section id="appxB" class="level2">
+<h2 class="anchored" data-anchor-id="appxB">Appendix B: Getting Reference Files</h2>
+<p>Go back <a href="#ref">up</a>.</p>
+<p>Since we are reproducing the results of an experiment from a paper, we checked in the paper Methods and looked into RNA-sequencing data analysis and find what reference they used.</p>
+<p>With this information we obtained the gene reference and gene definitions from the <a href="https://ftp.ensembl.org/pub/release-113/fasta/mus_musculus/dna/">Ensembl Genome Browser</a>:</p>
+<ol type="1">
+<li><p>The <strong>reference</strong> is obtained by entering in Mus musculus &gt; DNA (FASTA) &gt; finding the URL link of the fasta file with “…primary_assembly” &gt; Copy the URL <a href="https://ftp.ensembl.org/pub/release-113/fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.primary_assembly.fa.gz">link</a></p></li>
+<li><p>The <strong>gene definitions</strong> are obtained by entering in Mus musculus &gt; Gene sets &gt; Finding the gene build version with extension “…113.gtf.gz” &gt; Copy the URL <a href="https://ftp.ensembl.org/pub/release-113/gtf/mus_musculus/Mus_musculus.GRCm39.113.chr.gtf.gz">link</a></p></li>
+<li><p>Both URL links are then uploaded to Galaxy from Upload &gt; Paste/Fetch Fasta (two times, to obtain two upload boxes) &gt; Pasting each link into a different box &gt; Start</p></li>
+</ol>
+<p>Now we will obtain the relation of the transcripts to the genes from <a href="https://www.ensembl.org/biomart/martview/bfa9b36304991fb7a3c622faa76de702">BioMart tool</a> from the Ensembl web site:</p>
+<ol type="1">
+<li><p>The transcript to <strong>gene mapping</strong> file is obtained by selecting &gt; Choose Database: Ensembl Genes [version] &gt; Choose Dataset: Mouse Genes [version] &gt; Click Attributes to select attributes to display &gt; + Gene &gt; Deselect everything except “Gene stable ID” and “Transcript stable ID” &gt; click on RESULTS &gt; Select “Unique results only” &gt; Click GO</p></li>
+<li><p>The resulting file is then uploaded to Galaxy</p></li>
+<li><p>Is required to invert the order of the columns using the <code>Sort Column Order by heading</code> tool &gt; Identifier column “Column:2” &gt; was named as “TranscriptToGeneIDs”</p></li>
+</ol>
+<section id="b-prepare-index-file" class="level3">
+<h3 class="anchored" data-anchor-id="b-prepare-index-file">B: Prepare index file</h3>
+<p>Go back <a href="#ref">up</a>.</p>
+<p>The “gene definitions file” needs to be modified to improve the quality of quantification, this is done performing the following:</p>
+<ol type="1">
+<li>The tool <code>Select lines that match an expression</code> is used on the raw .gtf file with the gene definitions that was previously downloaded &gt; Set to NOT Matching with pattern <code>(pseudogene|miRNA)</code> to remove those transcripts annotated as pseudogenes or miRNAs.</li>
+</ol>
+<p>The tool used for alignment (<code>Salmon</code>) needs as reference the sequences of the transcripts and a file with the relation of the trascripts to genes. To get the indexed fasta file the <code>Gffread</code> tool was used:</p>
+<ol type="1">
+<li>“Input feature file”: is the “gene definitions (.gtf) file”</li>
+<li>Select “Reference Genome”: From your history &gt; the assembly fasta reference downloaded</li>
+<li>In “Select fasta outputs” activate the “fasta file with spliced exons for each GFF transcript (-w)” option.</li>
+<li>“Feature File Output” was set to GTF (with second column filteredGTF) and “Full Attribute Preservation”.</li>
+</ol>
+<p>Two files are produced: a gene definition file (.gtf) with the lines of the gtf file and the fasta (.fa) index file wich contains the sequences of the transcripts.</p>
+</section>
+</section>
+<section id="appxC" class="level2">
+<h2 class="anchored" data-anchor-id="appxC">Appendix C: Mapping and Alignment</h2>
+<p>Go back <a href="#align">up</a>.</p>
+<p><code>Salmon Quant</code> was used in “Reads” mode, in order to perform the mapping.</p>
+<ol type="1">
+<li>In “Reference transcriptome” was selected “Use one from history” &gt; Salmon index: “Transcrits FASTA file” was the processed reference (<em>gffread of exons.fa</em>) and “Reference genome”: the downloaded <em>Mus_musculus.primary_assembly.fa</em></li>
+<li>“Data input”: the <em>paired end collection</em> of trimmed fastq files &gt; “Specify the strandedness of the reads”: Infer automatically (A) &gt; Rest as Default</li>
+<li>“Write Mappings to BAM File”: Enabled</li>
+<li>“File containing a mapping of transcripts to genes”: enter the mapping between trascripts to genes (<em>TranscriptToGeneIDs</em>)</li>
+<li>This was run with “Sequence-specific correction” and “Fragment GC bias correction” activated and the rest of parameters as default.</li>
+</ol>
+<blockquote class="blockquote">
+<p>Several outputs at transcript and gene quantification level are produced. Two quantifications are produced on the table created by Salmon: <strong>TPMs</strong> which is a normalized quantification by the total number of transcripts produced in the experiment; and <strong>NumReads</strong> which are just the counts, how many sequences mapped to that particular transcript or gene.</p>
+</blockquote>
+<p><code>HISAT2</code> was run with the reference genome from <em>Mus Musculus</em> GRCm39.assembly.fa downloaded &gt; on the Paired-end preprocessed collection with Default options.</p>
+</section>
+<section id="appxE" class="level2">
+<h2 class="anchored" data-anchor-id="appxE">Appendix E: Post Alignment QC</h2>
+<p>Go back <a href="#postalign">up</a>.</p>
+<p>The BAMs are visualized following these steps:</p>
+<ol type="1">
+<li>Opening IGV locally &gt; loading reference Genome by entering “Genome” &gt; “Load Genome from UCSC GenArk…” &gt; and finding the “GRCm39/mm39”</li>
+<li>Then the BAMs are loaded from Galaxy by clicking on the “HISAT2 aligned reads (BAM)” finished job in the ‘History’ &gt; Clicking on the datasets one by one &gt; (within this dataset menu) clicking on “Visualize” &gt; and finally clicking on “display with IGV ( local )”</li>
+<li>This is then opened in the local IGV. The gene of interest (Toe1) is written into the 3rd box (“Enter a gene or locus”) &gt; Click Go</li>
+<li>Adjustments for visualization were done, these included: changing colour, zooming into specific areas, removing tracks… &gt; once the image was as desired this was saved from “File” &gt; “Save PNG image…”</li>
+</ol>
+<p>The <code>bamCoverage</code> tool was used to create a bigWig &gt; The BAMs resulting from HISAT2 were selected from the collections and this tool was run with default parameters.</p>
+<p>The resulting tracks were opened in IGV as previously explained &gt; colour was changed and by selecting all &gt; right click to open the menu &gt; selecting “Overlay Tracks…” these were overlayed.</p>
+</section>
+<section id="appxF" class="level2">
+<h2 class="anchored" data-anchor-id="appxF">Appendix F: Differential Expression</h2>
+<p>Go back <a href="#diffExp">up</a>.</p>
+<p>The <code>limma</code> tool from Galaxy, to analyze contrasts between conditions, uses the NumReads column from the “Gene quantification” results obtained with Salmon. This has to be provided in the shape of a counts matrix.</p>
+<p>The following are the steps to obtain this <strong>counts matrix</strong>:</p>
+<ol type="1">
+<li><p>Samples name and NumReads are extracted from “Gene Quantification” (1st and 5th columns) with <code>Advanced Cut columns from a table (cut)</code> &gt; Dataset Collection: “Sample Salmon Gene Quantification” &gt; Set Options to: keep; fields; tab &gt; select 1st and 5th columns</p></li>
+<li><p><code>Column join</code> was used on the table created in step 1 &gt; “Identifier column”: 1 &gt; “Number of header lines”: 1 &gt; Set “Add column name to header”: No</p></li>
+</ol>
+<p>The <strong>Gene names mapping table</strong> to associate the gene IDs to their names was created:</p>
+<ol type="1">
+<li>Same as the transcript to gene mapping file, the names are obtained from Ensembl, by entering <a href="https://www.ensembl.org/biomart/martview/bfa9b36304991fb7a3c622faa76de702">BioMart</a> and following the same steps as before but now we select “Gene stable ID” and “Gene name” &gt; click on RESULTS &gt; Select “Unique results only” &gt; Click GO &gt; The resulting file is uploaded to Galaxy</li>
+</ol>
+<p>Then <code>limma</code> is run:</p>
+<ol type="1">
+<li><p>Select “Differential Expression Method”: limma-voom</p></li>
+<li><p>“Count Files or Matrix?” Single Count Matrix &gt; Select Single Dataset: Counts Matrix (created before) &gt; “Input factor information from file?” No &gt; Add Factor &gt; “Factor Name <em>”: genotype &gt; ”Groups</em>”: (group names for the samples separated with commas in the order of the samples in the columns of the count matrix) Toe1,Toe1,Toe1,WT,WT,WT</p></li>
+<li><p>“Use Gene Annotations?” Yes &gt; Select Single Dataset: Gene Names mapping table(obtained before)</p></li>
+<li><p>“Input Contrast information from file?”: No &gt; “Contrast”: Toe1-WT &gt; “Filter Low Counts”: Yes &gt; “Minimum CPM <em>”: 1 &gt; ”Minimum Samples</em>”: 3</p></li>
+<li><p>“Output Options:” &gt; Selected all</p></li>
+<li><p>“Advanced options:” &gt; “Minimum Log2 Fold Change *”: 1.0 (as they did on the paper) &gt; “Test significance relative to a fold-change threshold (TREAT)”: Yes &gt; Rest as Default</p></li>
+</ol>
+</section>
+<section id="appxG" class="level2">
+<h2 class="anchored" data-anchor-id="appxG">Appendix G: Results and Functional Analysis</h2>
+<p>Go back <a href="#diffExp">up</a>.</p>
+<p>The <code>gProfiler GOSt</code> tool will be used to assess the significance of enrichment for DE genes obtained compared to previously defined processes by the Gene Ontology Consortium.</p>
+<p>GOst needs a list of genes separated by spaces. It’s required to process the DE Table resulting from limma to get it.</p>
+<section id="obtaining-the-filtered-de-genes-list-from-de-tables" class="level3">
+<h3 class="anchored" data-anchor-id="obtaining-the-filtered-de-genes-list-from-de-tables">Obtaining the filtered DE genes list from DE Tables:</h3>
+<p>To filter this table and get only the significantly changed genes the adjusted <em>P</em> Value (column 7) and a logFC (column 3) are filtered to values which are considered significant:</p>
+<ol type="1">
+<li>First the tool: <code>Filter data on any column using simple expressions</code> is used on &gt; “Dataset Collection:” limma DE tables &gt; “With following condition:” <code>c7&lt;0.05 and (c3&gt;2 or c3&lt;-2)</code>&gt; “Number of header lines to skip”: 1</li>
+</ol>
+<blockquote class="blockquote">
+<p>This means to select only those genes with values below an adjusted <em>P</em> Value of 0.05 and a logFC over 2 or below -2. This filtered table is used later to create a merge with the table of “Normalised Counts” obtained from limma and whith the resulting document produce a the clustered heatmap in <strong>R</strong>.</p>
+</blockquote>
+<ol start="2" type="1">
+<li><p>Then <code>Advanced Cut</code> is performed to extract the 2nd column with the gene names&gt; “Dataset Collection:” output from step 1 &gt; Set “Operation” to ‘Keep’ &gt; fields &gt; tab &gt; select ‘Column: 2’</p></li>
+<li><p><code>Replace parts of text</code> was used to replace the ‘newline’ symbol of the list by a space &gt; “Dataset Collection:” output from step 2 &gt; “Find pattern”: <code>\n</code> (find newlines) &gt; “Replace with”: &lt;type a space&gt;, Set to Yes “Find-Pattern is a regular expression” and “Replace all occurences of the pattern”.</p></li>
+</ol>
+<p>The list of filtered (significantly changed) DE genes in one line, separated by spaces, was obtained.</p>
+</section>
+<section id="gprofiler-gost" class="level3">
+<h3 class="anchored" data-anchor-id="gprofiler-gost">gProfiler GOSt:</h3>
+<p>The <code>gProfiler GOSt</code> can now be run with the filtered gene list:</p>
+<ol type="1">
+<li>“Input” &gt; filtered DE genes list</li>
+<li>“Organism:” Common organisms &gt; “Common organisms:” Mus musculus (mouse)</li>
+<li>“Advanced Options:” set to Yes “Export plot”, the rest as default.</li>
+</ol>
+<p>The output of this tool is a table with the results of the functional enrichment analysis and a plot.</p>
+<blockquote class="blockquote">
+<p>The tool was ran again with the list of filtered DE genes in its <a href="https://biit.cs.ut.ee/gprofiler/gost">website</a> to extract the Manhattan plot that illustrates the enrichment analysis results containing the desired functions highlighted and the table. The relevant terms from each process were selected similarly to how it is shown in the following image:</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/BPselect.png" class="img-fluid figure-img"></p>
+<figcaption>Selecting GO:BP terms.</figcaption>
+</figure>
+</div>
+</section>
+<section id="heatmap-from-filtered-de-genes" class="level3">
+<h3 class="anchored" data-anchor-id="heatmap-from-filtered-de-genes">Heatmap from filtered DE genes:</h3>
+<p>To obtain a table that contains the “filtered DE genes” with the “Normalized Counts” that will be used for the heatmap the following steps are done:</p>
+<ol type="1">
+<li>The “filtered DE genes” are taken from the first column of the filtered table from step 1 of ‘Obtaining the <strong>filtered DE genes list</strong> from DE Tables’. This is performed by opening the <code>Advanced Cut</code> tool in Galaxy &gt; accessing that table as the file to cut within the Collections &gt; select Column:1 to obtain the Gene IDs</li>
+<li>Then <code>Join two Datasets side by side on a specific field</code> is used to join the Collection with the “filtered DE Gene IDs” previously created &gt; using column 1 &gt; with the Normalised Counts matrix dataset from limma &gt; and column 1 &gt; Setting <em>No</em> to incomplete, non matching lines and empty columns &gt; and <em>Yes</em> to “Keep header lines”</li>
+<li>Finally <code>Advanced Cut</code> is used on “Operation”: Discard to remove Columns 1 and 2.</li>
+</ol>
+<p>A matrix with genes in rows and samples in columns is obtained, from which a clustered heatmap was generated in Rstudio. The matrix is downloaded from Galaxy and read in Rstudio. When the heatmap was produced, the result with the resulting genes (~300) was too crouded, therefore, the top 150 most variable genes were chosen for visualization. The following were the steps followed to generate an adequate heatmap:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grid)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the data</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"~/Descargas/Galaxy573-[Advanced Cut on data 571].tabular"</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove empty gene names</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>df_clean <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Gene.name <span class="sc">!=</span> <span class="st">""</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Select the top 150 most variable genes</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>df_top150 <span class="ot">&lt;-</span> df_clean <span class="sc">%&gt;%</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sd =</span> <span class="fu">sd</span>(<span class="fu">c_across</span>(<span class="sc">-</span>Gene.name))) <span class="sc">%&gt;%</span>  <span class="co"># Calculate standard deviation across samples</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(sd)) <span class="sc">%&gt;%</span>                      <span class="co"># Sort genes by variability (high to low)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">150</span>) <span class="sc">%&gt;%</span>                    <span class="co"># Select top 150</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>sd)                                <span class="co"># Remove the sd column before plotting</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to matrix format</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(df_top150[,<span class="sc">-</span><span class="dv">1</span>])              <span class="co"># Exclude the Gene.name column</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(mat) <span class="ot">&lt;-</span> df_top150<span class="sc">$</span>Gene.name           <span class="co"># Set gene names as row names</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the heatmap as a high-quality PDF</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"heatmap_logFC_filtered.pdf"</span>, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">30</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Create heatmap object</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">pheatmap</span>(mat,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>              <span class="at">cluster_cols =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>              <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="fu">viridis</span>(<span class="dv">100</span>),</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>              <span class="at">fontsize_row =</span> <span class="dv">4</span>,               <span class="co"># Smaller font for gene names</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>              <span class="at">fontsize_col =</span> <span class="dv">10</span>,              <span class="co"># Larger font for sample names</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>              <span class="at">main =</span> <span class="st">"Top 150 Most Variable Genes"</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw the heatmap properly inside the PDF</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">::</span><span class="fu">grid.newpage</span>()</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">::</span><span class="fu">grid.draw</span>(p<span class="sc">$</span>gtable)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="appxH" class="level2">
+<h2 class="anchored" data-anchor-id="appxH">Appendix H: Workflow</h2>
+<p>Go back <a href="#abstract">up</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/Wflow.png" class="img-fluid figure-img"></p>
+<figcaption>Entire RNA-Seq workflow.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/WF1.png" class="img-fluid figure-img"></p>
+<figcaption>Workflow first part.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/WF2.png" class="img-fluid figure-img"></p>
+<figcaption>Workflow second part.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/WF3.png" class="img-fluid figure-img"></p>
+<figcaption>Workflow third part.</figcaption>
+</figure>
+</div>
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Toe1" class="csl-entry" role="listitem">
+Deng, Tingting, Xingxing Wu, Yujie Wang, Xiaoqin Fan, and Bing Hu. 2024. <span>“Toe1 Promotes Proliferation and Differentiation of Neural Progenitor Cells.”</span> <em>Heliyon</em> 10 (20): e39535.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
