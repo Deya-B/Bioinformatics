@@ -1,0 +1,246 @@
+---
+title: "Practical Exercise: Molecular Docking"
+subtitle: "Electronic laboratory notebook (ELN)"
+title-block-banner: true
+date: today
+date-format: "DD MMMM YYYY"
+format: html
+editor: visual
+bibliography: references.bib
+---
+
+## Introduction
+
+The transient receptor potential canonical 1 (**TRPC1**) is a protein that in humans is encoded by the TRPC1 gene. TRCP1 is a $Ca^{2+}$ and $Na^+$ permeable cation channel with a role in macrophage function and may play a role in phagocytosis [@alavi2024; @Chauhan2014]. The TRPC1 assemble as tetramers around a single central ion pore that is permeable to cations. When the gate is closed the tetramers are nonpermeable. Upon an activation stimuli the gate opens and results in the influx of $Ca^{2+}$ and $Na^+$.
+
+Excessive ion entry could trigger negative effects, such as neurological and cardiovascular disorders. There are many small-molecules that are TRPC channel modulators, some of which have revealed new biological functions of TRPC channels [@Bon2022].
+
+### Objectives
+
+In this practice, we intended to explore the extent and types of binding interaction present between **TRPC1 channel** with the anti-hypertensive drug **telmisartan** and the anti-inflammatory drug **pranlukast**. For this, we will perform molecular docking on the TRPC1 against both ligands.
+
+**Molecular Docking** is a computational technique used to predict the interaction between a ligand and a receptor (the protein TRPC1 channel, in this case). There are many different techniques to achieve this, we will use a structure-based method.
+
+The aim is to get some insights on the affinity and possible biological activity between these ligands and the protein. For this we will perform a detailed analysis of the molecular interactions and identify key interactions that stabilize the complex. In this way, we will identify the best orientation, position and conformation of the ligand at the receptor binding site.
+
+## Methods
+
+### Adquiring and preparing the ligands
+
+#### Ligand Files:
+
+The [Telmisartan](https://pubchem.ncbi.nlm.nih.gov/compound/65999) and [Pranlukast](https://pubchem.ncbi.nlm.nih.gov/compound/4887) ligands' structures were obtained from PubChem by downloading the 3D structure in .SDF format for both.
+
+As a reference, we will use the drug Pico145 (PICO145.pdb \[provided\]), which is the classical selective inhibitor of this channel. Therefore its binding site will serve as guide to compare it with our candidate drugs.
+
+#### Ligand optimization:
+
+> In order to improve docking results and obtain better docking poses, we need to correct the ligand geometry and reduce energy:
+>
+> -   Correcting Geometry is required because the initial molecular structure from databases or drawing software might have poor bond angles, incorrect torsions, or steric clashes. Optimization ensures that the structure is physically realistic.
+> -   We need to reduce the energy since unoptimized structures often have high potential energy due to strain in bonds and angles. Minimization stabilizes the molecule by placing it in a low-energy conformation that is more likely to be biologically relevant.
+
+**Avogadro** for ligand structure minimization: Avogadro was used to minimize the .SDF structures, and provide them with an adequate conformation. This was performed following these steps:
+
+1.  File \> Open \> Conformer3D_Telmisartan.sdf / Conformer3D_Pranlukast.sdf
+2.  Selecting Auto Optimization Tool \> Force Field MMFF94\* \> Start
+
+With this we run the tool, the goal is to reduce the total potential energy of the molecule to a stable minimum. This was run until a value close to 0 (RMS gradient below 0.01-0.05 kcal/mol·Å) was obtained, which indicates convergence to a stable conformation.
+
+![*Figure 1. Auto Optimization Tool running*](/images/autoOptTool.png){fig-align="center" width="500"}
+
+3.  Once ready, the ligands were saved as *ligand_name*\_avogadro.pdb file.
+
+> \* *NOTE*: The MMFF94 force field is used because it is particularly good with small organic molecules. Therefore it is ideal for drug-like compounds, since it has been specifically parameterized for these. It provides good estimates of bond lengths, angles, torsions, and non-covalent interactions (van der Waals & electrostatics).
+
+### Adquiring the protein
+
+The protein used for this exercise corresponds to the provided file TRPC1.pdb.
+
+[8WPL:](https://www.rcsb.org/structure/8WPL)\
+{{< mol-rcsb 8WPL >}}
+
+*3D Image. This is the Cryo-EM structure of the human TRPC1/C4 heteromer.*
+
+### Preparing the structures for docking
+
+The following steps were performed on:
+
+-   TRPC1 - Receptor
+-   Pico145 - Reference Ligand
+-   Telmisartan - Test Ligand 1
+-   Pranlukast - Test Ligand 2
+
+We use **Chimera** to perform the **Dock Prep** of all these structures.
+
+1.  In the main menu we enter into File \> Open and we selected the raw .pdb files one by one. Then in Tools \> Surface/Binding Analysis \> Dock Prep:
+    -   We use the standard options for the ligands in all the menus. With the exception of pranlukast, where we removed the option *Add hydrogens* because we observed that this was changing and affecting the origninal structure of our ligand.
+    -   We leave the standard options for the protein except that we change from Gasteiger to AM1-BCC in the option *Other residues* on the third window.
+    -   For the ligands, there is a 4th menu that indicates to Specify Net Charges. Looking at the PubChem entry for all three ligands, we observed that they all had a neutral net charge (0) at physiological pH. Therefore when preparing the structures for docking, the Net Charges were left on +0.
+2.  On the last menu the structures were saved as *name*\_dockprep.mol2
+
+> \* *NOTE*: Between the different structures, we closed sessions by entering in File \> Close Session and started Dock Prep form the beginning.
+
+### Docking
+
+1.  In the main menu we enter into File \> Open and we select the docking files. First, we open the protein and afterwards one of the ligands.
+
+2.  Once we had opened both molecules we would like to bring the ligand close to the protein. To do this, we go to Favorites \> Model Panel and unclick the first columns of the protein so that can only move the ligand.
+
+3.  Once we do this, we use the button of the center of the mouse to pick the ligand up and move it near the protein. To do better aproximations to the protein, we could click the previous unclicked box in Favorites \> Model Panel to rotate both the protein and the ligand. We repeat the previous steps until the ligand is situated where we want it (see Figure 2).
+
+![Figure 2. Protein and ligand](/images/imagen_docking_8.png)
+
+4.  Now we can perform the **Docking** by entering in Tools \> Surface/Binding Analysis \> Autodock Vina.
+
+5.  In the menu that appears, we have to select the receptor and the ligand. Then indicate where the file will be saved using *Browse* and introduce the center and size of the box.
+
+    -   The first time we do this, we have to introduce in center and size any combination of 6 numbers (such number 10, repeated six times).
+    -   The aim is to get a box with the covering the area where the possible cavity ligand binding site is situated within the protein.
+    -   To do this we move the box using the same method we used to move the ligand. To resize the box we do it by using the central button of the mouse and pulling.
+
+![Figure 3. Grid box](/images/imagen_docking_10.png)
+
+6.  Once we have the box in the position we save the coordinates:
+
+|                   |                   |                   |
+|-------------------|-------------------|-------------------|
+| center_x = 148.28 | center_y = 171.90 | center_z = 152.82 |
+| size_x = 98.86    | size_y = 65.73    | size_z = 96.86    |
+
+> \* *NOTE:* These coordinates were used for all consecutive dockings in order to obtain standardized results.
+
+7.  We click *Ok* for the program to run.
+
+Once the program runs, we will obtain a window with the results, which we can save.\
+We also obtain three files, the ones we will use are: *name*.receptor.pdbqt, which contains the protein and *name*.pdbqt, which contains the ligand in 10 different positions.
+
+### View interactions
+
+We will use **Discovery Studio Visualizer** to analize the interactions between the ligand and the protein.
+
+1.  We need to convert the files *name*.pdbqt and *name*.receptor.pdbqt to .pdb, since Discovery Studio works with .pdb files.
+    -   To convert these files we use Pymol:
+        -   We open one of the files in Pymol.
+        -   File \> Export Structure... \> Export Molecule...
+        -   In the menu that appears we select all and 0 and we save as pdb.
+        -   We repeat this for all the files.
+
+> \* *NOTE:* this could be also done using the command-line with `save name_of_ligand.pdb, all, 0`.
+
+2.  The ligand and receptor files are then opened in Discovery Studio. This will open two windows, one for the receptor another for the ligand.
+
+3.  We take the ligand by entering its window, right clicking and choosing the option *Copy*, then we can *Paste* it in the window of the protein.
+
+4.  We can take a look at the ligand by rotating with the right click of the mouse and zooming with the center button of the mouse.
+
+5.  To select the ligand we open the arrowed window in Figure 4:
+
+![Figure 4. Discovery](/images/discovery1.png)
+
+6.  Here we can observe the different structures present and we can change between ligand models by clicking on them.
+
+7.  We need to click in 'allLigands' and go to the menu on the left to choose the option *Define Ligand* so we can see the interactions.
+
+8.  Then, by entering in *Ligand Interactions* and selecting *Show Distances* and *Show Types* we can study the diferent type of interactions with their strengths.
+
+## Results
+
+### Results of docking for Pico145
+
+We obtained the following table from docking:
+
+![Table 1. Docking results for all conformations of Pico145](/images/tabla_results_pico145.png){fig-align="center" width="200"}
+
+Observing this results we can already see that there is a marked difference between the first conformation and the rest. We assesed the interactions of the first 2 ligand conformations in Discovery and confirmed that the first had stronger and better interactions. Shown below:
+
+![Figure 5. Pico145 2D diagram with all the interactions](/images/pico145interactions.png){fig-align="center" width="600"}
+
+-   The most important interactions present are **hydrogen bonds** (specially Conventional but also Carbon). These are numerous and present very strong interactions ranging from 2 to less than 4Å in distance.
+-   There is a Halogen (Fluorine) interaction which is rather strong also, with a distance of 3.61Å.
+-   Electrostatic and hydrophobic interactions are in a minor number and play a lesser roll, but the majority of them are significant with a distance of less than 5Å.
+
+### Results of docking for Telmisartan
+
+The docking of Telmisartan produced the following results:
+
+![Table 2. Docking results for all conformations of Telmisartan](/images/tabla_results_telmisartan.png){fig-align="center" width="200"}
+
+The first and second conformations were positioned well and very close to each other. We analized both of them further in the Discovery Studio, and we concluded that the first had the best interactions, which are the following:
+
+![Figure 6. Telmisartan 2D diagram with all the interactions](/images/telmi_inter2.png){fig-align="center" width="600"}
+
+-   There are three key interactions with hydrogen bonds, which are very strong with distances of 2.13, 2.64 and 2.89Å, situated at each side of the ligand.
+-   Hydrophobic interactions are present at a higher number (magenta and pink), but they are rather weak.
+    -   In magenta we have a Pi-Hydrophobic area at the lower side of the image where most aromatic rings are forming Pi-Pi stacked interactions, situated face to face, and one exhibits Pi-T shaped interaction. Between these, half of them are strong enough to be significant, with distances lower than 5Å.
+    -   In pink we have Alkyl and Pi-Alkyl interactions which are numerous, but only half of them have a considerable stabilizing distance of less than 5Å.
+-   There is a Pi-Anion electrostatic interaction between the second aromatic ring with nitrogens and an oxigen present in the protein with a distance of 4.01Å which confers some stability to that area.
+
+### Results of docking for Pranlukast
+
+The docking results are:
+
+![Table 3. Docking results for all conformations of Pranlukast](/images/tabla_results_pranlukast.png){fig-align="center" width="200"}
+
+Since these results are very similar we observed the first 5 conformations in detail with Discovery Studio.\
+They were situated correctly, with no bizarre positioning, and they were in the same binding site. However, by looking at the interactions we noticed that the first conformation had a strong unfavourable interaction (donor-donor clash), and between the 2nd and the 5th the best interactions were found on the 2nd configuration. These are shown in the following 2D diagram:
+
+![Figure 7. Pranlukast 2D diagram with all the interactions](/images/pranlukinteractions.png){fig-align="center" width="600"}
+
+-   There are 2 Conventional hydrogen bonds with distances of 2.42 and 2.44Å.
+-   There are 4 hydrophobic interactions at distances near to 5Å, what makes them weaker but may still help to stabilize the ligand binding.
+-   The last interactions are a Pi-Cation electrostatic interaction and a Carbon hydrogen bond (which is weaker than conventional hydrogen bond).
+
+### Analysis of the binding sites
+
+Analyzing the binding site for all conformations of Pico145 we noticed that the 5 out of 10 models situated at the site marked in gold in Figure 8, what makes you consider this site should be somehow significant.
+
+If we compare the positions that the optimal conformations of Telmisartan and Pranlukast took compared to this "golden standard" chosen by the reference (Pico145), we can observe that only Pranlukast bound to the same binding site (golden) as Pico145, whilst Telmisartan preferred site was on a different area (red) and none of it's conformations were in the golden site.
+
+![Figure 8. Binding cavity, in gold where most conformations of Pico145 attached](/images/bindingsite.png){fig-align="center"}
+
+On the other hand, when comparing all the sites chosen by the different conformations of Telmisartan and Pico145 we noticed that model 3,7 and 10 of Telmisartan chose a position that models 7 and 10 of Pico145 also found:
+
+![Figure 9. Alternative binding site, Telmisartan and Pico145 together](/images/cavity2.png){fig-align="center" width="500"}
+
+![Figure 10. Alternative binding site, close view](/images/cav2closeup.png){fig-align="center" width="400"}
+
+Therefore, our conclusion is that despite it seems that Pico145 and Telmisartan bind to totally different sites, they might not. Here is why, the protein we are using is made of 4 chains that are similar, if not identical, made up by 4 subunits of TRCP1 that form the channel. If we analize the protein seen from above with different ligands, we can see certain symmetry in the binding sites. This makes us think that Pico145 and Telmisartan might bind to the same zone but in different subunits of the protein. We can see in Figure 11 Pico145 in green, Telmisartan in pink and Pranlukast in blue. They seem to bind in the same region but in different subunits.
+
+![Figure 11. Binding sites of Pico145 (green), Telmisartan (pink) and Pranlukast (blue) seen from above](/images/cavityTOPview.png){fig-align="center"}
+
+When switching to a side view, the positioning are at similar heights, implying that they occupy similar positions in the subunit. These small variations in positioning within the subunit may have different effects on the phramacodynamic behaviour of the different ligands and should be studied further.
+
+![Figure 12. Binding sites of Pico145 (green), Telmisartan (pink) and Pranlukast (blue) seen from the side](/images/cavitySIDEview.png){fig-align="center"}
+
+## Discussion
+
+1.  **Interpretation of Binding Affinities and RMSD:**
+
+    -   *What conclusions can you draw from the obtained values?*
+
+        We can clearly see from the binding affinities that pico145 has only one conformation that can be trusted, since the second pose has a considerable higher binding energy.\
+        With respect to Telmisartan, the first two poses have a low binding energy, even less than Pico145, and the RMSD between them is low, so the results are more than acceptable.\
+        Pranlukast is the one with higher binding energy of its best pose, but not by far. The following two poses have a similar energy than the first, and the RMSD is about 2 in the second pose, and 2.6 in the third. Due to the previously explained unfavourable interaction in the first pose, the best one is the second, which has less RMSD than the third (that could have been an option too). When analyzing results further than second or third pose, binding energy increases, as so it does RMSD in some poses (meaning that the ligand has bound in another region), making this poses not reliable enough to consider them at first sight.
+
+2.  **Molecular Interactions:**
+
+    -   *What types of interactions were observed, and which seem most relevant for complex stability?*
+
+        All ligands have similar types of interactions, varying in number. As the ligand structures are based on aromatic rings and cycles, which are highly hydrofobic, these interactions tend to dominate, despite not being the strongest. Of all of them, we think that pi-pi stacked interactions may be the most important, as the interaction surface is bigger than in pi-pi T-shaped interactions or pi-alkyl interactions. Probably because of this (but not totally), Pico145 and Telmisartan have less binding energy than Pranlukast, which has no pi-pi stacked interactions.
+
+        Regarding the rest of interactions, namely electrostatic and hydrogen bonds, these change between ligands. Pico145 has 2 electrostatic interactions (pi-cation and pi-anion), while the rest have only one (pi-anion in Telmisartan and pi-cation in Pranlukast). This subtle difference may have an impact on stability as well.
+
+        As it is known, the main stabilizing interaction in proteins and ligand-receptor interactions are conventional hydrogen bonds, so they are the most relevant. Pico145 has only one with ARG 448 (there is another in Figure 5 between a fluor atom and TYR 2603, but with a distance of 4.99, a much longer distance than usual, so we will not take it into account), while the other ligands have two. This would seem counterintuitive, as the more hydrogen bonds exists, the more stable might be the interaction, so in this aspect Pico145 should have a less stable union. But despite being strong and important interactions, they are not the only ones with capacity to stabilize the binding. Unconventional hydrogen bonds (CH-bonds) might play an important role, as Pico145 has by far more of this interactions than the other ligands, and if we add the rest of interactions previously ananlyzed, the binding site of Pico135 is full of interactions. Furthermore, halogen interactions are present in Pico145 due to its Fluor atoms, what makes the binding more stable yet. This advantage due to a higher number of interactions can explain the less binding energy of Pico145 compared to Pranlukast, despite having only one hydrogen bond, but Telmisartan has even lower energy than both, maybe due to this extra conventional hydrogen bond.
+
+        With respect to the spatial distribution of interactions, Pico145 and Telmisartan are surrounded by them, what makes the union more stable, since no parts of the ligands are free to move and interfere with stability. On the contrary, Pranlukast (at the same time as having lower number of interactions) has the majority of interactions on one side of the ligand, what may make the binding more unstable (reflecting the higher binding energy compared to Pico145 and Telmisartan).
+
+3.  **Candidate Selection:**
+
+    -   *Compared to the standard compound PICO145, which drug could be more suitable to propose as a new candidate?*
+
+        As we have seen, Telmisartan has overall better interactions and binding energy than Pranlukast, but binds in a different subunit of the protein (despite possibly being in a similar zone in the respective subunit). If we consider the binding site and interactions of Pico145 as the main driver of pharamcologycal activity, we must compare the interactions between the ligands and the gold standard and see which of them shares more of this interactions. The resiudes participating in Pranlukast binding are the six that can be seen in Figure 7, being 4 of them also in Pico145 Interactions: TYR 2336 (pi-pi stacked in Pico145 and pi-pi T-shaped in Pranlukast), LEU 2452, LEU 2599 and ARG 2448 (Hydrogen bond in both of them). This tells us that Pranlukast fits in the same binding site that Pico145, but in a less specific or stable way. Despite not fitting as well as the reference, if the inhibitory effect resides in that specific site, Pranlukast might be the best option, while having a less prominent effect (but it could maintain some allosteric affect).
+
+        Is true that Telmisartan does not bind to this sepcific site, so we can not easily compare how many resiudes or interactions are shared with the standard as we did with Pranlukast, but we can make a brief comparison. Of the 12 residues conforming the binding site of Pico145, only 5 are present in the Telmisartan site (in the sense that if pico145 site has a Gly, the other site has one Gly too). This might tells us that the binding site of Telmisartan is not the same as the Pico145 but in another subunit, because if the subunits are the same TRCP1, independently of the chain, the same pockets must have the same residues, which is not the case. Is true that some of them are shared, so the binding site of Telmisartan might be near to that of Pico145. Nevertheless, the binding energy is very low and there are good and numerous interactions, so this site might be appropiate to Telmisartan, but we do not know if this sligh difference in positioning can change the allosteric effect of the ligand. To verify this, enzymatic inhibition studies could be done *in vitro* and see if this ligand has less, similar or more inhibiting effect than Pico145.
+
+### References

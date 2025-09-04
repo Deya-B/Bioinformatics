@@ -1,0 +1,249 @@
+---
+title: "Structural Bioinformatics"
+subtitle: "Electronic laboratory notebook (ELN)"
+title-block-banner: true
+format: html
+published-title: 05-03-2025
+date-format: short
+editor: visual
+bibliography: references.bibtex
+---
+
+# UAM CASP competition
+
+## Objectives
+
+This is a [CASP-like](https://en.wikipedia.org/wiki/CASP) exercise. The objective is to achieve the best possible predicted structure for at least three sequences using state-of-the-art protein modeling methodologies.
+
+The main goal is not creating the model itself, but rather extracting valuable information from it, whether that be structural, functional, evolutionary, or biomedical insights.
+
+## Sequence 1: Human Orai1 Ca+2 channel
+
+The sequence for this protein can be found with the Uniprot ID Q96D31.
+
+#### 1.1 Background information
+
+The **human Orai1 channel** is a type of ion channel found in the plasma membrane of human cells that mediates the entry of calcium ions into the cytoplasm of the cell from the extracellular space [@Peinelt2006].
+
+When intracellular calcium stores from the endoplasmic reticulum (ER) are depleted, the **STIM1** (stromal interaction molecule 1) protein, which senses calcium store depletion, triggers this process and activates Orai1 channel to open. This process is known as store-operated Ca2+ entry (SOCE) [@Stathopulos2013; @Hogan2015], and it is well ilustrated through Figures 1 to 3.
+
+![[**Figure 1**. STIM1 and Orai1 domains](https://pmc.ncbi.nlm.nih.gov/articles/PMC3927877/#sec7):\
+(a) Domain architecture of human STIM1.\
+(b) Domain architecture of human Orai1. Residue ranges are indicated above the domain diagram. The yellow box delineates the fragment shown in *Figure 2*.](/images/StimOraiDomains.png){fig-align="center" width="700"}
+
+![[**Figure 2**. STIM-Orai association pocket (SOAP)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3927877/#sec7):\
+Upon sensing low calcium levels, STIM1 undergoes a conformational change and translocates to the plasma membrane, where it binds to and activates Orai1 channels.](/images/STIM-Orai_assiciation.png){fig-align="center" width="500"}
+
+![[**Figure 3**. Model of STIM1 and Orai1 activatio and clustering](https://www.pnas.org/doi/full/10.1073/pnas.1118947109): In the resting state, the STIM1 molecule mainly exists as a dimer. Calcium depletion induces dimerization or oligomerization of STIM1-N, forming the dimeric SOAR. The active STIM1 dimer may directly couple to and activate the Orai1 channel on the plasma membrane (PM) [@Yang2012].](/images/Stim1Orai1.jpeg){fig-align="center" width="500"}
+
+Orai proteins constitute a highly conserved ion channel family that differ markedly from other ion channels, with no clear sequence homology [@Feske2006], suggesting distinctive architecture and mechanisms.
+
+Orai1 forms **hexameric** channels consisting of **six Orai subunits** arranged around a central axis. From sequence analysis, each subunit have four transmembrane α-helices (M1-M4) and a helix continuous to M4 that extends into the cytosol (M4 extension helix). The ion pore presents centered in the channel along the six-fold axis. The transmembrane helices are arranged in three concentric rings [@Hou2012].
+
+We have the Orai from *Drosophila melanogaster* as reference which shares 73% sequence identity with human Orai1 (see Figure 4).
+
+![**Figure 4**. Architecture of Orai from the crystal structure of *Drosophila melanogaster* [@Hou2012].](/images/cristal_structure.png){#fig-drosoph .unlisted fig-align="center"}
+
+#### 1.2 Model Generation
+
+The following are two possible isoforms of Orai1, named alfa and beta, obtained from [Uniprot](https://www.uniprot.org/uniprotkb/Q96D31/entry#sequences).
+
+```         
+>sp|Q96D31|ORAI1_HUMAN Calcium release-activated calcium channel 
+protein 1 OS=Homo sapiens OX=9606 GN=ORAI1 PE=1 SV=2
+MHPEPAPPPSRSSPELPPSGGSTTSGSRRSRRRSGDGEPPGAPPPPPSAVTYPDWIGQSY
+SEVMSLNEHSMQALSWRKLYLSRAKLKASSRTSALLSGFAMVAMVEVQLDADHDYPPGLL
+IAFSACTTVLVAVHLFALMISTCILPNIEAVSNVHNLNSVKESPHERMHRHIELAWAFST
+VIGTLLFLAEVVLLCWVKFLPLKKQPGQPRPTSKPPASGAAANVSTSGITPGQAAAIAST
+TIMVPFGLIFIVFAVHFYRSLVSHKTDRQFQELNELAEFARLQDQLDHRGDHPLTPGSHY
+A
+
+>sp|Q96D31-2|ORAI1_HUMAN Isoform beta of Calcium release-activated 
+calcium channel protein 1 OS=Homo sapiens OX=9606 GN=ORAI1
+MQALSWRKLYLSRAKLKASSRTSALLSGFAMVAMVEVQLDADHDYPPGLLIAFSACTTVL
+VAVHLFALMISTCILPNIEAVSNVHNLNSVKESPHERMHRHIELAWAFSTVIGTLLFLAE
+VVLLCWVKFLPLKKQPGQPRPTSKPPASGAAANVSTSGITPGQAAAIASTTIMVPFGLIF
+IVFAVHFYRSLVSHKTDRQFQELNELAEFARLQDQLDHRGDHPLTPGSHYA
+```
+
+We used the first one since that isoform is the one which has been chosen as the **canonical** sequence.
+
+There are many different protein folding options, we tried the following:
+
+1.  **ColabFold** available via [Google Colab](https://github.com/sokrypton/ColabFold?tab=readme-ov-file#making-protein-folding-accessible-to-all-via-google-colab): ([ColabFold v1.5.5: AlphaFold2 using MMseqs2](https://colab.research.google.com/github/sokrypton/ColabFold/blob/main/AlphaFold2.ipynb#scrollTo=kOblAo-xetgx)). We tested this Google Colab for **AlphaFold2**. We could easily introduce the sequence formed by six subunits by inserting `:` to specify inter-protein chainbreaks in between the six repetitions of the sequence, and in this way indicate the program that we want to create a Homo 6-mer with the total length of 1806aa.
+
+    However, due to the lenght and complexity of the structure the GPU usage limits were exceeded every time we tried. The only thing we could get was the sequence coverage:
+
+    ![](/images/seqCoverageColab.png){width="400"}
+
+    > We also tried using a template and an MSA with the known part of the Orai1, which is predicted in PDB ([4EHQ](https://www.rcsb.org/structure/4EHQ)) with no success, since the program did not generate a hexamer but only a hetero dimer.
+
+2.  [**SwissModel**](https://swissmodel.expasy.org/): we entered the sequence and runned the search with default parameters, obtaining three models. One of them we immediately disregarded it since it was the monomer. The other two were examined with caution. Both had similar **GMQE** (global model quality estimate), which is as low as **0.37**, and had also a low **QSQE** of **0.58** (quaternary structure quality estimate).
+
+    ![**Figure 5**. Orai1 moldeled by [SwissModel](https://swissmodel.expasy.org/assess/wL8pGZ/03)](/images/swissmodel.png)
+
+3.  [**AlfaFold-3 server**](https://alphafoldserver.com/): we used the server of AlfaFold-3 with the following parameters:
+
+    -   **Orai1 channel**: we made this run asking for a model with 6 copies of the given protein.
+
+        -   [Results](https://alphafoldserver.com/fold/5a23f0ebff07de28):
+
+            ipTM = 0.64; pTM = 0.65 ([interpretation](https://alphafoldserver.com/faq#how-can-i-interpret-confidence-metrics-to-check-the-accuracy-of-structures))
+
+            ![**Figure 6**. Orai 1 predicted by Alfafold-3 showing the predicted local distance difference test (pLDDT) and the expected position error per assigned residue graph.](/images/OraiAF3-4.png)
+
+            > The **pLDDT** is a **per-atom confidence score** ranging from 0 to 100, where higher values indicate higher confidence in the predicted structure. It estimates how well each atom's position aligns with a potential true structure, with color-coded outputs.\
+            > On the other hand the **pTM** (Predicted Template Modeling) score measures the **overall accuracy** of the predicted fold. A score above 0.5 suggests a potentially correct fold, while lower scores indicate low confidence.\
+            > Lastly **ipTM** (Interface pTM) score evaluates how well subunits in a protein complex interact. Above 0.8 we have a reliable prediction, between 0.6 - 0.8 we are uncertain and below 0.6 the prediction is likely incorrect.
+
+            Since we have this large structure the overall score stimates are more useful to get an idea of how confident we can be about this result. Therefore we will examine these first:
+
+            -   Our structure showed a pTM of 0.65, which, according to the above, it indicates a potentially correct fold.
+            -   On the other hand, the iPTM was 0.64, which is within the range of uncertainty, almost touching the threshold of a likely incorrect prediction.
+
+            With regards to the pLDDT we can observe (see *Figure 8* for a more detailed view) that a large area of the structure exhibits a confident prediction (light blue), with small touches of very high confidence (dark blue). However, many areas show low (orange) to very low (orange) confidence.
+
+            ![**Figure 7**. Orai 1 predicted by Alfafold-3. An orthogonal view of the channel presumably from the extracellular side](/images/OraiAF3-2.png)
+
+            ![**Figure 8**. Orai 1 chanel predicted by Alfafold-3 from the side](/images/OraiAF3.png)
+
+    -   **Orai1 channel with Ca²⁺**: In this run we included a Ca²⁺ Ion to the model.
+
+        -   [Results](https://alphafoldserver.com/fold/521c600426794d4a):
+
+            With the calcium addition we obtained a slight improve in prediction. There was an increase of 0.01 in both overall parameters: ipTM = 0.65 and pTM = 0.66
+
+            Also, in the *Figure 9*, is observable that the small touches of very high confidence (dark blue) increased.
+
+            ![**Figure 9**. Orai 1 + Ca²⁺ (not showing) predicted by Alfafold-3 side view](/images/Orai1_Ca2.png)
+
+            ![**Figure 10**. Orthogonal view of Orai 1, also showing is the Ca²⁺ ion (orange sphere), predicted by Alfafold-3](/images/Orai_Ca.png)
+
+    -   **Orai1 + STIM1**: In this run we included a dimer of STIM1, which has the following sequence:
+
+        ```         
+        MDVCVRLALWLLWGLLLHQGQSLSHSHSEKATGTSSGANSEESTAAEFCRIDKPLCHSEDEKLSFEAVRNIHKLMDDDANGDVDVEESDEFLREDLNYHDPTVKHSTFHGEDKLISVEDLWKAWKSSEVYNWTVDEVVQWLITYVELPQYEETFRKLQLSGHAMPRLAVTNTTMTGTVLKMTDRSHRQKLQLKALDTVLFGPPLLTRHNHLKDFMLVVSIVIGVGGCWFAYIQNRYSKEHMKKMMKDLEGLHRAEQSLHDLQERLHKAQEEHRTVEVEKVHLEKKLRDEINLAKQEAQRLKELREGTENERSRQKYAEEELEQVREALRKAEKELESHSSWYAPEALQKWLQLTHEVEVQYYNIKKQNAEKQLLVAKEGAEKIKKKRNTLFGTFHVAHSSSLDDVDHKILTAKQALSEVTAALRERLHRWQQIEILCGFQIVNNPGIHSLVAALNIDPSWMGSTRPNPAHFIMTDDVDDMDEEIVSPLSMQSPSLQSSVRQRLTEPQHGLGSQRDLTHSDSESSLHMSDRQRVAPKPPQMSRAADEALNAMTSNGSHRLIEGVHPGSLVEKLPDSPALAKKALLALNHGLDKAHSLMELSPSAPPGGSPHLDSSRSHSPSSPDPDTPSPVGDSRALQASRNTRIPHLAGKKAVAEEDNGSIGEETDSSPGRKKFPLKIFKKPLKK
+        ```
+
+        -   [Results](https://alphafoldserver.com/fold/6c618c34194fa598):
+
+            In this case, our prediction decreased to scores that indicate an unreliable prediction: ipTM = 0.46 and pTM = 0.48.
+
+        ![**Figure 11**. Orai 1+STIM1 predicted by Alfafold-3. Arrowed are the two STIM1 monomers](/images/orai1_stim1.png)
+
+#### 1.3 Conclusions
+
+We can conclude that the best model produced was that of the **Orai1 channel with Ca²⁺**, which increased confidence as we can see in *Figure 9*. We could also compare *Figure 10* with that obtained by the crystal structure of Orai1 from *Drosophila melanogaster* which shares 73% sequence identity (see figure @fig-drosoph):
+
+![](/images/oraiDrosophila.png){width="300"}
+
+![](/images/Orai_Ca.png){width="400"}
+
+These have a very similar appearance. We tried to do an alignment in PyMOL of these structures, however when the [4HKS](https://www.rcsb.org/structure/4HKS) which corresponds to the *Drosophila melanogaster* was fetched, we realized that only the monomer is summoned, therefore the alignment was not possible.
+
+## Sequence 2: One candidate selection
+
+```         
+MBE6593352.1 MRSTYRDRSLRQRFVFLPYQMKNIDTNINIKEKAMKKALLALLTLGTIITLLLCGCSSEGKEPAATEGQTQ
+KPTEQGANTGSYVVSTMSELRALEPRESSALVVLKGYHSANDGGGGTFYYDAASELEPDGALVIKCESTGG
+RFVRDREENYVNVKWFGAKGDGKTDDTAALQAAISSLGTGGGTVSLPGGNYAISAPLTIGDGDSGEKVSST
+HGVKLIGMGGGFSHNVAAATTIKATAEIDNMLVLRGRISDCEIGGIYFNANNKAKTCLSLNSFSGCYFHNV
+KAMGFTDIGIKAIAGTAPTGNYNIYNRFESVNVTCLSDKTTGILFDGHYGDHNDTWLTVLSDCRFDTAQSE
+NSVAAHFKFVDSISFYRCHFNTYKESSTGAVFDALDNHNFPCGMAFHDCSMTSHDVWEDSTHTIRKQYFYG
+FGTYDNEQIPTHPKLIGMTDMGDFFNIDAIDLLLSGNKGEDGTEEDNGEFTLPAKSGRVDTDNSTGASEHH
+NLKNGDKLAVLVNAKNKLVGGSFYLSSYDNSIGTIKFDVYKWDTDYATTVAGEILASDTALNFKDNSQFEA
+KFDGLSSGYYLIVISGTAPDDDFGVAVWTRGKSMTSVTFKNGNRIEAGLRGQFITE
+```
+
+#### 2.1 Background information
+
+If we search the identifier MBE6593352.1 in the [NCBI](https://www.ncbi.nlm.nih.gov/protein/MBE6593352.1/), the result is: hypothetical protein E7642_05100 \[*Ruminococcaceae bacterium*\], but no information seems to be provided about the protein or its function. Thus, we did a BLAST search to find homologs that could give some information about its function, as homologous proteins might have similar functions. A pBLAST was conducted with RefSeq database as target. The best result by far was glycoside hydrolase family 55 protein \[*Cohnella silvisoli*\], a bacterial enzyme that degrades extracellular matrix (biofilm) and allows the bacteria to disperse. But if we search a general structure for glicoside hydrolases, they are not similar to the models that we will analyze, so despite having good sequence similarity, the function does not to be similar.
+
+That is why we performed a pBLAST but using PDB as target database, to search for sequences with structural data, and it yielded as first result the alginate epimerase/lyase from *Azotobacter chroococcum*. The structure is much more similar to our models, but we can not say that our protein could have an epimerase or lyase function. For that, we have to make protein models.
+
+#### 2.2 Model generation
+
+We tried two different modelling methods: homology modelling with SWISS-MODEL and Machine learning modelling with Chai 1.
+
+1.  **SWISS-MODEL**: available [here](https://swissmodel.expasy.org). We entered the sequence and directly run the prediction (as by default the best templates are selected). The best five templates have less than 25% identity, so the reliability of the models is low. The QmeanDISCO Global score is 0.46 for all of them, confirming the low reliabilty/quality of the models. Model structure and pLDDT agrees with the scores, as we can see in the following image:
+
+![**Figure 12**. SWISS-MODEL prediction](./images/Protiena_rara_1_swissmodel_monomer.png)
+
+Only a few regions have blue tones, but the majority of the protein has low quality. Surprisingly, 4 of the 5 best models were homotrimeric structures. Again, the identity percentage was low, as so were quality scores and pLDDT. The reason of this low quality is the lack of structural data compared to sequence data. When making a sequence alignment, other proteins would fit better as templates due to a higher identity and coverage, but no structural information exists for this sequences. Thus, only proteins with structural data available can serve as templates, and in this case those sequences might not be homologous, giving low quality models. For this reason, using Machine Learning algorithms or PLMs would provide better models.
+
+2.  **Chai 1**: available [here](https://lab.chaidiscovery.com/dashboard). In this case, several procedures have been used. Chai 1 allows to use MSA information and template search for better models, but first, we only used the language model, without MSAs or template search. As Swiss-Model provided trimeric structures (although low quality ones), we analyzed models with 1 and 3 copies of the protein (number of copies can be set).
+
+    -   1 copy: visually the models is much better than those obtained by Swiss Model, and pTM is 0.66, so we can say that the model is probably correct (as discussed earlier).
+
+    ![**Figure 13**. Chai 1 prediction (1 copy)](./images/chai1_1_copy.png)
+
+    As we can see, the pLDDT scores seems to be much better, despite having regions with lower quality. The first part of the protein, and the region between 400 and 500 have the least confidence, but the rest of the structure can be considered to be good. As we are working only with one subunit, no ipTM score is given.
+
+    -   3 copies (homo-trimer): despite having a pTM of 0.65 and being visually similar to the previous model, its ipTM is 0.56, which means that the model might be incorrect. The monomer quality is maintained, but the interaction of subunits is not correct, giving the impression that a homotrimer is an improbable structure.
+
+    ![**Figure 14**. Chai 1 prediction (3 copies)](./images/chai1_3_copy.png)
+
+Now, we will analyze the models made with MSAs and template search, which are slower but can give better results. As before, we will make a monomer and a homotrimer.
+
+-   1 copy: we can see a substantial improvement of the model, having a pTM of 0.76, which makes the model more reliable. The 400 to 500 region that had more predicted error has been solved, but not the first part.
+
+![**Figure 15**. Chai 1 prediction (1 copy with MSAs and template search)](./images/chai_1_MSAs_1_copy.png)
+
+-   3 copies: in this case, pTM is 0.78 but ipTM is 0.74, making the structure much better and reliable. Despite being in the uncertainty region, it is near 0.8, so we can assume a possibly correct structure. Unlike before, we can not discard with confidence the possibility of an homotrimeric structure of the protein.
+
+![**Figure 16**. Chai 1 prediction (3 copies with MSAs and template search)](./images/Chai1_MSAs_3_copies.png)
+
+By using MSAs and template search, a reference of known structures can be given while making the model, making it more reliable and accurate at first sight, but it must be taken into account that this references are incomplete, so this might change in the future when more structural information is available.
+
+Before using Chai 1, we tried to use ESMFold (which could be useful as a metagenomic directed tool), but due to the lower quality models that it provided compared to Chai 1, we decided not to analyze those results.
+
+#### 2.3 Conclusions
+
+Homology modeling for this protein is not reliable nor recommended, as little structural information is available, so the best option was to use PLMs and Machine Learning tools as Chai 1, which yielded even better results when using MSAs and template search for better accuracy. Despite using tools not based in actual structural knowledge, we can infer the function of the protein using information of the initial BLAST search and the templates selected by Swiss-Model to make the homology modeling. The best template in Swiss-Model was a homotrimeric Exopolysaccharide biosynthesis protein from *Pantoea stewartii*, and BLAST results were proteins related to polysaccharide alterations, so we can infer that this protein may have an enzymatic function related to saccharides.
+
+## Sequence 3: Your favorite protein
+
+*"You may select any protein sequence that does not have a structure available in PDB or AlphafoldDB. If the structure of your protein is already available, you can choose a related paralog or ortholog. It can also be a mutant or rare variant of a known protein structure."*
+
+To find this protein we searched in the uniprot database in the section of human diseases and chose a protein whose structure was not in PDB. Using this approach we have chosen a variant of 3 beta-hydroxysteroid dehydrogenase/Delta 5--\>4-isomerase type 2 associated with adrenal hiperplasia II. In particular, we chose 3 beta-hydroxysteroid dehydrogenase/Delta 5--\>4-isomerase type 2 (3-β-HDS) with a point mutation in the tenth residue in which an alanine (A) is changed into a glutamic acid (E).
+
+The sequence for this protein can be found with the Uniprot ID [P26439](https://www.uniprot.org/uniprotkb/P26439/entry). The variant and associated publications can be found in the section of Disease & variants.
+
+#### 3.1 Background information
+
+3-β-HSD is a bifunctional enzyme, that catalyzes the oxidative conversion of Delta5-ene-3-β-hydroxy steroid, and the oxidative conversion of ketosteroids. The 3-β-HSD enzymatic system plays a crucial role in the biosynthesis of all classes of hormonal steroids. This protein has a NAD molecule as a ligand.
+
+The mutation in the tenth residue causes a lack of function in the protein. Such a lack of function could be the result of the fact that glutamic acid is a negatively charged residue, whereas alanine, is a nonpolar residue and that mutation is located in the highly conserved NAD-binding domain found in all members of the 3βHSD superfamily.
+
+![**Figure 17**. Image showing the interaction of NAD for both the mutant and normal protein superimposed. The mutated residue is colored red and the NAD is colored white and black.](/images/NAD.png)
+
+#### 3.2 Model generation
+
+We tried the following software to create the protein models.
+
+1.  [**SwissModel**](https://swissmodel.expasy.org/): we entered the sequence of the mutant protein without the NAD and run the search with default parameters, obtaining three models. Examining the three models, we saw that the model with the higher confidence was the one in which the alpha fold model was used. Furthermore, the other two models used sequences with only a coincidence of 20%.
+
+![Figure 18. Model in which it is used a protein with a sequence identity of 12%.](/images/prot1_Swiss.png) ![Figure 19. Model in which it is used the alphafold model.](/images/prot2_Swiss.png) ![Figure 20. Model in which it is used a protein with a sequence identity of 20%](/images/pro3_Swiss.png)
+
+2.  [**AlphaFold-3 server**](https://alphafoldserver.com/): we used the server of AlphaFold-3 with the following parameters:
+
+    -   **Normal protein without ligand**: we made this run asking for a model with 5 copies of the given protein. We did this model to compare it with the mutant protein.
+    -   **Mutant protein without ligand**: we made this run asking for a model with 5 copies of the given protein. We made this model to compare it with the mutant protein with the ligand.
+    -   **Normal protein with ligand**: we made this run asking for a model with 5 copies of the given protein. We made this model to compare it with the mutant protein.
+    -   **Mutant protein with ligand**: we made this run asking for a model with 5 copies of the given protein. We made this model to compare it with the mutant protein without the ligand.
+
+From the previous models, we selected the one with the higher sum of the pLDDT of the different residues. We obtained that the mutant protein was best modeled with the ligand.
+
+![**Figure 21**. AphaFold model without ligand.](/images/prot1_AlphaFold.png)
+
+![**Figure 22**. AlphaFold model with ligand.](/images/prot2_AlphaFold.png)
+
+#### 3.3 Conclusions
+
+We are told that mutant protein loses its original function, but if we compare both structures, we see that they are almost equal. Then, the difference in function should be due to a greater instability generated by the aminoacid or a difficulty interacting with the ligand.
+
+![**Figure 23**. Comparison of the normal and mutant protein with ligand](/images/prot1_Swiss.png)
+
+Among all the models, we see that the best models are those of Alphafold, due to a great lack of homologous sequences in which SwissModel is based.
+
+#### References
