@@ -78,20 +78,3 @@ ax = subplot (2,2,4), imshow(ima4,map4);     title('Xray th');
 
 <img alt="" src="\images\Ej3grises.png" />
 
-```splus
-
-```
-
-
-```splus
-
-```
-
-```splus
-
-```
-
-
-```splus
-
-```
