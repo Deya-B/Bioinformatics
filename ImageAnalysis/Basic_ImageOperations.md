@@ -104,10 +104,10 @@ result = (ima_rgb + imaD) / 2;
 imshow(result, []); title('Imagen Resultante');
 ```
 
+#### Representa el resultado y comenta el efecto observado:
 <img width="400" alt="" src="\images\ej4_result.png" />
 
-#### Representa el resultado y comenta el efecto observado:
-
+El resultado es la superposición de las franjas que han sido creadas con la funcion sobre la imágen de radiografia. Esto causa un incremento y disminución de la luminosidad de la imágen por franjas.
 
 ### Normalizar resultado para obtener el mismo rango de imágenes
 **Objetivo:** normalizar a \[0,1]
