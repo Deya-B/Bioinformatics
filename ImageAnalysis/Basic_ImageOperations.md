@@ -31,36 +31,30 @@ de una componente (nivel de gris)
 [ima, map] = imread('.\P1_Imagenes\Xray.jpg');
 imshow(ima, map); title('Xray');
 ```
-<img alt="" src="\images\Ej4_2.png" />
+<img width="400" alt="" src="\images\ej4_2.png" />
 
 2. Obtener con `size` la altura y anchura
 ```splus
 [height, width, chanels] = size(ima) % size(ima) devuelve tres dimensiones (alto, ancho, canales).
 ```
 
-3) Convertir en una imagen de tipo double
+3. Convertir en una imagen de tipo double
 ```splus
 imaD = im2double(ima);
 ```
-<img alt="" src="\images\imgD.png" />
+<img width="250" alt="" src="\images\imgD.png" />
 
-
+4. generar la imagen discreta
+  - con la variación del rango de la funcion discreta: $0 <= x/y < 1$
+  - y de los vectores del retículo de modo que $v_1=(1/width),0$ y $v_2=(0,(1/height))$
 ```splus
-```
-
-
-```splus
-```
-
-
-Definimos la funcion $(fn)$:
-```splus
+% Definimos la FUNCION
 % 1) Definir parámetros iniciales
-N = 256;
-t = (0:N-1)/N;     % 0 <= t < 1
+n = (0:width-1)/width;    
+m = (0:height-1)/height;
 
 % 2) Crear una malla de puntos para evaluar la función
-[x,y] = meshgrid(t,t);
+[x,y] = meshgrid(n,m);
 
 % 3) Funcion
 fn = 0.5+0.5*cos(2*pi*x+4*pi*y);
@@ -70,7 +64,19 @@ imshow(fn, [], 'InitialMagnification', 100);
 title('Visualización de la función');
 ```
 
-<img alt="" src="\images\Ej4_1.png" />
+<img width="400" alt="" src="\images\ej4_fn.png" />
+
+
+5. Convertir la imagen de la funcion discreta en una de tres componentes
+```splus
+ima_rgb = zeros(height, width, 3);
+ima_rgb(:,:,1) = fn; % Asignar la función a la primera capa de color (Rojo)
+ima_rgb(:,:,2) = fn; % Asignar la segunda capa de color (Verde)
+ima_rgb(:,:,3) = fn; % Asignar la tercera capa de color (Azul)
+```
+
+
+
 
 
 
