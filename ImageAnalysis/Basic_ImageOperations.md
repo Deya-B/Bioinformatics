@@ -74,30 +74,3 @@ ima_rgb(:,:,1) = fn; % Asignar la función a la primera capa de color (Rojo)
 ima_rgb(:,:,2) = fn; % Asignar la segunda capa de color (Verde)
 ima_rgb(:,:,3) = fn; % Asignar la tercera capa de color (Azul)
 ```
-
-
-
-
-
-
-```splus
-```
-
-
-
-```splus
-```
-
-
-```splus
-```
-
-
-
-```splus
-```
-
-
-
-```splus
-```
