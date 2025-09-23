@@ -1,3 +1,4 @@
+# Modificaciones a nivel de píxel
 ## Operaciones básicas
 Para poder operar en MatLab con **una sola imagen** (ponderarla, escalarla, etc.) sin perder rango de
 representación en el resultado esta siempre ha de cumplir:
