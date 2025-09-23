@@ -95,7 +95,6 @@ ax = nexttile; imshow(ima, []); colormap(ax, white(256)); title('white');
 
 <img alt="" src="\images\Figure_2-2B.png" />
 
-#### Observaciones:
 
 
 
