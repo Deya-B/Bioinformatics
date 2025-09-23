@@ -32,6 +32,12 @@ ax = subplot (2,2,3), imshow(ima3, map3); title('Skin');
 ax = subplot (2,2,4), imshow(ima4, map4); title('Xray th');
 ```
 
-<img width="600" height="230" alt="" src="\images\Ej3.png" />
+<img alt="" src="\images\Ej3.png" />
 
+|          |     Clase (indexada / true-color)    |     Notas    |     Color / Grises / Binaria    |     Notas    |
+|---|---|---|---|---|
+|     MRI_pseudo     _colored.jpg    |     Size 879x1024x3      Class uint8    |     True-color    |     Map 0x0     Double    |     3D-Color    |
+|     CT_abdomen.jpg    |     Size 732x833     Class uint8    |     True-color    |     Map 0x0     Double    |     2D-Grises    |
+|     Skin.tif    |     Size 560x560     Class uint8    |     Indexada    |     Map 256x3     Double    |     2D-Color    |
+|     Xray_th.tif    |     Size 367x472     Class logical    |     True-color    |     Map 0x0     Double    |     Binaria lógica (0/1)    |
 
