@@ -92,24 +92,23 @@ min_fn = 0
 max_fn = 1
 ```
 Vemos que las dos imágenes, la original y la generada, varían en un rango [0,1].\
-Si el resultado no hubiera estado en este rango, habría que desplazar y escalar la imagen resultante para adecuarla a él (un ejemplo de como se haría más abajo).
+Si el resultado no hubiera estado en este rango, habría que desplazar y escalar la imagen resultante para adecuarla a él (como se haría en EXTRA - más abajo).
 
 7. Súmelas y divida el resultado por dos para mantener el rango en [0,1]
 ```splus
 result = (ima_rgb + imaD) / 2;
 ```
 
-8. Visualizar la imagen resultante
+#### Representa el resultado y comenta el efecto observado:
+Visualizar la imagen resultante
 ```splus
 imshow(result, []); title('Imagen Resultante');
 ```
-
-#### Representa el resultado y comenta el efecto observado:
 <img width="400" alt="" src="\images\ej4_result.png" />
 
 El resultado es la superposición de las franjas que han sido creadas con la funcion sobre la imágen de radiografia. Esto causa un incremento y disminución de la luminosidad de la imágen por franjas.
 
-### Normalizar resultado para obtener el mismo rango de imágenes
+### EXTRA: Normalizar resultado para obtener el mismo rango de imágenes
 **Objetivo:** normalizar a \[0,1]
 
 Para una imagen `I` con rango $[a,b]$:
