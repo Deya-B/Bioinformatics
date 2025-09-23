@@ -17,14 +17,14 @@ imshow(f,[-2,2], 'InitialMagnification', 100);
     % 'InitialMagnification' fijado al valor 100 fuerza a que la imagen se 
     % presente a tamaño real (cada píxel de la imagen corresponde con un punto del monitor)
 ```
-<img width="200" height="200" alt="image" src="\images\ex1.png" />
+<img width="200" height="200" alt="" src="\images\ex1.png" />
 
 ```splus
 % 5) Representar varias imágenes:
 subplot(1,2,1), imshow(f,[-2 2]); colorbar
 subplot(1,2,2), imshow(f,[-1 1]); colorbar
 ```
-<img width="600" height="230" alt="Figure_2" src="\images\ex2.png" />
+<img width="600" height="230" alt="" src="\images\ex2.png" />
 
 #### Observaciones:
 > El motivo las dos imágenes se ve distinto porque el rango de variación de la escala de grises es más amplio en la imagen de la izquierda que en la de la derecha, generando una imagen con más difusa pero más informativa.
@@ -57,7 +57,7 @@ subplot(1,3,3), imshow(f3,[0 0.68]), title f3
 % Auto-escalar MEJOR (fn,[]), que usa min(fn(:)) y max(fn(:)) 
                      % en lugar de fijar (fn,[k l])
 ```
-<img alt="Figure_2" src="\images\Figure_1-1.png" />
+<img alt="" src="\images\Figure_1-1.png" />
 
 #### Observaciones: 
 > Como tenemos funciones lineales observamos un degradado.\
@@ -79,7 +79,7 @@ subplot(2,2,2), imshow(f2_2,[]), title('f2_2: cos(4\pi x)')
 subplot(2,2,3), imshow(f2_3,[]), title('f2_3: cos(8\pi x)')
 subplot(2,2,4), imshow(f2_4,[]), title('f2_4: cos(16\pi x)')
 ```
-<img alt="Figure_2" src="\images\Figure_1-2.png" />
+<img alt="" src="\images\Figure_1-2.png" />
 
 #### Observaciones: 
 > En todas estas funciones, lo que cambia es la x, con lo que podemos observar que obtenemos franjas paralelas al eje de la y. Al ser un cos, estas varían de +1 (claro) a -1 (oscuro) de forma suave y simétrica. En cada periodo hay media banda clara y media oscura. Cuando doblamos el multiplicador, las líneas se duplican el número y son más finas.
@@ -94,7 +94,7 @@ f3_2 = cos(2*pi*x)+sin(16*pi*y);
 subplot(1,2,1), imshow(f3_1,[]), title('f3_1: cos(2\pi x) + sin(8\pi y)')
 subplot(1,2,2), imshow(f3_2,[]), title('f3_2: cos(2\pi x) + sin(16\pi y)')
 ```
-<img alt="Figure_2" src="\images\Figure_1-3.png" />
+<img alt="" src="\images\Figure_1-3.png" />
 
 #### Observaciones: 
 > En este caso, por un lado tenemos lo que ocurre al eje $x$ y por otro lo que ocurre al eje $y$, porque la función es una suma separable.\
@@ -111,7 +111,7 @@ f4_2 = cos((4*pi*x)+(8*pi*y));
 subplot(1,2,1), imshow(f4_1,[]), title('f4_1: cos((4\pi x)+(4\pi y))')
 subplot(1,2,2), imshow(f4_2,[]), title('f4_2: cos((4\pi x)+(8\pi y))')
 ```
-<img alt="Figure_2" src="\images\Figure_1-4.png" />
+<img alt="" src="\images\Figure_1-4.png" />
 
 #### Observaciones: 
 > En este caso tenemos una variación de franjas como en las funciones más arriba (2), porque, aunque hay variaciones en el eje de la x y la y, estas ocurren dentro del mismo paréntesis que contiene el coseno. Por lo que obtenemos franjas diagonales uniformes. En la función 1 las líneas aumentan por igual en ambos ejes, con lo que obtenemos un ángulo de 45 grados. Mientras que en la 2 obtenemos un incremento superior en el eje de las y’s, y como las franjas son perpendiculares a la función, tienen una posición hacia el horizontal. 
