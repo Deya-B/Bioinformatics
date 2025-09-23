@@ -106,7 +106,10 @@ imshow(result, []); title('Imagen Resultante');
 
 <img width="400" alt="" src="\images\ej4_result.png" />
 
-#### Normalizar resultado para obtener el mismo rango de imágenes
+#### Representa el resultado y comenta el efecto observado:
+
+
+### Normalizar resultado para obtener el mismo rango de imágenes
 **Objetivo:** normalizar a \[0,1]
 
 Para una imagen `I` con rango $[a,b]$:
