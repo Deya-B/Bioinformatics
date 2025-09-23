@@ -1,15 +1,15 @@
-### Lectura de imágenes a partir de un archivo
+## Lectura de imágenes a partir de un archivo
 Utilizar la función `imread()`.
 
 ```splus
 [ima,map]=imread(‘MRI_pseudo_colored.jpg’)
 ```
 
-#### Imagenes indexadas
+### Imagenes indexadas
 - `ima` es una matriz o array de dos dimensiones de tipo uint8 o uint16, 
 - `map` es su tabla de colores
 
-#### Imagenes *true-color*
+### Imagenes *true-color*
 - Imagen en la que el valor de cada píxel indica directamente su color.
 - En estas imágenes `map` está vacío
 - Puede estar formada por dos o tres bandas o matrices de tipo `uint8` (es decir, un array **2D** o **3D**):
@@ -41,3 +41,57 @@ ax = subplot (2,2,4), imshow(ima4, map4); title('Xray th');
 |     Skin.tif    |     Size 560x560     Class uint8    |     Indexada    |     Map 256x3     Double    |     2D-Color    |
 |     Xray_th.tif    |     Size 367x472     Class logical    |     True-color    |     Map 0x0     Double    |     Binaria lógica (0/1)    |
 
+### Conversion entre VLT y true-color 
+
+```splus
+%% cambio de clase > VLT a true-color y viceversa
+[ima1c, map1c] = rgb2ind(ima1, 256);
+    % true-color -> indexada color (dos entradas, 2 salidas > crear map para indexada)
+[ima2c, map2c] = gray2ind(im2gray(ima2), 256);
+ima3c = ind2rgb(ima3, map3);
+    % indexada -> true-color (dos entradas, 1 salida > true color no tiene map)
+[ima4c, map4c] = gray2ind(ima4, 256);
+
+ax = subplot (2,2,1), imshow(ima1c, map1c); title('MRI pseudo colored');
+ax = subplot (2,2,2), imshow(ima2c, map2c); title('CT abdomen');
+ax = subplot (2,2,3), imshow(ima3c);        title('Skin');
+ax = subplot (2,2,4), imshow(ima4c,map4c);  title('Xray th');
+
+```
+Visualmente el resultado es el mismo. Pero en el Workspace ahora los valores de las variables `ima` y `map` han cambiado.\
+Cuando antes `map` estaba vacio ahora muestra $256x3$.
+
+### Conversion a escala grises
+
+```splus
+%% convertir a escala de grises
+ima1_gray = rgb2gray(ima1);         % true-color -> gris (1 salida)
+ima3_gray = rgb2gray(ima3c);        % true-color -> gris (1 salida)
+% opt 2: 
+% ima3_gray = ind2gray(ima3, map3);     % indexada (2 entradas) -> gris (1 salida)
+
+ax = subplot (2,2,1), imshow(ima1_gray, []); title('MRI pseudo colored');
+ax = subplot (2,2,2), imshow(ima2, []);      title('CT abdomen');
+ax = subplot (2,2,3), imshow(ima3_gray, []); title('Skin');
+ax = subplot (2,2,4), imshow(ima4,map4);     title('Xray th');
+```
+
+<img alt="" src="\images\Ej3grises.png" />
+
+```splus
+
+```
+
+
+```splus
+
+```
+
+```splus
+
+```
+
+
+```splus
+
+```
