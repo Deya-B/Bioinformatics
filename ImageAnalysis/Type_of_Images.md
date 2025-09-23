@@ -77,7 +77,7 @@ ax = subplot (2,3,5), imshow(ima, []); colormap(ax, sky(256)); title('Sky')
 ax = subplot (2,3,6), imshow(ima, []); colormap(ax, cool(256)); title('Cool')
 ```
 
-<img alt="" src="Figure_2-2.png" />
+<img alt="" src="\images\Figure_2-2.png" />
 
 Otra manera de representarlos es en tiles:
 ```splus 
@@ -95,7 +95,6 @@ ax = nexttile; imshow(ima, []); colormap(ax, white(256)); title('white');
 
 <img alt="" src="\images\Figure_2-2B.png" />
 
-#### Observaciones:
 
 
 
