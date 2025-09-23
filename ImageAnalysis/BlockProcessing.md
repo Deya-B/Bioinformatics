@@ -1,4 +1,4 @@
-# Procesamiento a nivel de bloque 
+### Procesamiento a nivel de bloque 
 Consiste en dividir la imagen en bloques y aplicar una función a cada bloque de manera individual. Para ello podemos utilizar la función `blkproc()`.
 
 ```splus
@@ -37,7 +37,10 @@ imshow(ima_procesada, []); title('Skin gray');
 % Descargar la imagen procesada
 imwrite(ima_procesada, 'C:\Users\deyan\GitHub\Bioinformatics\ImageAnalysis\images\Skin_gray_processed.jpg');
 ```
+Original:
+<img alt="" src="\images\Skin_gray.jpg" />
 
+Procesada:
 <img alt="" src="\images\Skin_gray_processed.jpg" />
 
 Blockproc devuelve un bloque del tamaño que salga de la función. Como la fun devuelve un escalar (mean(...)), la salida es una imagen reducida de tamaño (alto/8)×(ancho/8).
