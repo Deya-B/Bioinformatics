@@ -75,29 +75,55 @@ ima_rgb(:,:,2) = fn; % Asignar la segunda capa de color (Verde)
 ima_rgb(:,:,3) = fn; % Asignar la tercera capa de color (Azul)
 ```
 
-
-
-
-
-
+6. Ver rango de las imagenes
 ```splus
+min_ima_rgb = min(ima_rgb(:))
+max_ima_rgb = max(ima_rgb(:))
+
+min_fn = min(fn(:))
+max_fn = max(fn(:))
 ```
 
+```
+min_ima_rgb = 0
+max_ima_rgb = 1
 
+min_fn = 0
+max_fn = 1
+```
+Vemos que las dos imágenes, la original y la generada, varían en un rango [0,1].\
+Si el resultado no hubiera estado en este rango, habría que desplazar y escalar la imagen resultante para adecuarla a él (un ejemplo de como se haría más abajo).
 
+7. Súmelas y divida el resultado por dos para mantener el rango en [0,1]
 ```splus
+result = (ima_rgb + imaD) / 2;
 ```
 
-
+8. Visualizar la imagen resultante
 ```splus
+imshow(result, []); title('Imagen Resultante');
 ```
 
+<img width="400" alt="" src="\images\ej4_result.png" />
 
+#### Normalizar resultado para obtener el mismo rango de imágenes
+**Objetivo:** normalizar a \[0,1]
 
+Para una imagen `I` con rango $[a,b]$:
+
+$$
+I_{\text{norm}}=\frac{I-a}{\,b-a\,}
+$$
+
+MATLAB (dinámico: usa min/max de la propia imagen)
 ```splus
+% Datos y niveles
+a = min(I(:));    % example a = 0
+b = max(I(:));    % example b = 1
+
+I_norm = (I - a) / (b - a);    % == (I + 0)/1
+I_norm = min(max(I_norm,0),1);
 ```
 
+> Si se prefiere fijar un rango distinto a $[a,b]$ (p. ej., $[-48,48]$ fijo), usa esos valores en `a` y `b` en lugar de `min/max`.
 
-
-```splus
-```
