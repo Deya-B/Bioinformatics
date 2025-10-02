@@ -10,7 +10,9 @@ ima = imread("Imagenes_P2\Skin_gray_bw_560.tif");
 imshow(ima, []); title('Skin bw')
 ```
 
-**Results:** <img src="\images2\img.png"/> <img src="\images2\map.png"/>
+**Results:**
+
+<img src="images2/img.png" width="120"/> <img src="images2/map.png" width="300"/>
 
 En MatLab vemos que se trata de una imágen indexada, ya que map contiene datos, coordenadas que apuntan a la tabla de colores (VLT/LUT). Podemos ver que el numero de niveles son 256x3, pero programáticamente podríamos extraerlo:
 
@@ -65,7 +67,28 @@ for c = C
 end
 ```
 
-|---|---|---|
-|<img src="\images2\img_1a_8.png"/>\|<img src="\images2\img_1a_32.png"/>\|<img src="\images2\img_1a_64.png"/>\|<img src="\images2\img_1a_128.png"/>\|
-|<img src="\images2\img_1b_8.png"/>\|<img src="\images2\img_1b_32.png"/>\|<img src="\images2\img_1b_64.png"/>\|<img src="\images2\img_1b_128.png"/>\|
-|<img src="\images2\img_1c_8.png"/>\|<img src="\images2\img_1c_32.png"/>\|<img src="\images2\img_1c_64.png"/>\|<img src="\images2\img_1c_128.png"/>\|
+|  |  |  |  |
+|----|----|----|----|
+| ![](images2/img_1a_8.png) | ![](images2/img_1a_32.png) | ![](images2/img_1a_64.png) | ![](images2/img_1a_128.png) |
+| ![](images2/img_1b_8.png) | ![](images2/img_1b_32.png) | ![](images2/img_1b_64.png) | ![](images2/img_1b_128.png) |
+| ![](images2/img_1c_8.png) | ![](images2/img_1c_32.png) | ![](images2/img_1c_64.png) | ![](images2/img_1c_128.png) |
+
+
+Las transformaciones tienen un efecto considerable. A medida que aumentamos c, vamos desplazando los grises hacia arriba y de esta manera aclarando la imagen. Cuando la recta alcanza L-1 se satura en blanco.\
+Las tres aproximaciones generan el mismo resultado. Esto es porque la imagen está en blanco y negro, de manera que aunque es indexada esta indexación corresponde a los valores de grises.
+
+Para visualizar la transformación puntual que estamos aplicando a cada píxel podemos sacar las funciones de transformación:
+
+``` splus
+%% Graficar las 4 funciones T_c
+figure; 
+for k = 1:numel(C)
+    c = C(k);
+    s = min(r + c, L-1);
+    subplot(2,2,k); plot(r, s, '-'); axis([0 L-1 0 L-1]); grid on;
+    xlabel('r'); ylabel('s'); title(sprintf('T_c, c=%d', c));
+end
+```
+
+<img src="images2/TransformationFunctions.png" width="600"/>
+
