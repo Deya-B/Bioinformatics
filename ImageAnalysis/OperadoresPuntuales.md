@@ -68,11 +68,10 @@ end
 ```
 
 |  |  |  |  |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | ![](images2/img_1a_8.png) | ![](images2/img_1a_32.png) | ![](images2/img_1a_64.png) | ![](images2/img_1a_128.png) |
 | ![](images2/img_1b_8.png) | ![](images2/img_1b_32.png) | ![](images2/img_1b_64.png) | ![](images2/img_1b_128.png) |
 | ![](images2/img_1c_8.png) | ![](images2/img_1c_32.png) | ![](images2/img_1c_64.png) | ![](images2/img_1c_128.png) |
-
 
 Las transformaciones tienen un efecto considerable. A medida que aumentamos c, vamos desplazando los grises hacia arriba y de esta manera aclarando la imagen. Cuando la recta alcanza L-1 se satura en blanco.\
 Las tres aproximaciones generan el mismo resultado. Esto es porque la imagen está en blanco y negro, de manera que aunque es indexada esta indexación corresponde a los valores de grises.
@@ -91,4 +90,5 @@ end
 ```
 
 <img src="images2/TransformationFunctions.png" width="600"/>
+
 
