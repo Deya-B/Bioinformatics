@@ -1,6 +1,6 @@
 ## Modelado de histograma
 
-### Vamos a modificar la VLT y representar sus histogramas
+### Modificar una VLT y representar sus histogramas
 
 1.  Operaciones puntual de modificación de la VLT (Video Lookup Table) (imagen de entrada es indexada).
 
@@ -278,3 +278,148 @@ close(f);
 Ahora la imagen tiene un contraste muy alto entre claros y oscuros, causando un emborronamiento y que no se vean bien los detalles importantes de la misma. El histograma de la misma presenta muy pocos valores en los grises medios y la mayoría de los valores de grises están desplazados a los muy oscuros y muy claros.
 
 Por otro lado, las principales diferencias entre las funciones son la forma sigmoidal de esta segunda y la brusquedad de su pendiente, lo cual ocasiona que haya un desplazamiento de los valores centrales de grises a los valores muy oscuros y muy claros.
+
+### Ajuste de contraste por tramos
+
+**Objetivo**: mostrar la aplicación principal de esta transformación el ajuste o realce de una imagen poco contrastada.
+
+#### Realce de contraste
+
+Paso 1: Creamos la funcion `modificarContraste.m`, que implemente la expresión general de ajuste de contraste por tramos.
+
+``` splus
+% Función: Modificar Contraste
+% Definimos la función
+function [ima_proc,s]=modificarContraste(ima,a,b,s_a,s_b)
+    % Convertimos la imagen a double
+    r_img = double(ima); % Vector imagen og
+    % Número de niveles )
+    L = 256; % Asumimos uint8 (2^8 = 256)
+    r = 0:L-1; % Vector r (niveles de gris)
+    % Parámetros de la función por tramos
+    alpha = s_a / a;
+    beta  = (s_b - s_a) / (b - a);
+    gamma = (L-1 - s_b) / (L-1 - b);
+    % Vector de transformación
+    s = zeros(1, L);
+    % Función de tranformación
+    for i = 1:L
+        if r(i) < a
+            s(i) = alpha * r(i);
+        elseif r(i) > b
+            s(i) = gamma * (r(i) - b) + s_b;
+        else
+            s(i) = beta * (r(i) - a) + s_a;
+        end
+    end
+    % Aplicamos la tranformación
+    ima_proc = uint8(s(r_img+1)); 
+end
+```
+
+Paso 2: Representamos la imagen (Skin_gray_bc_560.tif ) y su histograma:
+
+``` splus
+% Cargar imagen Skin_gray_bc_560.tif, y visualizar con histograma
+[ima, map] = imread('Imagenes_P2\Skin_gray_bc_560.tif');
+L = size(map, 1);
+
+figure; imshow(ima, map); title('Skin gray bc');
+imwrite(ima, map, 'results/ej4.png');
+
+figure; imhist(ima, map); axis tight
+title('Hist Skin gray bc');
+exportgraphics(gcf, 'results/ej4_hist.png', 'Resolution',150);
+```
+
+|                      |                           |
+|----------------------|---------------------------|
+| <img src="images2/ej4.png" width="300" height="300"/> | ![](images2/ej4_hist.png) |
+
+> Vemos que se trata de una imagen indexada con 256 niveles que está en escala de grises.\
+> Podemos ver que la imagen tiene muy bajo contraste, esto se muestra en el histograma como un único pico estrecho y alto en los grises medios.
+
+Paso 3: Aplique la transformación de ajuste de contraste con parámetros:
+
+`𝑎=80, 𝑏=160, 𝑠𝑎=30, 𝑠𝑏=220`
+
+Represente la imagen procesada, su histograma y la función de transformación.
+
+``` splus
+%% A imagen en grises uint8 (0..255) para trabajar con umbrales 0–255
+ima_gray  = ind2gray(ima, map);        % double [0,1]
+ima_gray8 = im2uint8(ima_gray);        % uint8 [0,255]
+
+% Parámetros (0–255)
+a = 80; b = 160; s_a = 30; s_b = 220;
+
+% Aplicar contraste por tramos
+[ima_proc, s] = modificarContraste(ima_gray8, a, b, s_a, s_b);
+
+figure; imshow(ima_proc); title('Contraste modificado');
+exportgraphics(gcf, 'results/ej4_contraste.png', 'Resolution',150);
+
+figure; imhist(ima_proc); axis tight
+title('Hist Img contraste modificado');
+exportgraphics(gcf, 'results/ej4_contraste_hist.png', 'Resolution',150);
+
+%% Curva de transformación T(r)
+r = 0:255;           % niveles de entrada
+T = s(r + 1);        % s es LUT → indexar con r+1
+
+f = figure;
+plot(r, T, '-', 'LineWidth', 1.5); hold on
+plot(r, r, '--');                    % y = x
+xlabel('r (entrada)'); ylabel('T(r) (salida)');
+title('Transformación contraste por tramos');
+xlim([0 255]); ylim([0 255]); axis square; grid on
+
+exportgraphics(f, 'results/ej4b_func.png', 'Resolution',150);
+close(f)
+```
+
+**Comparación de Resultados:**
+
+|  |  |  |
+|----------------------|-------------------------|-------------------------|
+| ![](images2/ej4.png)   | ![](images2/ej4_hist.png) |  |
+| ![](images2/ej4_contraste.png) | ![](images2/ej4_contraste_hist.png) | ![](images2/ej4b_func.png) |
+
+> Podemos ver que ha habido un aumento de contraste con respecto a la imagen original. En el histograma, la distribución de ambos es similar, sin embargo las barras están más separadas en la imagen con el contraste modificado, esto hace que sus pixeles esten representados en una zona más amplia de grises.
+
+Paso 4: Revertir los cambios.
+``` splus
+% Aplicar reducción de contraste
+a = 30; b = 220; s_a = 80; s_b = 160;
+[ima_proc_reducido, s2] = modificarContraste(ima_proc, a, b, s_a, s_b);
+figure; imshow(ima_proc_reducido); title('Contraste reducido');
+exportgraphics(gcf, 'results/ej4_contraste_reducido.png', 'Resolution',150);
+
+figure; imhist(ima_proc_reducido); axis tight
+title('Histograma contraste reducido');
+exportgraphics(gcf, 'results/ej4_contraste_reducido.png_hist.png', 'Resolution',150);
+
+%% Representacion de la funcion
+r = 0:255;           % niveles de entrada
+T2 = s2(r + 1);        % s es LUT → indexar con r+1
+
+f = figure;
+plot(r, T2, '-', 'LineWidth', 1.5); hold on
+plot(r, r, '--');                    % y = x
+xlabel('r (entrada)'); ylabel('T(r) (salida)');
+title('Transformación contraste por tramos');
+xlim([0 255]); ylim([0 255]); axis square; grid on
+
+exportgraphics(f, 'results/ej4_funcRevertir.png', 'Resolution',150);
+close(f)
+```
+
+**Comparación de Resultados:**
+
+|  |  |  |
+|----------------------|-------------------------|-------------------------|
+| ![](images2/ej4_contraste.png) | ![](images2/ej4_contraste_hist.png) | |
+| ![](images2/ej4_contraste_reducido.png) | ![](images2/ej4_contraste_reducido_hist.png) | ![](images2/ej4_funcRevertir.png) |
+| ![](images2/ej4.png)   | ![](images2/ej4_hist.png) |  |
+
+> Podemos ver que la reversión es completa y no hay perdida aparente.
