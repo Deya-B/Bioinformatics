@@ -232,11 +232,11 @@ exportgraphics(gcf, 'results/ej5_2.png', 'Resolution',150);
 
 **Resultado:**
 
-![](results/ej5_1.png) *Uint8 image*
+![](images2/ej5_1.png) *Uint8 image*
 
 ------------------------------------------------------------------------
 
-![](results/ej5_2.png) *Double image*
+![](images2/ej5_2.png) *Double image*
 
 **Observaciones:**
 
@@ -286,7 +286,7 @@ subplot(2,3,6); imagesc(edgesY); colormap(gray); title(sprintf('|G_y| (Prewitt) 
 exportgraphics(gcf, 'results/ej6.png', 'Resolution', 150);
 ```
 
-![](results/ej6.png)
+![](images2/ej6.png)
 
 **Observaciones:**
 
