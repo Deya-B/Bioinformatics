@@ -167,9 +167,10 @@ end
 Paso 2: Cargamos la imagen
 
 ``` splus
-ima_og = imread("Imagenes_P2/MRI_pseudo_colored.jpg");
+% Obtenemos la Imagen
+ima_og = imread('Imagenes_P2/MRI_pseudo_colored.jpg');
 % Class = Double
-ima_d = double(ima_og)/255;
+ima_d = double(ima_og);
 ```
 
 Paso 3: Filtramos y calculamos sus energias
@@ -177,16 +178,15 @@ Paso 3: Filtramos y calculamos sus energias
 ``` splus
 %% Definimos el filtro
 w = (1/9)*ones(3);
-
 % Aplicamos el filtro
 ima_res_d = imfilter(ima_d, w);
-ima_res_u = uint8(ima_res_d*255);
+ima_res_u = uint8(ima_res_d);
 
 % Calculamos Energías
-E_og = sum(ima_og(:).^2);
-E_d = sum(ima_d(:).^2);
-E_res_d = (sum(ima_res_d(:).^2));
-E_res_u = sum(ima_res_u(:).^2);
+E_og = calcularEnergia(ima_og);
+E_d = calcularEnergia(ima_d);
+E_res_d = calcularEnergia(ima_res_d);
+E_res_u = calcularEnergia(ima_res_u);
 
 % Calculamos la diferencia de cuadrados
 % Inicializamos la matriz de diferencias
@@ -199,33 +199,33 @@ Paso 4: Visualización por canal entre imagen original y filtrada
 ``` splus
 % UINT8
 figure;
-subplot(2,3,1), imshow(ima_og), title(['Original. E = ', num2str(E_og)]);
-subplot(2,3,3), imshow(ima_res_u), title(['Suavizada. E = ', num2str(E_res_u)]);
+subplot(2,3,1), imshow(ima_og), title(sprintf('Original. E = %.4e', E_og));
+subplot(2,3,3), imshow(ima_res_u), title(sprintf('Suavizada uint8. E = %.4e', E_res_u));
+names = {'R','G','B'};
 for c = 1:3
     % Energía por canal
-    E_c = sum(diff_sq_u(:,:,c), 'all');
+    E_c = calcularEnergia(diff_sq_u(:,:,c));
     % Visualización
     subplot(2,3,c+3);
-    imagesc(double(diff_sq_u(:,:,c)));
-    colormap('jet'); 
-    colorbar;
-    title(['Canal ', num2str(c), ' - Energía = ', num2str(E_c)]);
+    imagesc(diff_sq_u(:,:,c));
+    colormap('jet');
+    title(sprintf('Canal %s - E = %.4e', names{c}, E_c));
 end
 exportgraphics(gcf, 'results/ej5_1.png', 'Resolution',150);
 
 % DOUBLE
 figure;
-subplot(2,3,1), imshow(ima_d), title(['Original. E = ', num2str(E_d)]);
-subplot(2,3,3), imshow(ima_res_d), title(['Suavizada. E = ', num2str(E_res_d)]);
+subplot(2,3,1), imshow(ima_og), title(sprintf('Original. E = %.4e', E_og));
+subplot(2,3,3), imshow(ima_res_d/255), title(sprintf('Suavizada double. E = %.4e', E_res_d));
 for c = 1:3
     % Energía por canal
-    E_c = sum(diff_sq_d(:,:,c), 'all');
+    E_c = calcularEnergia(diff_sq_d(:,:,c));
     % Visualización
     subplot(2,3,c+3);
-    imagesc(double(diff_sq_d(:,:,c)));
-    colormap('jet'); 
-    colorbar;
-    title(['Canal ', num2str(c), ' - Energía = ', num2str(E_c)]);
+    imagesc(diff_sq_d(:,:,c));
+    colormap('jet');
+    title(sprintf('Canal %s - E = %.4e', names{c}, E_c));
+    % ['Canal ', num2str(c), ' - Energía = ', num2str(E_c)]
 end
 exportgraphics(gcf, 'results/ej5_2.png', 'Resolution',150);
 ```
