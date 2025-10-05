@@ -25,7 +25,7 @@ subplot(1,2,2), imshow(If), title('Filtrada (suavizado 1D)');
 exportgraphics(gcf, 'results/ej4_0.png', 'Resolution',150);
 ```
 
-<img src="/images2/ej4_0.png"/>
+![](images2/ej4_0.png)
 
 ### Ajuste de contraste por tramos
 
