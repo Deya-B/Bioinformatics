@@ -147,7 +147,7 @@ sgtitle('a = 30; b = 220; s_a = 80; s_b = 160;')
 
 ![](images2/Ej4_2.png)
 
-> Podemos ver que la reversión es completa y no hay perdida aparente. Con lo que, para devolver una imagen estirada a su estado original basta con invertir los valores de la función porque estamos desplazando los valores *a* y *b* a los nuevos valores s<sub>a</sub> y s<sub>b</sub>. Esto hace que el grupo de valores que esté en ese rango se expanda o se contraiga para ajustarse a los nuevos límites que le hemos establecido. Esto no es perfecto porque, al comprimir, perdemos información y, al estirar, dejamos huecos en blanco.
+> Podemos ver que la reversión es completa y no hay perdida aparente. Con lo que, para devolver una imagen estirada a su estado original basta con invertir los valores de la función porque estamos desplazando los valores *a* y *b* a los nuevos valores s<sub>a</sub> y s<sub>b</sub>. Esto hace que el grupo de valores que esté en ese rango se expanda o se contraiga para ajustarse a los nuevos límites que le hemos establecido. Sin embargo, si comprimieramos una imagen y posteriormente la estirasemos, esto no sería tan perfecto, porque al comprimir perdemos información y al estirar dejamos huecos en blanco.
 
 ------------------------------------------------------------------------
 
